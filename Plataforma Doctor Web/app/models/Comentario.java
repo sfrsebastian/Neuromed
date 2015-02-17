@@ -1,63 +1,73 @@
 package models;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
 
 import play.libs.F.Option;
 import play.mvc.QueryStringBindable;
 
+@Entity
 public class Comentario implements QueryStringBindable<Comentario>{
 	
-	private Doctor doctor;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	
-	private Episodio episodio;
+	private Date fecha;
 	
-	private String identificacion;
+	private String contenido;
 	
+	
+	@PrePersist
+	private void prePersist() {
+		this.fecha = Calendar.getInstance().getTime();
+	}
 
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getContenido() {
+		return contenido;
+	}
+
+	public void setContenido(String contenido) {
+		this.contenido = contenido;
+	}
 
 	@Override
 	public Option<Comentario> bind(String key, Map<String, String[]> values) {
-		// TODO Auto-generated method stub
-		String idDoc = values.containsKey("idDoc")?values.get("idDoc")[0]:"";
-		//aqui debo buscar el doctor y asignarlo
-		String idEp = values.containsKey("idEpisodio")?values.get("idEpisodio")[0]:"";
-		
+		this.contenido = values.containsKey("contenido")?values.get("contenido")[0]:"";
 		return Option.Some(this);
 	}
 	
-	public String getIdentificacion() {
-		return identificacion;
-	}
-
-	public void setIdentificacion(String identificacion) {
-		this.identificacion = identificacion;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
-
-	public Episodio getEpisodio() {
-		return episodio;
-	}
-
-	public void setEpisodio(Episodio episodio) {
-		this.episodio = episodio;
-	}
-
 	@Override
-	public String javascriptUnbind() {
+	public String unbind(String arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String unbind(String arg0) {
+	public String javascriptUnbind() {
 		// TODO Auto-generated method stub
 		return null;
 	}
