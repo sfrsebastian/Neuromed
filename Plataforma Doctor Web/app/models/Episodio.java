@@ -12,40 +12,23 @@ import play.mvc.QueryStringBindable;
 
 public class Episodio implements QueryStringBindable<Episodio>{
 
-	private String intensidad;
+	private String nivelDolor;
 	private String fecha;
-	private String descripcion;
+	private String localizacion;
 	
-	public Date getFecha() throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-		return fecha!=null?sdf.parse(fecha):null;
-	}
-	
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
-	}
-
-	public String getIntensidad() {
-		return intensidad;
-	}
-
-	public void setIntensidad(String intensidad) {
-		this.intensidad = intensidad;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
+	private String comentarios;
+	private String[] medicamentos;
+	private String[] patronesSueno;
+	private String[] causas;
 	
 	@Override
 	public Option<Episodio> bind(String key, Map<String, String[]> values) {
 		try{
-			this.intensidad = values.containsKey("intensidad")?values.get("intensidad")[0]:"";
-			this.descripcion = values.containsKey("descripcion")?values.get("descripcion")[0]:"";
+			this.nivelDolor = values.containsKey("intensidad")?values.get("intensidad")[0]:"";
+			this.localizacion = values.containsKey("descripcion")?values.get("descripcion")[0]:"";
+			this.comentarios = values.containsKey("comentarios")?values.get("comentarios")[0]:"";
+			
+			//Falta inicializar los arreglos!
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 			this.fecha =  sdf.format(Calendar.getInstance().getTime());
@@ -56,6 +39,63 @@ public class Episodio implements QueryStringBindable<Episodio>{
 			return Option.None();
 		}
 		
+	}
+
+	public Date getFecha() throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+		return fecha!=null?sdf.parse(fecha):null;
+	}
+	
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getNivelDolor() {
+		return nivelDolor;
+	}
+
+	public void setNivelDolor(String intensidad) {
+		this.nivelDolor = intensidad;
+	}
+
+	public String getLocalizacion() {
+		return localizacion;
+	}
+
+	public void setLocalizacion(String descripcion) {
+		this.localizacion = descripcion;
+	}
+	
+	public String getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(String comentarios) {
+		this.comentarios = comentarios;
+	}
+
+	public String[] getMedicamentos() {
+		return medicamentos;
+	}
+
+	public void setMedicamentos(String[] medicamentos) {
+		this.medicamentos = medicamentos;
+	}
+
+	public String[] getPatronesSueno() {
+		return patronesSueno;
+	}
+
+	public void setPatronesSueno(String[] patronesSueno) {
+		this.patronesSueno = patronesSueno;
+	}
+
+	public String[] getCausas() {
+		return causas;
+	}
+
+	public void setCausas(String[] causas) {
+		this.causas = causas;
 	}
 
 	@Override
