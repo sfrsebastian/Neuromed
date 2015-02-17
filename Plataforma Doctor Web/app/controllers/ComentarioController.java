@@ -3,8 +3,6 @@ package controllers;
 import java.util.ArrayList;
 
 import models.Comentario;
-import models.Doctor;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
