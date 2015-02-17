@@ -3,20 +3,17 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
-import play.libs.F.Option;
-import play.mvc.QueryStringBindable;
+import javax.persistence.Table;
 
 @Entity
-public class Episodio implements QueryStringBindable<Episodio>{
+@Table(name="Episodios")
+public class Episodio{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -123,37 +120,5 @@ public class Episodio implements QueryStringBindable<Episodio>{
 			this.causas=new ArrayList<Causa>();
 		}
 		this.causas.add(causa);
-	}
-
-	@Override
-	public Option<Episodio> bind(String key, Map<String, String[]> values) {
-//		try{
-//			this.nivelDolor = values.containsKey("intensidad")?values.get("intensidad")[0]:"";
-//			this.localizacion = values.containsKey("descripcion")?values.get("descripcion")[0]:"";
-//			this.comentarios = values.containsKey("comentarios")?values.get("comentarios")[0]:"";
-//
-//			//Falta inicializar los arreglos!
-//
-//			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-//			this.fecha =  sdf.format(Calendar.getInstance().getTime());
-//			this.fecha=values.get("fecha")[0];
-//			return Option.Some(this);
-//		}
-//		catch(Exception e){
-//			return Option.None();
-//		}
-		return Option.None();
-	}
-
-	@Override
-	public String javascriptUnbind() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String unbind(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

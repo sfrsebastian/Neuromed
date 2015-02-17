@@ -1,27 +1,22 @@
 package models;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 
 import com.sun.istack.internal.NotNull;
 
-import play.libs.F.Option;
-import play.mvc.QueryStringBindable;
-
 @Entity
-public class Doctor implements QueryStringBindable<Doctor>{
+@Table(name="Doctores")
+public class Doctor{
 
 	@NotNull
 	private String nombre;
@@ -176,32 +171,5 @@ public class Doctor implements QueryStringBindable<Doctor>{
 			this.colegas=new ArrayList<Doctor>();
 		}
 		this.colegas.add(colega);
-	}
-
-	@Override
-	public Option<Doctor> bind(String key, Map<String, String[]> values) {
-		try{
-			this.nombre = values.containsKey("nombre")?values.get("nombre")[0]:"";
-			this.apellido = values.containsKey("apellido")?values.get("apellido")[0]:"";
-			this.password = values.containsKey("password")?values.get("password")[0]:"";
-			this.identificacion = values.containsKey("identificacion")?values.get("identificacion")[0]:"";
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-			this.fechaNacimiento = values.containsKey("fechaNacimiento")?sdf.parse(values.get("fechaNacimiento")[0]):null;
-			return Option.Some(this);
-		}
-		catch(Exception e){
-			return Option.None();
-		}
-
-	}
-
-	@Override
-	public String javascriptUnbind() {
-		return null;
-	}
-
-	@Override
-	public String unbind(String arg0) {
-		return null;
 	}
 }

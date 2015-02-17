@@ -1,94 +1,124 @@
 package models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
-import play.libs.F.Option;
-import play.mvc.QueryStringBindable;
+import java.util.List;
 
-public class Paciente implements QueryStringBindable<Paciente>{
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.sun.istack.internal.NotNull;
+
+@Entity
+@Table(name="Pacientes")
+public class Paciente{
+	
+	@NotNull
 	private String nombre;
+
+	@NotNull
 	private String apellido;
-	private String password;
+
+	@Id
+	@Column(name="id")
 	private String identificacion;
-	private Episodio[] episodios;
-	private Medicamento[] medicamentosConsumidos;
-	private String fechaNacimiento;
 	
+	@NotNull
+	private String password;
 
+	@NotNull
+	private Date fechaVinculacion;
 
-	public String getIdentificacion() {
-		return identificacion;
-	}
+	@NotNull
+	private Date fechaNacimiento;
 	
-	public void setIdentificacion(String identificacion) {
-		this.identificacion = identificacion;
-	}
+	@OneToMany
+	private List<Episodio> episodios;
 	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	
-	
-	public Date getFechaNacimiento() throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-		return fechaNacimiento!=null?sdf.parse(fechaNacimiento):null;
-	}
-	
-	public void setFechaNacimiento(String fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
-	}
+	@OneToMany
+	private List<Medicamento> medicamentos;
+
 	
 	public String getNombre() {
 		return nombre;
 	}
-	
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
+
 	public String getApellido() {
 		return apellido;
 	}
-	
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+
+	public String getIdentificacion() {
+		return identificacion;
+	}
+
+	public void setIdentificacion(String identificacion) {
+		this.identificacion = identificacion;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Date getFechaVinculacion() {
+		return fechaVinculacion;
+	}
+
+	public void setFechaVinculacion(Date fechaVinculacion) {
+		this.fechaVinculacion = fechaVinculacion;
+	}
+
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public List<Episodio> getEpisodios() {
+		return episodios;
+	}
+
+	public void setEpisodios(List<Episodio> episodios) {
+		this.episodios = episodios;
+	}
 	
-	@Override
-	public Option<Paciente> bind(String key, Map<String, String[]> values) {
-		try{
-			this.nombre = values.containsKey("nombre")?values.get("nombre")[0]:"";
-			this.apellido = values.containsKey("apellido")?values.get("apellido")[0]:"";
-			this.identificacion = values.containsKey("identificacion")?values.get("identificacion")[0]:"";
-			this.password = values.containsKey("password")?values.get("password")[0]:"";
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-			this.fechaNacimiento=values.get("fechaNacimiento")[0];
-			return Option.Some(this);
+	public void addEpisodio(Episodio episodio){
+		if(this.episodios==null){
+			this.episodios=new ArrayList<Episodio>();
 		}
-		catch(Exception e){
-			return Option.None();
-		}
-		
+		this.episodios.add(episodio);
 	}
 
-	@Override
-	public String javascriptUnbind() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Medicamento> getMedicamentos() {
+		return medicamentos;
 	}
 
-	@Override
-	public String unbind(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public void setMedicamentos(List<Medicamento> medicamentos) {
+		this.medicamentos = medicamentos;
 	}
+	
+	public void addMedicamento(Medicamento medicamento){
+		if(this.medicamentos==null){
+			this.medicamentos=new ArrayList<Medicamento>();
+		}
+		this.medicamentos.add(medicamento);
+	}
+	
+	
 }
