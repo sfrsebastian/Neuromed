@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Doctor;
+import play.data.Form;
 import play.mvc.*;
 import views.html.*;
 
@@ -14,8 +15,11 @@ public class DoctorController extends Controller {
         return ok(index.render("Your new application is ready."));
     }
     
-    public static Result actualizarDoctor(Doctor doctor){
+    public static Result actualizarDoctor(){
     	ArrayList<Doctor> doctores=inicializarArreglo();
+    	Doctor doctor =Form.form(Doctor.class).bindFromRequest().get();
+    	//Busqueda por JPA
+    	//Persistir por JPA
     	if(reemplazarDoctor(doctores,doctor)){
     		ObjectMapper mapper = new ObjectMapper(); 
     		JsonNode node = mapper.convertValue(doctor, JsonNode.class);

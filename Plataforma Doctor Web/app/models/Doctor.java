@@ -1,11 +1,11 @@
 package models;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-
 import play.libs.F.Option;
 import play.mvc.QueryStringBindable;
 
@@ -15,8 +15,8 @@ public class Doctor implements QueryStringBindable<Doctor>{
 	private String identificacion;
 	private boolean autorizado;
 	private String password;
-	private Date fechaVinculacion;
-	private Date fechaNacimiento;
+	private String fechaVinculacion;
+	private String fechaNacimiento;
 	
 	//Anotaciones JPA
 //	private Doctor colegas;
@@ -81,19 +81,21 @@ public class Doctor implements QueryStringBindable<Doctor>{
 		this.password = password;
 	}
 	
-	public Date getFechaVinculacion() {
-		return fechaVinculacion;
+	public Date getFechaVinculacion() throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+		return fechaVinculacion!=null?sdf.parse(fechaVinculacion):null;
 	}
 	
-	public void setFechaVinculacion(Date fechaVinculacion) {
+	public void setFechaVinculacion(String fechaVinculacion) {
 		this.fechaVinculacion = fechaVinculacion;
 	}
 	
-	public Date getFechaNacimiento() {
-		return fechaNacimiento;
+	public Date getFechaNacimiento() throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+		return fechaNacimiento!=null?sdf.parse(fechaNacimiento):null;
 	}
 	
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
@@ -121,9 +123,9 @@ public class Doctor implements QueryStringBindable<Doctor>{
 			this.identificacion = values.containsKey("identificacion")?values.get("identificacion")[0]:"";
 			this.autorizado=false;
 			this.password = values.containsKey("password")?values.get("password")[0]:"";
-			this.fechaVinculacion = Calendar.getInstance().getTime();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-			this.fechaNacimiento=sdf.parse(values.get("fechaNacimiento")[0]);
+			this.fechaVinculacion =  sdf.format(Calendar.getInstance().getTime());
+			this.fechaNacimiento=values.get("fechaNacimiento")[0];
 			return Option.Some(this);
 		}
 		catch(Exception e){
@@ -131,15 +133,16 @@ public class Doctor implements QueryStringBindable<Doctor>{
 		}
 		
 	}
-	
+
 	@Override
 	public String javascriptUnbind() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public String unbind(String arg0) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
