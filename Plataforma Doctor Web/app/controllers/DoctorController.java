@@ -51,4 +51,16 @@ public class DoctorController extends Controller {
 		}
     	return termino;
     }
+
+
+	public static Result darPacientes(String idDoctor){
+		ArrayList<Doctor> doctores=inicializarArreglo();
+		Doctor doctor=doctores.get(Integer.parseInt(idDoctor));
+		if(doctor!=null){
+			return ok();
+		}else{
+			return status(1, "Doctor no existente");
+		}
+
+	}
 }
