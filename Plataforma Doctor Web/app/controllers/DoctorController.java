@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Doctor;
+import models.Paciente;
 import play.data.Form;
 import play.mvc.*;
 import views.html.*;
@@ -53,14 +54,15 @@ public class DoctorController extends Controller {
     }
 
 
-	public static Result darPacientes(String idDoctor){
+	public static String[] darPacientes(String idDoctor){
 		ArrayList<Doctor> doctores=inicializarArreglo();
 		Doctor doctor=doctores.get(Integer.parseInt(idDoctor));
 		if(doctor!=null){
-			return ok();
+			return doctor.getPacientes();
+			//return ok();
 		}else{
-			return status(1, "Doctor no existente");
+			return null;
+			//return status(1, "Doctor no existente");
 		}
-
 	}
 }

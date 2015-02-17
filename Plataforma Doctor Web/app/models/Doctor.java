@@ -17,6 +17,7 @@ public class Doctor implements QueryStringBindable<Doctor>{
 	private String password;
 	private String fechaVinculacion;
 	private String fechaNacimiento;
+	private String[] pacientes;
 	
 	//Anotaciones JPA
 //	private Doctor colegas;
@@ -114,6 +115,10 @@ public class Doctor implements QueryStringBindable<Doctor>{
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+
+	public String[] getPacientes(){return pacientes;}
+
+	public void setPaciente(String[] pacientes){this.pacientes=pacientes;}
 	
 	@Override
 	public Option<Doctor> bind(String key, Map<String, String[]> values) {
@@ -126,6 +131,7 @@ public class Doctor implements QueryStringBindable<Doctor>{
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 			this.fechaVinculacion =  sdf.format(Calendar.getInstance().getTime());
 			this.fechaNacimiento=values.get("fechaNacimiento")[0];
+			this.pacientes=values.containsKey("pacientes")?values.get("pacientes"):null;
 			return Option.Some(this);
 		}
 		catch(Exception e){
