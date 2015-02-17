@@ -15,9 +15,10 @@ public class DoctorController extends Controller {
         return ok(index.render("Your new application is ready."));
     }
     
-    public static Result actualizarDoctor(){
+    public static Result actualizarDoctor(String id){
     	ArrayList<Doctor> doctores=inicializarArreglo();
     	Doctor doctor =Form.form(Doctor.class).bindFromRequest().get();
+    	doctor.setIdentificacion(id);
     	//Busqueda por JPA
     	//Persistir por JPA
     	if(reemplazarDoctor(doctores,doctor)){
