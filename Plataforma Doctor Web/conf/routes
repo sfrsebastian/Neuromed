@@ -3,7 +3,13 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           controllers.DoctorController.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+#Actualizar doctor 
+#EJExito:http://localhost:9000/doctor/2 {"nombre": "Juan","apellido": "Perez","fechaNacimiento": "02/14/1995"}
+#EJError:http://localhost:9000/doctor/90 {"nombre": "Juan","apellido": "Perez","fechaNacimiento": "02/14/1995"}
+
+PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(identificacion:String)
