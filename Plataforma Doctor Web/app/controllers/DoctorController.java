@@ -137,6 +137,7 @@ public class DoctorController extends Controller {
 		}
 	}
 
+	@Transactional
 	public static Result publicarSegundaOpinionEpisodio(String idDoctor,String idColega){
 		Episodio episodio = Form.form(Episodio.class).bindFromRequest().get();
 		Doctor actual = JPA.em().find(Doctor.class, idDoctor);

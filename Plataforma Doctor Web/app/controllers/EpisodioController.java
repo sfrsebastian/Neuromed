@@ -28,6 +28,7 @@ public class EpisodioController extends Controller {
 		}
 	}
 
+	@Transactional
 	public static Result eliminarEpisodio(Long id){
 		Episodio eliminar = JPA.em().find(Episodio.class, id);
 		if(eliminar!=null){
@@ -39,20 +40,17 @@ public class EpisodioController extends Controller {
 		}
 	}
 	
+	@Transactional
 	public static Result crearComentario(Long id){
 		Episodio actual = JPA.em().find(Episodio.class, id);
-		Doctor doctor = JPA.em().find(Doctor.class, Form.form(Doctor.class).bindFromRequest().get().getIdentificacion());
-		if(actual!=null && doctor!=null){
+		if(actual!=null){
 			Comentario nuevo = Form.form(Comentario.class).bindFromRequest().get();
-			nuevo.setDoctor(doctor);
 			JPA.em().persist(nuevo);
-			doctor.addComentario(nuevo);
 			actual.addComentario(nuevo);
 			List<Comentario> comentarios = actual.getComentarios();
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(comentarios, JsonNode.class);
 			JPA.em().merge(actual);
-			JPA.em().merge(doctor);
 			return ok(node);
 		}	
 		else{

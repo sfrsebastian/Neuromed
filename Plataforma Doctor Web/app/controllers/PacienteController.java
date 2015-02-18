@@ -35,28 +35,8 @@ public class PacienteController extends Controller {
 			return status(1,"El paciente con identificacion " + idPaciente + " no existe");
 		}
 	}
-
-    private static ArrayList<Paciente> inicializarArreglo(){
-        ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
-        for (int i = 0; i < 10; i++) {
-            Paciente nuevo = new Paciente();
-            nuevo.setIdentificacion(i+"");
-            pacientes.add(nuevo);
-        }
-        return pacientes;
-    }
-
-    private static boolean reemplazarPaciente(ArrayList<Paciente> pacientes,Paciente paciente){
-        boolean termino=false;
-        for (int i = 0; i < pacientes.size() && !termino; i++) {
-            if(pacientes.get(i).getIdentificacion().equals(paciente.getIdentificacion())){
-                pacientes.add(i, paciente);
-                termino=true;
-            }
-        }
-        return termino;
-    }
     
+    @Transactional
     public static Result getEpisodiosPeriodo(String idPaciente, String fecha1,String fecha2){
     	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
     	
