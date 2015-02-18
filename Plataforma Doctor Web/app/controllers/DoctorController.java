@@ -1,8 +1,11 @@
 package controllers;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Doctor;
+import models.Paciente;
 import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -31,5 +34,29 @@ public class DoctorController extends Controller {
     
     public static Result actualizarDoctor(String id){
     	
+    }
+    
+    public static Result getPacienteDoctor(String idDoctor, String idPaciente){
+    	Doctor actual = JPA.em().find(Doctor.class, idDoctor);
+    	if (actual != null){
+    		List<Paciente> pacientes = actual.getPacientes();
+    		
+    		Paciente abuscar = null;
+    		
+    		for (Paciente paciente : pacientes) {
+				if (paciente.getIdentificacion().equals(idPaciente))
+					abuscar = paciente;
+			}
+    		
+    		if(abuscar != null){
+    			ObjectMapper mapper = new ObjectMapper(); 
+        		JsonNode node = mapper.convertValue(abuscar, JsonNode.class);
+        		return ok(node);
+    		}else{
+    			return status(1,"No existe paciente asociado con el identificador del doctor dado");
+    		}
+    	}else{
+    		return status(1,"No existe doctor con el identificador dado");
+    	}
     }
 }
