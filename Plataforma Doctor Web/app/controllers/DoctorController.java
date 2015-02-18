@@ -1,7 +1,10 @@
 package controllers;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import models.Comentario;
 import models.Doctor;
 import play.data.Form;
 import play.db.jpa.JPA;
@@ -44,4 +47,25 @@ public class DoctorController extends Controller {
     		return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
     	}
     }
+    
+    @Transactional
+    public static Result darComentarios(String identificacion){
+    	Doctor actual = JPA.em().find(Doctor.class, identificacion);
+    	if(actual!=null){
+    		Comentario nuevo = new Comentario();
+    		nuevo.setContenido("El paciente presenta una migraña");
+    		JPA.em().persist(nuevo);
+    		actual.addComentario(nuevo);
+    		List<Comentario> comentarios = actual.getComentarios();
+    		ObjectMapper mapper = new ObjectMapper(); 
+    		JsonNode node = mapper.convertValue(comentarios, JsonNode.class);
+    		JPA.em().merge(actual);
+    		return ok(node);
+    	}	
+    	else{
+    		return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+    	}
+    }
+    
+    
 }

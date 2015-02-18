@@ -15,3 +15,7 @@ PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(i
 #Crear doctor
 #http://localhost:9000/doctor {"nombre": "Juan","apellido": "Perez", "password":"1234","identificacion":"1472928"}
 POST /doctor									controllers.DoctorController.agregarDoctor()
+
+#Dar comentarios
+#http://localhost:9000/doctor/1472928/comentarios
+GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:String)
