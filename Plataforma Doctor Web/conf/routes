@@ -8,6 +8,8 @@ GET     /                           controllers.DoctorController.index()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+#SEBASTIAN
+
 #Actualizar doctor 
 #http://localhost:9000/doctor/1472928 {"password":"10987"}
 PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(identificacion:String)
@@ -23,3 +25,38 @@ GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id
 #Dar segundas opiniones de un doctor
 
 GET  /doctor/:id/segundaOpinion					controllers.DoctorController.darSegundasOpiniones(id:String)
+
+#
+
+#FELIPE
+
+GET /doctor/:idDoctor/pacientes/:idPaciente		controllers.DoctorController.getPacienteDoctor(idDoctor:String,idPaciente:String)
+POST /doctor/:idDoctor/colegas/:idColega/segundaOpinion		controllers.DoctorController.publicarSegundaOpinionEpisodio(idDoctor:String,idColega:String)
+GET /paciente/:idPaciente/episodios/:fecha1&:fecha2			controllers.PacienteController.getEpisodiosPeriodo(idPaciente:String,fecha1:String,fecha2:String)
+POST /paciente/:idPaciente/episodio/					controllers.PacienteController.agregarEpisodioPaciente(idPaciente:String)
+
+#
+
+#NICOLAS
+
+#Pacientes de un doctor
+#http://localhost:9000/doctor/:id/pacientes
+#GET  /doctor/:id/pacientes     controllers.DoctorController.darPacientes()
+
+#Agregar un colega a un doctor
+#http://localhost:9000/doctor/:id/colegas {idDoctor}
+#POST /doctor/:id/colegas  		controllers.DoctorController.agregarColega()
+
+#Actualizar paciente
+#http://localhost:9000/paciente/:id {usuario: , correo: , contraseña: }
+#PUT  /paciente/:id 				controllers.PacienteController.actulizarPaciente()
+
+#Obtener episodio de un paciente
+#http://localhost:9000/paciente/:id/episodios/:id 
+#GET /paciente/:id/episodios/:id controllers.PacienteController.obtenerEpisodio()
+
+#Autorizar un doctor
+#http://localhost:9000/doctor/:id {autorizado:true}
+#PUT /doctor/:id    controllers.DoctorController.autorizarDoctor()
+
+#
