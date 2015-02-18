@@ -97,7 +97,13 @@ public class PacienteController extends Controller {
     public static Result agregarEpisodioPaciente(String idPaciente){
     	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
     	if(actual != null){
-    		Episodio nuevo = new Episodio();
+    		Episodio datos = Form.form(Episodio.class).bindFromRequest().get();
+    		actual.addEpisodio(datos);
+    		JPA.em().persist(actual);
+    		
+    		ObjectMapper mapper = new ObjectMapper(); 
+    		JsonNode node = mapper.convertValue(actual, JsonNode.class);
+    		return ok(node);
     		
     	}else{
     		return status(1,"No se ha podido encontrar el paciente dado");
