@@ -69,3 +69,11 @@ GET /paciente/:id/episodios/:idEpisodio controllers.PacienteController.obtenerEp
 PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: String)
 
 #
+
+# MARIO
+
+# agregar paciente a doctor
+#http://localhost:9000/doctor/:id/pacientes{"identificacion":"900"}
+PUT /doctor/:idDoctor/pacientes                       controllers.DoctorController.agregarPaciente()
+
+

@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Doctores")
 public class Doctor{
-	
+
 	private String nombre;
 
 	private String apellido;
@@ -170,4 +171,26 @@ public class Doctor{
 		}
 		this.colegas.add(colega);
 	}
+
+	public boolean poseePaciente(String id){
+
+
+		Iterator<Paciente> it = pacientes.listIterator();
+
+		while(it.hasNext()){
+
+			Paciente p = it.next();
+
+			if(p.getIdentificacion().equals(id)){
+
+				return true;
+
+			}
+
+		}
+
+		return false;
+
+	}
+
 }

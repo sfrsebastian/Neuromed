@@ -18,6 +18,28 @@ public class Medicamento{
 	
 	private String marca;
 	
+	private String tipoMedicamento;
+	
+	private String advertencias;
+	
+
+	public String getTipoMedicamento() {
+		return tipoMedicamento;
+	}
+
+	public void setTipoMedicamento(String tipoMedicamento) {
+		this.tipoMedicamento = tipoMedicamento;
+	}
+
+	public String getAdvertencias() {
+		return advertencias;
+	}
+
+	public void setAdvertencias(String advertencias) {
+		this.advertencias = advertencias;
+	}
+
+	
 
 	public Long getId() {
 		return id;

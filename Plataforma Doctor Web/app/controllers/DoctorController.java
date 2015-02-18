@@ -213,4 +213,25 @@ public class DoctorController extends Controller {
 			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
+	
+	
+	
+	// Mario
+	@Transactional
+	public static Result agregarPaciente(String idDoctor){
+		Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
+		Paciente pac = JPA.em().find(Paciente.class, nuevo.getIdentificacion());
+		Doctor actual = JPA.em().find(Doctor.class, idDoctor);
+		if(actual!=null && pac != null && !actual.poseePaciente(pac.getIdentificacion())){
+			actual.getPacientes().add(pac);
+			JPA.em().merge(actual);
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(actual, JsonNode.class);
+			return ok(node);
+		}	
+		else{
+			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o ya posee al paciente.");
+		}
+	}
+
 }
