@@ -24,7 +24,17 @@ public class PacienteController extends Controller {
         return ok();
     }
 
-  
+    @Transactional
+	public static Result getPaciente(String idPaciente){
+		Paciente buscado = JPA.em().find(Paciente.class, idPaciente);
+		if(buscado != null){
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
+			return ok(node);
+		}else{
+			return status(1,"El paciente con identificacion " + idPaciente + " no existe");
+		}
+	}
 
     private static ArrayList<Paciente> inicializarArreglo(){
         ArrayList<Paciente> pacientes = new ArrayList<Paciente>();

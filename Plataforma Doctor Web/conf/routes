@@ -30,7 +30,7 @@ GET  /doctor/:id/segundaOpinion					controllers.DoctorController.darSegundasOpin
 DELETE /episodio/:id							controllers.EpisodioController.eliminarEpisodio(id:Long)
 
 #Crear comentario en un episodio
-POST /episodio/:id/comentarios					controllers.EpisodioControllers.crearComentario(id:Long)
+POST /episodio/:id/comentarios					controllers.EpisodioController.crearComentario(id:Long)
 #
 
 #FELIPE
@@ -39,6 +39,10 @@ GET /doctor/:idDoctor/pacientes/:idPaciente		controllers.DoctorController.getPac
 POST /doctor/:idDoctor/colegas/:idColega/segundaOpinion		controllers.DoctorController.publicarSegundaOpinionEpisodio(idDoctor:String,idColega:String)
 GET /paciente/:idPaciente/episodios/:fecha1&:fecha2			controllers.PacienteController.getEpisodiosPeriodo(idPaciente:String,fecha1:String,fecha2:String)
 POST /paciente/:idPaciente/episodio/					controllers.PacienteController.agregarEpisodioPaciente(idPaciente:String)
+GET /doctor/:idDoctor							controllers.DoctorController.getDoctor(idDoctor:String)
+GET /paciente/:idPaciente							controllers.PacienteController.getPaciente(idPaciente:String)
+GET /episodio/:idEpisodio							controllers.EpisodioController.getEpisodio(idEpisodio:String)
+
 
 #
 

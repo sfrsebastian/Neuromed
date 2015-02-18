@@ -21,6 +21,18 @@ public class DoctorController extends Controller {
 	public static Result index() {
 		return ok();
 	}
+	
+	@Transactional
+	public static Result getDoctor(String idDoctor){
+		Doctor buscado = JPA.em().find(Doctor.class, idDoctor);
+		if(buscado != null){
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
+			return ok(node);
+		}else{
+			return status(1,"El doctor con identificacion " + idDoctor + " no existe");
+		}
+	}
 
 	@Transactional
 	public static Result agregarDoctor(){

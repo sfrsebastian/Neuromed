@@ -7,6 +7,7 @@ import models.Doctor;
 import models.Episodio;
 import play.data.Form;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -14,6 +15,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EpisodioController extends Controller {
+	
+	@Transactional
+	public static Result getEpisodio(String idEpisodio){
+		Episodio buscado = JPA.em().find(Episodio.class, idEpisodio);
+		if(buscado != null){
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
+			return ok(node);
+		}else{
+			return status(1,"El episodio con identificacion " + idEpisodio + " no existe");
+		}
+	}
 
 	public static Result eliminarEpisodio(Long id){
 		Episodio eliminar = JPA.em().find(Episodio.class, id);
