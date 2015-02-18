@@ -80,4 +80,8 @@ PUT /doctor/:idDoctor/pacientes                       controllers.DoctorControll
 #http://localhost:9000/doctor/214235/comentarios/900
 DELETE /doctor/:idDoctor/comentarios/:idComentario     controllers.DoctorController.eliminarComentario()
 
+# Crear paciente
+#http://localhost:9000/paciente {"nombre":"nkjni" , "apellido":"makfmisfe","identificacion":"2414","password":"8080u7","fechaVinculacion":"3515","fechaNacimiento":"42665,"}
+POST /paciente                                         controllers.PacienteController.crearPaciente()
+
 

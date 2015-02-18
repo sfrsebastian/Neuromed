@@ -148,5 +148,25 @@ public class PacienteController extends Controller {
     		return status(1,"No se ha podido encontrar el paciente dado");
     	}
     }
+    
+    //Mario
+    @Transactional
+	public static Result crearPaciente(){
+    	Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
+		Paciente actual = JPA.em().find(Paciente.class, nuevo.getIdentificacion());
+		if(actual==null){
+			
+			JPA.em().persist(nuevo);			
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(nuevo, JsonNode.class);
+			return ok(node);
+		}	
+		else{
+			return status(1,"El paciente ya existe");
+		}
+	}
+    
+    
+
   
 }
