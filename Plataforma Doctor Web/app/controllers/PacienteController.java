@@ -20,7 +20,7 @@ import views.html.*;
 public class PacienteController extends Controller {
 	
     public static Result index() {
-        return ok(index.render("Your new application is ready."));
+        return ok();
     }
 
     public static Result actualizarPaciente(String id){
@@ -99,8 +99,9 @@ public class PacienteController extends Controller {
     	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
     	if(actual != null){
     		Episodio datos = Form.form(Episodio.class).bindFromRequest().get();
+    		JPA.em().persist(datos);
     		actual.addEpisodio(datos);
-    		JPA.em().persist(actual);
+    		JPA.em().merge(actual);
     		
     		ObjectMapper mapper = new ObjectMapper(); 
     		JsonNode node = mapper.convertValue(actual, JsonNode.class);

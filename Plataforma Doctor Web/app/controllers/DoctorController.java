@@ -73,9 +73,11 @@ public class DoctorController extends Controller {
 		}
 	}
 
+	@Transactional
 	public static Result getPacienteDoctor(String idDoctor, String idPaciente){
 		Doctor actual = JPA.em().find(Doctor.class, idDoctor);
 		if (actual != null){
+			
 			List<Paciente> pacientes = actual.getPacientes();
 
 			Paciente abuscar = null;
