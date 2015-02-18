@@ -1,4 +1,5 @@
 package controllers;
+import java.util.Calendar;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -6,6 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Comentario;
 import models.Doctor;
+import models.Episodio;
+import models.Medicamento;
 import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -59,6 +62,31 @@ public class DoctorController extends Controller {
     		List<Comentario> comentarios = actual.getComentarios();
     		ObjectMapper mapper = new ObjectMapper(); 
     		JsonNode node = mapper.convertValue(comentarios, JsonNode.class);
+    		JPA.em().merge(actual);
+    		return ok(node);
+    	}	
+    	else{
+    		return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+    	}
+    }
+    
+    @Transactional
+    public static Result darSegundasOpiniones(String identificacion){
+    	Doctor actual = JPA.em().find(Doctor.class, identificacion);
+    	if(actual!=null){
+    		Episodio nuevo = new Episodio();
+    		nuevo.setNivelDolor(10);
+    		nuevo.setLocalizacion("Lobulo Occipital");
+    		nuevo.setFecha(Calendar.getInstance().getTime());
+    		Medicamento med = new Medicamento();
+    		med.setNombre("Acetaminofen");
+    		med.setMarca("Dolex");
+    		JPA.em().persist(med);
+    		nuevo.addMedicamento(med);
+    		JPA.em().persist(nuevo);
+    		actual.addSegundaOpinion(nuevo);
+    		ObjectMapper mapper = new ObjectMapper(); 
+    		JsonNode node = mapper.convertValue(actual.getSegundasOpiniones(), JsonNode.class);
     		JPA.em().merge(actual);
     		return ok(node);
     	}	

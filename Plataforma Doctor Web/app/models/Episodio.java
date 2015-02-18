@@ -91,6 +91,13 @@ public class Episodio{
 	public void setMedicamentos(List<Medicamento> medicamentos) {
 		this.medicamentos = medicamentos;
 	}
+	
+	public void addMedicamento(Medicamento medicamento){
+		if(this.medicamentos==null){
+			this.medicamentos=new ArrayList<Medicamento>();
+		}
+		this.medicamentos.add(medicamento);
+	}
 
 	public List<Intervalo> getPatronesSueno() {
 		return patronesSueno;

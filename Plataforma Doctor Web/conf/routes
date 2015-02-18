@@ -19,3 +19,7 @@ POST /doctor									controllers.DoctorController.agregarDoctor()
 #Dar comentarios
 #http://localhost:9000/doctor/1472928/comentarios
 GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:String)
+
+#Dar segundas opiniones de un doctor
+
+GET  /doctor/:id/segundaOpinion					controllers.DoctorController.darSegundasOpiniones(id:String)
