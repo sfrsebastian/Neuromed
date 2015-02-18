@@ -1,9 +1,16 @@
 package controllers;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import models.Doctor;
+import models.Episodio;
 import models.Paciente;
 import play.data.Form;
 import play.mvc.*;
@@ -50,6 +57,42 @@ public class PacienteController extends Controller {
             }
         }
         return termino;
+    }
+    
+    public static Result getEpisodiosPeriodo(String idPaciente, String fecha1,String fecha2){
+    	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    	
+    	Date f1 = null;
+    	Date f2 = null;
+    	
+    	try {
+			f1 = sdf.parse(fecha1);
+			f2 = sdf.parse(fecha2);
+		} catch (ParseException e) {
+			System.out.println("Error en parser fecha, revisar formato");
+			return status(1,"No se ha podido parsear las fechas dadas");
+		}
+    	
+    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	
+    	if(actual != null){
+    		List<Episodio> episodios = actual.getEpisodios();
+    		List<Episodio> ep = new ArrayList<Episodio>();
+    		
+    		for (Episodio episodio : episodios) {
+				Date fechaActual = episodio.getFecha();
+				if (fechaActual.after(f1) && fechaActual.before(f2))
+					ep.add(episodio);
+			}
+    		
+    		ObjectMapper mapper = new ObjectMapper(); 
+    		JsonNode node = mapper.convertValue(ep, JsonNode.class);
+    		return ok(node);
+    	}else{
+    		return status(1,"No se ha podido encontrar el paciente dado");
+    	}
+    	
+    	return null;
     }
   
 }
