@@ -15,3 +15,10 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(identificacion:String)
 
 POST /doctor									controllers.DoctorController.agregarDoctor()
+
+#Felipe
+
+GET /doctor/:idDoctor/pacientes/:idPaciente		controllers.DoctorController.getPacienteDoctor(idDoctor:String,idPaciente:String)
+POST /doctor/:idDoctor/colegas/:idColega/segundaOpinion		controllers.DoctorController.publicarSegundaOpinionEpisodio(idDoctor:String,idColega:String)
+GET /paciente/:idPaciente/episodios/:fecha1&:fecha2			controllers.PacienteController.getEpisodiosPeriodo(idPaciente:String,fecha1:String,fecha2:String)
+POST /paciente/:idPaciente/episodio/					controllers.PacienteController.agregarEpisodioPaciente(idPaciente:String)
