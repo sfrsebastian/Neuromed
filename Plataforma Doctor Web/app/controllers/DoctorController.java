@@ -240,13 +240,18 @@ public class DoctorController extends Controller {
 		
 		Doctor doc = JPA.em().find(Doctor.class, idDoctor);
 		
-		if(doc.eliminarComentario(idComentario)){
+		
+		if(doc != null){
+		if(doc != null && doc.eliminarComentario(idComentario)){
 			JPA.em().remove(JPA.em().find(Comentario.class, idComentario));
 			ObjectMapper mapper = new ObjectMapper();  
 			JsonNode node = mapper.convertValue(doc, JsonNode.class);
 			return ok(node);
 		}
 		else{
+			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
+		}
+		}else{
 			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
 		}
 		
