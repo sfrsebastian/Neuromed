@@ -23,9 +23,14 @@ POST /doctor									controllers.DoctorController.agregarDoctor()
 GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:String)
 
 #Dar segundas opiniones de un doctor
-
+#http://localhost:9000/doctor/1472928/segundaOpinion
 GET  /doctor/:id/segundaOpinion					controllers.DoctorController.darSegundasOpiniones(id:String)
 
+#Eliminar un episodio
+DELETE /episodio/:id							controllers.EpisodioController.eliminarEpisodio(id:Long)
+
+#Crear comentario en un episodio
+POST /episodio/:id/comentarios					controllers.EpisodioControllers.crearComentario(id:Long)
 #
 
 #FELIPE
