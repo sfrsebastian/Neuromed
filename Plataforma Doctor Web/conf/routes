@@ -74,11 +74,11 @@ PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: St
 
 # agregar paciente a doctor
 #http://localhost:9000/doctor/:id/pacientes{"identificacion":"900"}
-PUT /doctor/:idDoctor/pacientes                       controllers.DoctorController.agregarPaciente()
+PUT /doctor/:idDoctor/pacientes                       controllers.DoctorController.agregarPaciente(idDoctor:String)
 
 # eliminar comentario doctor
 #http://localhost:9000/doctor/214235/comentarios/900
-DELETE /doctor/:idDoctor/comentarios/:idComentario     controllers.DoctorController.eliminarComentario()
+DELETE /doctor/:idDoctor/comentarios/:idComentario     controllers.DoctorController.eliminarComentario(idDoctor:String, idComentario:Long)
 
 # Crear paciente
 #http://localhost:9000/paciente {"nombre":"nkjni" , "apellido":"makfmisfe","identificacion":"2414","password":"8080u7","fechaVinculacion":"3515","fechaNacimiento":"42665,"}
@@ -86,9 +86,9 @@ POST /paciente                                         controllers.PacienteContr
 
 # Obtener todos los episodios del paciente
 #http://localhost:9000/paciente/134134/episodios
-GET /paciente/:id/episodios                           controllers.PacienteController.darTodosLosEpisodios()
+GET /paciente/:idPaciente/episodios                           controllers.PacienteController.darTodosLosEpisodios(idPaciente:String)
 
 # Crear medicamento 
 #http://localhost:9000/medicamento {}
-POST/medicamento                                     controllers.MedicamentoController.crearMedicamento()                 
+POST /medicamento                                     controllers.MedicamentoController.crearMedicamento()                 
 
