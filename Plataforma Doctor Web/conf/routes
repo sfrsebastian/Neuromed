@@ -22,3 +22,23 @@ GET /doctor/:idDoctor/pacientes/:idPaciente		controllers.DoctorController.getPac
 POST /doctor/:idDoctor/colegas/:idColega/segundaOpinion		controllers.DoctorController.publicarSegundaOpinionEpisodio(idDoctor:String,idColega:String)
 GET /paciente/:idPaciente/episodios/:fecha1&:fecha2			controllers.PacienteController.getEpisodiosPeriodo(idPaciente:String,fecha1:String,fecha2:String)
 POST /paciente/:idPaciente/episodio/					controllers.PacienteController.agregarEpisodioPaciente(idPaciente:String)
+
+#Pacientes de un doctor
+#http://localhost:9000/doctor/:id/pacientes
+GET  /doctor/:id/pacientes     controllers.DoctorController.darPacientes()
+
+#Agregar un colega a un doctor
+#http://localhost:9000/doctor/:id/colegas {idDoctor}
+POST /doctor/:id/colegas {idDoctor} controllers.DoctorController.agregarColega()
+
+#Actualizar paciente
+#http://localhost:9000/paciente/:id {usuario: , correo: , contraseña: }
+PUT  /paciente/:id {usuario: , correo: , contraseña: } controllers.PacienteController.actulizarPaciente()
+
+#Obtener episodio de un paciente
+#http://localhost:9000/paciente/:id/episodios/:id 
+GET /paciente/:id/episodios/:id controllers.PacienteController.obtenerEpisodio()
+
+#Autorizar un doctor
+#http://localhost:9000/doctor/:id {autorizado:true}
+PUT /doctor/:id {autorizado:true}   controllers.DoctorController.autorizarDoctor()
