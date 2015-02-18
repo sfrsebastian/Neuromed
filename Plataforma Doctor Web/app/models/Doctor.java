@@ -49,6 +49,10 @@ public class Doctor{
 	private void prePersist() {
 		this.fechaVinculacion = Calendar.getInstance().getTime();
 		this.autorizado=false;
+		this.pacientes = new ArrayList<Paciente>();
+		this.comentarios = new ArrayList<Comentario>();
+		this.segundasOpiniones = new ArrayList<Episodio>();
+		this.colegas = new ArrayList<Doctor>();
 	}
 
 	public String getNombre() {

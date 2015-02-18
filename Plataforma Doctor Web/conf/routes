@@ -9,9 +9,9 @@ GET     /                           controllers.DoctorController.index()
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 #Actualizar doctor 
-#EJExito:http://localhost:9000/doctor/2 {"nombre": "Juan","apellido": "Perez","fechaNacimiento": "02/14/1995"}
-#EJError:http://localhost:9000/doctor/90 {"nombre": "Juan","apellido": "Perez","fechaNacimiento": "02/14/1995"}
-
+#http://localhost:9000/doctor/1472928 {"password":"10987"}
 PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(identificacion:String)
 
+#Crear doctor
+#http://localhost:9000/doctor {"nombre": "Juan","apellido": "Perez", "password":"1234","identificacion":"1472928"}
 POST /doctor									controllers.DoctorController.agregarDoctor()
