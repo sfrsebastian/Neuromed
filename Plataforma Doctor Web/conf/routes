@@ -15,3 +15,24 @@ PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(i
 #Crear doctor
 #http://localhost:9000/doctor {"nombre": "Juan","apellido": "Perez", "password":"1234","identificacion":"1472928"}
 POST /doctor									controllers.DoctorController.agregarDoctor()
+
+
+#Pacientes de un doctor
+#http://localhost:9000/doctor/:id/pacientes
+GET  /doctor/:id/pacientes     controllers.DoctorController.darPacientes()
+
+#Agregar un colega a un doctor
+#http://localhost:9000/doctor/:id/colegas {idDoctor}
+POST /doctor/:id/colegas {idDoctor} controllers.DoctorController.agregarColega()
+
+#Actualizar paciente
+#http://localhost:9000/paciente/:id {usuario: , correo: , contraseña: }
+PUT  /paciente/:id {usuario: , correo: , contraseña: } controllers.PacienteController.actulizarPaciente()
+
+#Obtener episodio de un paciente
+#http://localhost:9000/paciente/:id/episodios/:id 
+GET /paciente/:id/episodios/:id controllers.PacienteController.obtenerEpisodio()
+
+#Autorizar un doctor
+#http://localhost:9000/doctor/:id {autorizado:true}
+PUT /doctor/:id {autorizado:true}   controllers.DoctorController.autorizarDoctor()
