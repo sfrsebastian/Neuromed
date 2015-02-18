@@ -84,4 +84,8 @@ DELETE /doctor/:idDoctor/comentarios/:idComentario     controllers.DoctorControl
 #http://localhost:9000/paciente {"nombre":"nkjni" , "apellido":"makfmisfe","identificacion":"2414","password":"8080u7","fechaVinculacion":"3515","fechaNacimiento":"42665,"}
 POST /paciente                                         controllers.PacienteController.crearPaciente()
 
+# Obtener todos los episodios del paciente
+#http://localhost:9000/paciente/134134/episodios
+GET /paciente/:id/episodios                           controllers.PacienteController.darTodosLosEpisodios()
+
 

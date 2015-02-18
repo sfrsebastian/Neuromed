@@ -166,6 +166,20 @@ public class PacienteController extends Controller {
 		}
 	}
     
+    //Mario
+    @Transactional
+    public static Result darTodosLosEpisodios(String idPaciente){
+    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	if(actual != null){
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(actual.getEpisodios(), JsonNode.class);
+			return ok(node);
+
+    	}
+    	else{
+    		return status(1,"El paciente no existe");
+    	}
+    }
     
 
   
