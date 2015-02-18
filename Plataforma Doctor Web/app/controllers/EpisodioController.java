@@ -41,8 +41,10 @@ public class EpisodioController extends Controller {
 	
 	public static Result crearComentario(Long id){
 		Episodio actual = JPA.em().find(Episodio.class, id);
-		if(actual!=null){
+		Doctor doctor = JPA.em().find(Doctor.class, Form.form(Doctor.class).bindFromRequest().get().getIdentificacion());
+		if(actual!=null && doctor!=null){
 			Comentario nuevo = Form.form(Comentario.class).bindFromRequest().get();
+			nuevo.setDoctor(doctor);
 			JPA.em().persist(nuevo);
 			actual.addComentario(nuevo);
 			List<Comentario> comentarios = actual.getComentarios();
@@ -52,7 +54,7 @@ public class EpisodioController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El episodio con identificacion: " + id+ " no existe en el sistema.");
+			return status(1,"El episodio con identificacion: " + id+ " no existe en el sistema, o el doctor dado no existe.");
 		}
 	}
 }
