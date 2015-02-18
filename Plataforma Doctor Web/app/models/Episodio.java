@@ -23,7 +23,7 @@ public class Episodio{
 
 	private Date fecha;
 
-	private Causa localizacion;
+	private String localizacion;
 
 	@OneToMany
 	private List<Comentario> comentarios;
@@ -61,11 +61,11 @@ public class Episodio{
 		this.fecha = fecha;
 	}
 
-	public Causa getLocalizacion() {
+	public String getLocalizacion() {
 		return localizacion;
 	}
 
-	public void setLocalizacion(Causa localizacion) {
+	public void setLocalizacion(String localizacion) {
 		this.localizacion = localizacion;
 	}
 

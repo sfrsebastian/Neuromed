@@ -10,29 +10,22 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.sun.istack.internal.NotNull;
-
 @Entity
 @Table(name="Pacientes")
 public class Paciente{
-	
-	@NotNull
+
 	private String nombre;
 
-	@NotNull
 	private String apellido;
 
 	@Id
 	@Column(name="id")
 	private String identificacion;
-	
-	@NotNull
+
 	private String password;
 
-	@NotNull
 	private Date fechaVinculacion;
 
-	@NotNull
 	private Date fechaNacimiento;
 	
 	@OneToMany

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,16 +13,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import com.sun.istack.internal.NotNull;
-
 @Entity
 @Table(name="Doctores")
 public class Doctor{
-
-	@NotNull
+	
 	private String nombre;
 
-	@NotNull
 	private String apellido;
 
 	@Id
@@ -30,13 +27,10 @@ public class Doctor{
 
 	private boolean autorizado;
 
-	@NotNull
 	private String password;
 
-	@NotNull
 	private Date fechaVinculacion;
 
-	@NotNull
 	private Date fechaNacimiento;
 
 	@OneToMany

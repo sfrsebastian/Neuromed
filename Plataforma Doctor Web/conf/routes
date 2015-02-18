@@ -13,3 +13,5 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 #EJError:http://localhost:9000/doctor/90 {"nombre": "Juan","apellido": "Perez","fechaNacimiento": "02/14/1995"}
 
 PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(identificacion:String)
+
+POST /doctor									controllers.DoctorController.agregarDoctor()
