@@ -234,4 +234,22 @@ public class DoctorController extends Controller {
 		}
 	}
 
+	//Mario 
+	@Transactional
+	public static Result eliminarComentario(String idDoctor, Long idComentario){
+		
+		Doctor doc = JPA.em().find(Doctor.class, idDoctor);
+		
+		if(doc.eliminarComentario(idComentario)){
+			JPA.em().remove(JPA.em().find(Comentario.class, idComentario));
+			ObjectMapper mapper = new ObjectMapper();  
+			JsonNode node = mapper.convertValue(doc, JsonNode.class);
+			return ok(node);
+		}
+		else{
+			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
+		}
+		
+	}
+
 }

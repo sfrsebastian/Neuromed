@@ -193,4 +193,28 @@ public class Doctor{
 
 	}
 
+	public boolean eliminarComentario(Long id){
+
+
+		Iterator<Comentario> it = comentarios.listIterator();
+
+		while(it.hasNext()){
+
+			Comentario p = it.next();
+
+			if(p.getId() == id){
+
+				it.remove();
+
+				return true;
+
+			}
+
+		}
+
+		return false;
+
+	}
+
+
 }

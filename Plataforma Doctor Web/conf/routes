@@ -76,4 +76,8 @@ PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: St
 #http://localhost:9000/doctor/:id/pacientes{"identificacion":"900"}
 PUT /doctor/:idDoctor/pacientes                       controllers.DoctorController.agregarPaciente()
 
+# eliminar comentario doctor
+#http://localhost:9000/doctor/214235/comentarios/900
+DELETE /doctor/:idDoctor/comentarios/:idComentario     controllers.DoctorController.eliminarComentario()
+
 
