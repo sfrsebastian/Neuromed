@@ -152,4 +152,53 @@ public class DoctorController extends Controller {
 			return status(1,"No existe doctor con el identificador dado");
 		}
 	}
+	
+	@Transactional
+	public static Result darPacientes(String identificacion){
+		Doctor actual = JPA.em().find(Doctor.class, identificacion);
+		if(actual!=null){
+			List<Paciente> pacientes=actual.getPacientes();
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(pacientes, JsonNode.class);
+			return ok(node);
+		}	
+		else{
+			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+		}
+	}
+	
+	@Transactional
+	public static Result agregarColega(String idDoc,String idColega){
+		Doctor actual = JPA.em().find(Doctor.class, idDoc);
+		if(actual!=null){
+			Doctor colega = JPA.em().find(Doctor.class, idColega);
+			if(colega!=null){
+			actual.addColega(colega);;
+			JPA.em().merge(actual);
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(actual, JsonNode.class);
+			return ok(node);
+			}else{
+				return status(1,"El doctor con identificacion: " + idColega+ " no existe en el sistema.");
+			}
+		}	
+		else{
+			return status(1,"El doctor con identificacion: " + idDoc+ " no existe en el sistema.");
+		}
+	}
+	
+	@Transactional
+	public static Result autorizarDoctor(String identificacion){
+		Doctor actual = JPA.em().find(Doctor.class, identificacion);
+		if(actual!=null){
+			actual.setAutorizado(true);
+			JPA.em().merge(actual);
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(actual, JsonNode.class);
+			return ok(node);
+		}	
+		else{
+			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+		}
+	}
 }
