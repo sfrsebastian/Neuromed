@@ -2,10 +2,12 @@ package models;
 
 import java.util.Calendar;
 import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -20,6 +22,9 @@ public class Comentario{
 	private Date fecha;
 	
 	private String contenido;
+	
+	@ManyToOne
+	private Doctor doctor;
 	
 	
 	@PrePersist
@@ -49,5 +54,13 @@ public class Comentario{
 
 	public void setContenido(String contenido) {
 		this.contenido = contenido;
+	}
+	
+	public Doctor getDoctor() {
+		return this.doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 }
