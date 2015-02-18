@@ -41,22 +41,22 @@ POST /paciente/:idPaciente/episodio/					controllers.PacienteController.agregarE
 
 #Pacientes de un doctor
 #http://localhost:9000/doctor/:id/pacientes
-#GET  /doctor/:id/pacientes     controllers.DoctorController.darPacientes()
+GET  /doctor/:id/pacientes     controllers.DoctorController.darPacientes(id:String)
 
 #Agregar un colega a un doctor
-#http://localhost:9000/doctor/:id/colegas {idDoctor}
-#POST /doctor/:id/colegas  		controllers.DoctorController.agregarColega()
+#http://localhost:9000/doctor/:id/colega/:id {idDoctor}
+POST /doctor/:idDoc/colega/:idColega 		controllers.DoctorController.agregarColega(idDoc:String,idColega:String)
 
 #Actualizar paciente
-#http://localhost:9000/paciente/:id {usuario: , correo: , contraseña: }
-#PUT  /paciente/:id 				controllers.PacienteController.actulizarPaciente()
+#http://localhost:9000/paciente/2134 {“nombre”:”Nicolas” , “password”:”324425” }
+PUT  /paciente/:identificacion 			controllers.PacienteController.actualizarPaciente(identificacion:String)
 
 #Obtener episodio de un paciente
 #http://localhost:9000/paciente/:id/episodios/:id 
-#GET /paciente/:id/episodios/:id controllers.PacienteController.obtenerEpisodio()
+GET /paciente/:id/episodios/:idEpisodio controllers.PacienteController.obtenerEpisodio(id:String,idEpisodio:String)
 
 #Autorizar un doctor
 #http://localhost:9000/doctor/:id {autorizado:true}
-#PUT /doctor/:id    controllers.DoctorController.autorizarDoctor()
+PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: String)
 
 #

@@ -9,6 +9,7 @@ import java.util.Locale;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import models.Doctor;
 import models.Episodio;
 import models.Paciente;
 import play.data.Form;
@@ -23,21 +24,7 @@ public class PacienteController extends Controller {
         return ok(index.render("Your new application is ready."));
     }
 
-    public static Result actualizarPaciente(String id){
-        ArrayList<Paciente> pacientes=inicializarArreglo();
-        Paciente paciente =Form.form(Paciente.class).bindFromRequest().get();
-        paciente.setIdentificacion(id);
-        //Busqueda por JPA
-        //Persistir por JPA
-        if(reemplazarPaciente(pacientes,paciente)){
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode node = mapper.convertValue(paciente, JsonNode.class);
-            return ok(node);
-        }
-        else{
-            return status(1, "Doctor no existente");
-        }
-    }
+  
 
     private static ArrayList<Paciente> inicializarArreglo(){
         ArrayList<Paciente> pacientes = new ArrayList<Paciente>();
@@ -106,6 +93,46 @@ public class PacienteController extends Controller {
     		JsonNode node = mapper.convertValue(actual, JsonNode.class);
     		return ok(node);
     		
+    	}else{
+    		return status(1,"No se ha podido encontrar el paciente dado");
+    	}
+    }
+    
+    @Transactional
+    public static Result actualizarPaciente(String identificacion){
+    	Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
+		Paciente actual = JPA.em().find(Paciente.class, identificacion);
+		if(actual!=null){
+			actual.setPassword(nuevo.getPassword());
+			actual.setNombre(nuevo.getNombre());
+			JPA.em().merge(actual);
+			ObjectMapper mapper = new ObjectMapper(); 
+			JsonNode node = mapper.convertValue(actual, JsonNode.class);
+			return ok(node);
+		}	
+		else{
+			return status(1,"El paciente con identificacion: " + identificacion+ " no existe en el sistema.");
+		}
+    }
+    
+    @Transactional
+    public static Result obtenerEpisodio(String idPaciente,String idEpisodio){
+    	
+    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	
+    	if(actual != null){
+    		List<Episodio> episodios = actual.getEpisodios();
+    		Episodio ep=null;
+    		for(int i=0;i<episodios.size();i++){
+    			if(episodios.get(i).getId()==Long.parseLong(idEpisodio)){
+    				ep=episodios.get(i);
+    				break;
+    			}
+    		}
+    		
+    		ObjectMapper mapper = new ObjectMapper(); 
+    		JsonNode node = mapper.convertValue(ep, JsonNode.class);
+    		return ok(node);
     	}else{
     		return status(1,"No se ha podido encontrar el paciente dado");
     	}
