@@ -37,7 +37,13 @@ public class DoctorController extends Controller {
 	@Transactional
 	public static Result agregarDoctor(){
 		Doctor nuevo =Form.form(Doctor.class).bindFromRequest().get();
-		Doctor actual = JPA.em().find(Doctor.class, nuevo.getIdentificacion());
+		Doctor actual = null;
+		try{
+			actual = JPA.em().createQuery("SELECT u FROM Doctor u WHERE u.identificacion=?1",Doctor.class).setParameter(1, nuevo.getIdentificacion()).getSingleResult();
+		}
+		catch(Exception e){
+			
+		}
 		if(actual==null){
 			JPA.em().persist(nuevo);
 			ObjectMapper mapper = new ObjectMapper(); 
@@ -45,7 +51,7 @@ public class DoctorController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El doctor con identificacion " + nuevo.getIdentificacion() + " ya existe");
+			return ok("El doctor con identificacion " + nuevo.getIdentificacion() + " ya existe");
 		}
 	}
 
