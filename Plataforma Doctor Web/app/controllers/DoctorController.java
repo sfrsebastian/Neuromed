@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import models.Doctor;
+import models.Episodio;
 import models.Paciente;
 import play.data.Form;
 import play.db.jpa.JPA;
@@ -54,6 +55,33 @@ public class DoctorController extends Controller {
         		return ok(node);
     		}else{
     			return status(1,"No existe paciente asociado con el identificador del doctor dado");
+    		}
+    	}else{
+    		return status(1,"No existe doctor con el identificador dado");
+    	}
+    }
+    
+    @Transactional
+    public static Result publicarSegundaOpinionEpisodio(String idDoctor,String idColega){
+    	Episodio episodio = Form.form(Episodio.class).bindFromRequest().get();
+    	Doctor actual = JPA.em().find(Doctor.class, idDoctor);
+    	if(actual != null){
+    		List<Doctor> colegas = actual.getColegas();
+    		
+    		Doctor temp = null;
+    		for (Doctor doctor : colegas) {
+				if(doctor.getIdentificacion().equals(idColega))
+					temp = doctor;
+			}
+    		
+    		if(temp != null){
+    			temp.addSegundaOpinion(episodio);
+    			JPA.em().persist(temp);
+    			ObjectMapper mapper = new ObjectMapper(); 
+        		JsonNode node = mapper.convertValue(temp, JsonNode.class);
+        		return ok(node);
+    		}else{
+    			return status(1,"No existe colega asociado con el identificador del doctor dado");
     		}
     	}else{
     		return status(1,"No existe doctor con el identificador dado");
