@@ -91,8 +91,17 @@ public class PacienteController extends Controller {
     	}else{
     		return status(1,"No se ha podido encontrar el paciente dado");
     	}
-    	
-    	return null;
+    }
+    
+    @Transactional
+    public static Result agregarEpisodioPaciente(String idPaciente){
+    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	if(actual != null){
+    		Episodio nuevo = new Episodio();
+    		
+    	}else{
+    		return status(1,"No se ha podido encontrar el paciente dado");
+    	}
     }
   
 }
