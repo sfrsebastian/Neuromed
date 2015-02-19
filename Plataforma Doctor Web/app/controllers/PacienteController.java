@@ -32,7 +32,7 @@ public class PacienteController extends Controller {
 			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
 			return ok(node);
 		}else{
-			return status(1,"El paciente con identificacion " + idPaciente + " no existe");
+			return ok("El paciente con identificacion " + idPaciente + " no existe");
 		}
 	}
     
@@ -51,7 +51,7 @@ public class PacienteController extends Controller {
 			
 			System.out.println(fecha1);
 			System.out.println(fecha2);
-			return status(1,"No se ha podido parsear las fechas dadas");
+			return ok("No se ha podido parsear las fechas dadas");
 		}
     	
     	Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
@@ -70,7 +70,7 @@ public class PacienteController extends Controller {
     		JsonNode node = mapper.convertValue(ep, JsonNode.class);
     		return ok(node);
     	}else{
-    		return status(1,"No se ha podido encontrar el paciente dado");
+    		return ok("No se ha podido encontrar el paciente dado");
     	}
     }
     
@@ -81,14 +81,13 @@ public class PacienteController extends Controller {
     		Episodio datos = Form.form(Episodio.class).bindFromRequest().get();
     		JPA.em().persist(datos);
     		actual.addEpisodio(datos);
-    		JPA.em().merge(actual);
-    		
     		ObjectMapper mapper = new ObjectMapper(); 
     		JsonNode node = mapper.convertValue(actual, JsonNode.class);
+    		JPA.em().merge(actual);
     		return ok(node);
     		
     	}else{
-    		return status(1,"No se ha podido encontrar el paciente dado");
+    		return ok("No se ha podido encontrar el paciente dado");
     	}
     }
     
@@ -105,7 +104,7 @@ public class PacienteController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El paciente con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El paciente con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
     }
     
@@ -128,7 +127,7 @@ public class PacienteController extends Controller {
     		JsonNode node = mapper.convertValue(ep, JsonNode.class);
     		return ok(node);
     	}else{
-    		return status(1,"No se ha podido encontrar el paciente dado");
+    		return ok("No se ha podido encontrar el paciente dado");
     	}
     }
     
@@ -165,7 +164,7 @@ public class PacienteController extends Controller {
 
     	}
     	else{
-    		return status(1,"El paciente no existe");
+    		return ok("El paciente no existe");
     	}
     }
     

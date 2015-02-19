@@ -30,7 +30,7 @@ public class MedicamentoController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El medicamento ya existe");
+			return ok("El medicamento ya existe");
 		}
 	}
 

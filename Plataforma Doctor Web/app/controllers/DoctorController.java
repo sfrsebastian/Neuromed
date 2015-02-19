@@ -30,7 +30,7 @@ public class DoctorController extends Controller {
 			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
 			return ok(node);
 		}else{
-			return status(1,"El doctor con identificacion " + idDoctor + " no existe");
+			return ok("El doctor con identificacion " + idDoctor + " no existe");
 		}
 	}
 
@@ -67,7 +67,7 @@ public class DoctorController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
 
@@ -87,7 +87,7 @@ public class DoctorController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
 
@@ -110,11 +110,11 @@ public class DoctorController extends Controller {
 				JsonNode node = mapper.convertValue(abuscar, JsonNode.class);
 				return ok(node);
 			}else{
-				return status(1,"No existe paciente asociado con el identificador del doctor dado");
+				return ok("No existe paciente asociado con el identificador del doctor dado");
 			}
 		}
 		else{
-			return status(1,"No existe doctor con el identificador dado");
+			return ok("No existe doctor con el identificador dado");
 		}
 	}
 
@@ -139,7 +139,7 @@ public class DoctorController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
 
@@ -168,15 +168,15 @@ public class DoctorController extends Controller {
 					return ok(node);
 				}
 				else{
-					return status(1,"No existe colega asociado con el identificador del doctor dado");
+					return ok("No existe colega asociado con el identificador del doctor dado");
 				}
 			}
 			else{
-				return status(1,"No existe doctor con el identificador dado");
+				return ok("No existe doctor con el identificador dado");
 			}
 			
 		}else{
-			return status(1,"No existe episodio con el identificador: " + episodio.getId());
+			return ok("No existe episodio con el identificador: " + episodio.getId());
 		}
 		
 	}
@@ -191,7 +191,7 @@ public class DoctorController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
 
@@ -207,11 +207,11 @@ public class DoctorController extends Controller {
 				JsonNode node = mapper.convertValue(actual, JsonNode.class);
 				return ok(node);
 			}else{
-				return status(1,"El doctor con identificacion: " + idColega+ " no existe en el sistema.");
+				return ok("El doctor con identificacion: " + idColega+ " no existe en el sistema.");
 			}
 		}	
 		else{
-			return status(1,"El doctor con identificacion: " + idDoc+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + idDoc+ " no existe en el sistema.");
 		}
 	}
 
@@ -226,7 +226,7 @@ public class DoctorController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
 
@@ -246,7 +246,7 @@ public class DoctorController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o ya posee al paciente.");
+			return ok("El doctor con identificacion: " + idDoctor+ " no existe en el sistema o ya posee al paciente.");
 		}
 	}
 
@@ -265,10 +265,10 @@ public class DoctorController extends Controller {
 				return ok(node);
 			}
 			else{
-				return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
+				return ok("El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
 			}
 		}else{
-			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
+			return ok("El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
 		}
 
 	}

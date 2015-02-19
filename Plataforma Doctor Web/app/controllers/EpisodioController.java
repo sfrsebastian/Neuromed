@@ -24,7 +24,7 @@ public class EpisodioController extends Controller {
 			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
 			return ok(node);
 		}else{
-			return status(1,"El episodio con identificacion " + idEpisodio + " no existe");
+			return ok("El episodio con identificacion " + idEpisodio + " no existe");
 		}
 	}
 
@@ -36,7 +36,7 @@ public class EpisodioController extends Controller {
 			return ok("El episodio con id: " + id + " fue eliminado correctamente");
 		}	
 		else{
-			return status(1,"El episodio con id: " + id + " no existe");
+			return ok("El episodio con id: " + id + " no existe");
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class EpisodioController extends Controller {
 			return ok(node);
 		}	
 		else{
-			return status(1,"El episodio con identificacion: " + id+ " no existe en el sistema, o el doctor dado no existe.");
+			return ok("El episodio con identificacion: " + id+ " no existe en el sistema, o el doctor dado no existe.");
 		}
 	}
 }
