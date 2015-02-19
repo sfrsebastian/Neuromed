@@ -18,7 +18,7 @@ public class EpisodioController extends Controller {
 	
 	@Transactional
 	public static Result getEpisodio(String idEpisodio){
-		Episodio buscado = JPA.em().find(Episodio.class, idEpisodio);
+		Episodio buscado = JPA.em().find(Episodio.class, Long.parseLong(idEpisodio));
 		if(buscado != null){
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(buscado, JsonNode.class);

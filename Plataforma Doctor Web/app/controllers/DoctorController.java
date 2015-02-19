@@ -24,7 +24,7 @@ public class DoctorController extends Controller {
 	
 	@Transactional
 	public static Result getDoctor(String idDoctor){
-		Doctor buscado = JPA.em().find(Doctor.class, idDoctor);
+		Doctor buscado = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 		if(buscado != null){
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
@@ -93,7 +93,7 @@ public class DoctorController extends Controller {
 
 	@Transactional
 	public static Result getPacienteDoctor(String idDoctor, String idPaciente){
-		Doctor actual = JPA.em().find(Doctor.class, idDoctor);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 		if (actual != null){
 			
 			List<Paciente> pacientes = actual.getPacientes();
@@ -175,7 +175,7 @@ public class DoctorController extends Controller {
 	
 	@Transactional
 	public static Result darPacientes(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, identificacion);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
 		if(actual!=null){
 			List<Paciente> pacientes=actual.getPacientes();
 			ObjectMapper mapper = new ObjectMapper(); 
@@ -209,7 +209,7 @@ public class DoctorController extends Controller {
 	
 	@Transactional
 	public static Result autorizarDoctor(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, identificacion);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
 		if(actual!=null){
 			actual.setAutorizado(true);
 			JPA.em().merge(actual);
@@ -229,7 +229,7 @@ public class DoctorController extends Controller {
 	public static Result agregarPaciente(String idDoctor){
 		Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
 		Paciente pac = JPA.em().find(Paciente.class, nuevo.getIdentificacion());
-		Doctor actual = JPA.em().find(Doctor.class, idDoctor);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 		if(actual!=null && pac != null && !actual.poseePaciente(pac.getIdentificacion())){
 			actual.getPacientes().add(pac);
 			JPA.em().merge(actual);
@@ -246,7 +246,7 @@ public class DoctorController extends Controller {
 	@Transactional
 	public static Result eliminarComentario(String idDoctor, Long idComentario){
 		
-		Doctor doc = JPA.em().find(Doctor.class, idDoctor);
+		Doctor doc = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 		
 		
 		if(doc != null){
