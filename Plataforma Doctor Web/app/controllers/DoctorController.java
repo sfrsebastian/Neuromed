@@ -146,31 +146,39 @@ public class DoctorController extends Controller {
 	@Transactional
 	public static Result publicarSegundaOpinionEpisodio(String idDoctor,String idColega){
 		Episodio episodio = Form.form(Episodio.class).bindFromRequest().get();
-		JPA.em().persist(episodio);
-		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
-		if(actual != null){
-			List<Doctor> colegas = actual.getColegas();
+		Episodio encontrado = JPA.em().find(Episodio.class, episodio.getId());
+		
+		if (encontrado != null){
+			
+			Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
+			if(actual != null){
+				List<Doctor> colegas = actual.getColegas();
 
-			Doctor temp = null;
-			for (Doctor doctor : colegas) {
-				if(doctor.getIdentificacion().equals(idColega))
-					temp = doctor;
-			}
+				Doctor temp = null;
+				for (Doctor doctor : colegas) {
+					if(doctor.getIdentificacion().equals(idColega))
+						temp = doctor;
+				}
 
-			if(temp != null){
-				temp.addSegundaOpinion(episodio);
-				JPA.em().merge(temp);
-				ObjectMapper mapper = new ObjectMapper(); 
-				JsonNode node = mapper.convertValue(temp, JsonNode.class);
-				return ok(node);
+				if(temp != null){
+					temp.addSegundaOpinion(encontrado);
+					JPA.em().merge(temp);
+					ObjectMapper mapper = new ObjectMapper(); 
+					JsonNode node = mapper.convertValue(temp, JsonNode.class);
+					return ok(node);
+				}
+				else{
+					return status(1,"No existe colega asociado con el identificador del doctor dado");
+				}
 			}
 			else{
-				return status(1,"No existe colega asociado con el identificador del doctor dado");
+				return status(1,"No existe doctor con el identificador dado");
 			}
+			
+		}else{
+			return status(1,"No existe episodio con el identificador: " + episodio.getId());
 		}
-		else{
-			return status(1,"No existe doctor con el identificador dado");
-		}
+		
 	}
 	
 	@Transactional
