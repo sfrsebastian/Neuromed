@@ -48,6 +48,9 @@ public class PacienteController extends Controller {
 			f2 = sdf.parse(fecha2);
 		} catch (ParseException e) {
 			System.out.println("Error en parser fecha, revisar formato");
+			
+			System.out.println(fecha1);
+			System.out.println(fecha2);
 			return status(1,"No se ha podido parsear las fechas dadas");
 		}
     	

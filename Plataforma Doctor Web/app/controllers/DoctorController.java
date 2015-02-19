@@ -140,6 +140,7 @@ public class DoctorController extends Controller {
 	@Transactional
 	public static Result publicarSegundaOpinionEpisodio(String idDoctor,String idColega){
 		Episodio episodio = Form.form(Episodio.class).bindFromRequest().get();
+		JPA.em().persist(episodio);
 		Doctor actual = JPA.em().find(Doctor.class, idDoctor);
 		if(actual != null){
 			List<Doctor> colegas = actual.getColegas();
@@ -152,7 +153,7 @@ public class DoctorController extends Controller {
 
 			if(temp != null){
 				temp.addSegundaOpinion(episodio);
-				JPA.em().persist(temp);
+				JPA.em().merge(temp);
 				ObjectMapper mapper = new ObjectMapper(); 
 				JsonNode node = mapper.convertValue(temp, JsonNode.class);
 				return ok(node);
