@@ -31,6 +31,10 @@ DELETE /episodio/:id							controllers.EpisodioController.eliminarEpisodio(id:Lo
 
 #Crear comentario en un episodio
 POST /episodio/:id/comentarios					controllers.EpisodioController.crearComentario(id:Long)
+
+GET /doctor/									controllers.DoctorController.getDoctores()
+
+GET /paciente/									controllers.PacienteController.getPacientes()
 #
 
 #FELIPE

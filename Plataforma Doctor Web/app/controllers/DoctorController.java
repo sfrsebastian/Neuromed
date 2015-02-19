@@ -147,9 +147,9 @@ public class DoctorController extends Controller {
 	public static Result publicarSegundaOpinionEpisodio(String idDoctor,String idColega){
 		Episodio episodio = Form.form(Episodio.class).bindFromRequest().get();
 		Episodio encontrado = JPA.em().find(Episodio.class, episodio.getId());
-		
+
 		if (encontrado != null){
-			
+
 			Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 			if(actual != null){
 				List<Doctor> colegas = actual.getColegas();
@@ -174,11 +174,11 @@ public class DoctorController extends Controller {
 			else{
 				return ok("No existe doctor con el identificador dado");
 			}
-			
+
 		}else{
 			return ok("No existe episodio con el identificador: " + episodio.getId());
 		}
-		
+
 	}
 
 	@Transactional
@@ -271,6 +271,14 @@ public class DoctorController extends Controller {
 			return ok("El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
 		}
 
+	}
+
+	@Transactional
+	public static Result getDoctores(){
+		List<Doctor> doctores=JPA.em().createQuery("SELECT u FROM Doctor u",Doctor.class).getResultList();
+		ObjectMapper mapper = new ObjectMapper(); 
+		JsonNode node = mapper.convertValue(doctores, JsonNode.class);
+		return ok(node);
 	}
 
 }
