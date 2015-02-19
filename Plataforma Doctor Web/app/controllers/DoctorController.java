@@ -197,6 +197,7 @@ public class DoctorController extends Controller {
 
 	@Transactional
 	public static Result agregarColega(String idDoc,String idColega){
+		if(idDoc!=idColega){
 		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoc));
 		if(actual!=null){
 			Doctor colega = JPA.em().find(Doctor.class, Long.parseLong(idColega));
@@ -212,6 +213,9 @@ public class DoctorController extends Controller {
 		}	
 		else{
 			return ok("El doctor con identificacion: " + idDoc+ " no existe en el sistema.");
+		}
+		}else{
+			return ok("No se puede añadir un doctor a si mismo como colega");
 		}
 	}
 
