@@ -21,7 +21,7 @@ public class DoctorController extends Controller {
 	public static Result index() {
 		return ok();
 	}
-	
+
 	@Transactional
 	public static Result getDoctor(String idDoctor){
 		Doctor buscado = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
@@ -42,7 +42,7 @@ public class DoctorController extends Controller {
 			actual = JPA.em().createQuery("SELECT u FROM Doctor u WHERE u.identificacion=?1",Doctor.class).setParameter(1, nuevo.getIdentificacion()).getSingleResult();
 		}
 		catch(Exception e){
-			
+
 		}
 		if(actual==null){
 			JPA.em().persist(nuevo);
@@ -58,7 +58,7 @@ public class DoctorController extends Controller {
 	@Transactional
 	public static Result actualizarDoctor(String identificacion){
 		Doctor nuevo = Form.form(Doctor.class).bindFromRequest().get();
-		Doctor actual = JPA.em().find(Doctor.class, identificacion);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
 		if(actual!=null){
 			actual.setPassword(nuevo.getPassword());
 			JPA.em().merge(actual);
@@ -74,7 +74,7 @@ public class DoctorController extends Controller {
 
 	@Transactional
 	public static Result darComentarios(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, identificacion);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
 		if(actual!=null){
 			Comentario nuevo = new Comentario();
 			nuevo.setContenido("El paciente presenta una migraña");
@@ -95,7 +95,7 @@ public class DoctorController extends Controller {
 	public static Result getPacienteDoctor(String idDoctor, String idPaciente){
 		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 		if (actual != null){
-			
+
 			List<Paciente> pacientes = actual.getPacientes();
 
 			Paciente abuscar = null;
@@ -120,7 +120,7 @@ public class DoctorController extends Controller {
 
 	@Transactional
 	public static Result darSegundasOpiniones(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, identificacion);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
 		if(actual!=null){
 			Episodio nuevo = new Episodio();
 			nuevo.setNivelDolor(10);
@@ -172,7 +172,7 @@ public class DoctorController extends Controller {
 			return status(1,"No existe doctor con el identificador dado");
 		}
 	}
-	
+
 	@Transactional
 	public static Result darPacientes(String identificacion){
 		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
@@ -186,18 +186,18 @@ public class DoctorController extends Controller {
 			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
-	
+
 	@Transactional
 	public static Result agregarColega(String idDoc,String idColega){
 		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoc));
 		if(actual!=null){
 			Doctor colega = JPA.em().find(Doctor.class, Long.parseLong(idColega));
 			if(colega!=null){
-			actual.addColega(colega);;
-			JPA.em().merge(actual);
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(actual, JsonNode.class);
-			return ok(node);
+				actual.addColega(colega);;
+				JPA.em().merge(actual);
+				ObjectMapper mapper = new ObjectMapper(); 
+				JsonNode node = mapper.convertValue(actual, JsonNode.class);
+				return ok(node);
 			}else{
 				return status(1,"El doctor con identificacion: " + idColega+ " no existe en el sistema.");
 			}
@@ -206,7 +206,7 @@ public class DoctorController extends Controller {
 			return status(1,"El doctor con identificacion: " + idDoc+ " no existe en el sistema.");
 		}
 	}
-	
+
 	@Transactional
 	public static Result autorizarDoctor(String identificacion){
 		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
@@ -221,14 +221,14 @@ public class DoctorController extends Controller {
 			return status(1,"El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
-	
-	
-	
+
+
+
 	// Mario
 	@Transactional
 	public static Result agregarPaciente(String idDoctor){
 		Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
-		Paciente pac = JPA.em().find(Paciente.class, nuevo.getIdentificacion());
+		Paciente pac = JPA.em().find(Paciente.class, Long.parseLong(nuevo.getIdentificacion()));
 		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 		if(actual!=null && pac != null && !actual.poseePaciente(pac.getIdentificacion())){
 			actual.getPacientes().add(pac);
@@ -245,24 +245,24 @@ public class DoctorController extends Controller {
 	//Mario 
 	@Transactional
 	public static Result eliminarComentario(String idDoctor, Long idComentario){
-		
+
 		Doctor doc = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
-		
-		
+
+
 		if(doc != null){
-		if(doc != null && doc.eliminarComentario(idComentario)){
-			JPA.em().remove(JPA.em().find(Comentario.class, idComentario));
-			ObjectMapper mapper = new ObjectMapper();  
-			JsonNode node = mapper.convertValue(doc, JsonNode.class);
-			return ok(node);
-		}
-		else{
-			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
-		}
+			if(doc != null && doc.eliminarComentario(idComentario)){
+				JPA.em().remove(JPA.em().find(Comentario.class, idComentario));
+				ObjectMapper mapper = new ObjectMapper();  
+				JsonNode node = mapper.convertValue(doc, JsonNode.class);
+				return ok(node);
+			}
+			else{
+				return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
+			}
 		}else{
 			return status(1,"El doctor con identificacion: " + idDoctor+ " no existe en el sistema o no posee el comentario.");
 		}
-		
+
 	}
 
 }

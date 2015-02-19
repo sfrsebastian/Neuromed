@@ -26,7 +26,7 @@ public class PacienteController extends Controller {
 
     @Transactional
 	public static Result getPaciente(String idPaciente){
-		Paciente buscado = JPA.em().find(Paciente.class, idPaciente);
+		Paciente buscado = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
 		if(buscado != null){
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
@@ -54,7 +54,7 @@ public class PacienteController extends Controller {
 			return status(1,"No se ha podido parsear las fechas dadas");
 		}
     	
-    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
     	
     	if(actual != null){
     		List<Episodio> episodios = actual.getEpisodios();
@@ -76,7 +76,7 @@ public class PacienteController extends Controller {
     
     @Transactional
     public static Result agregarEpisodioPaciente(String idPaciente){
-    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
     	if(actual != null){
     		Episodio datos = Form.form(Episodio.class).bindFromRequest().get();
     		JPA.em().persist(datos);
@@ -95,7 +95,7 @@ public class PacienteController extends Controller {
     @Transactional
     public static Result actualizarPaciente(String identificacion){
     	Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
-		Paciente actual = JPA.em().find(Paciente.class, identificacion);
+		Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(identificacion));
 		if(actual!=null){
 			actual.setPassword(nuevo.getPassword());
 			actual.setNombre(nuevo.getNombre());
@@ -112,7 +112,7 @@ public class PacienteController extends Controller {
     @Transactional
     public static Result obtenerEpisodio(String idPaciente,String idEpisodio){
     	
-    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
     	
     	if(actual != null){
     		List<Episodio> episodios = actual.getEpisodios();
@@ -136,23 +136,28 @@ public class PacienteController extends Controller {
     @Transactional
 	public static Result crearPaciente(){
     	Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
-		Paciente actual = JPA.em().find(Paciente.class, nuevo.getIdentificacion());
+    	Paciente actual = null;
+		try{
+			actual = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.identificacion=?1",Paciente.class).setParameter(1, nuevo.getIdentificacion()).getSingleResult();
+		}
+		catch(Exception e){
+
+		}
 		if(actual==null){
-			
 			JPA.em().persist(nuevo);			
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(nuevo, JsonNode.class);
 			return ok(node);
 		}	
 		else{
-			return status(1,"El paciente ya existe");
+			return ok("El paciente ya existe");
 		}
 	}
     
     //Mario
     @Transactional
     public static Result darTodosLosEpisodios(String idPaciente){
-    	Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+    	Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
     	if(actual != null){
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(actual.getEpisodios(), JsonNode.class);
