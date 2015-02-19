@@ -147,7 +147,7 @@ public class DoctorController extends Controller {
 	public static Result publicarSegundaOpinionEpisodio(String idDoctor,String idColega){
 		Episodio episodio = Form.form(Episodio.class).bindFromRequest().get();
 		JPA.em().persist(episodio);
-		Doctor actual = JPA.em().find(Doctor.class, idDoctor);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 		if(actual != null){
 			List<Doctor> colegas = actual.getColegas();
 
@@ -189,9 +189,9 @@ public class DoctorController extends Controller {
 	
 	@Transactional
 	public static Result agregarColega(String idDoc,String idColega){
-		Doctor actual = JPA.em().find(Doctor.class, idDoc);
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoc));
 		if(actual!=null){
-			Doctor colega = JPA.em().find(Doctor.class, idColega);
+			Doctor colega = JPA.em().find(Doctor.class, Long.parseLong(idColega));
 			if(colega!=null){
 			actual.addColega(colega);;
 			JPA.em().merge(actual);
