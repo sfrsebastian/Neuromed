@@ -81,8 +81,8 @@ PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: St
 PUT /doctor/:idDoctor/pacientes                       controllers.DoctorController.agregarPaciente(idDoctor:String)
 
 # eliminar comentario doctor
-#http://localhost:9000/doctor/214235/comentarios/900
-DELETE /doctor/:idDoctor/comentarios/:idComentario     controllers.DoctorController.eliminarComentario(idDoctor:String, idComentario:Long)
+#http://localhost:9000/doctor/214235/comentarios {"id":"2527625"}
+DELETE /doctor/:idDoctor/comentarios                 controllers.DoctorController.eliminarComentario(idDoctor:String, idComentario:Long)
 
 # Crear paciente
 #http://localhost:9000/paciente {"nombre":"nkjni" , "apellido":"makfmisfe","identificacion":"2414","password":"8080u7","fechaVinculacion":"3515","fechaNacimiento":"42665,"}

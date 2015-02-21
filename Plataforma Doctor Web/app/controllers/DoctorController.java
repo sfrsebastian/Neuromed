@@ -251,9 +251,11 @@ public class DoctorController extends Controller {
 	}
 
 	//Mario 
-	@Transactional
-	public static Result eliminarComentario(String idDoctor, Long idComentario){
+	@Transactional    
+	public static Result eliminarComentario(String idDoctor){
 
+		Comentario nuevo = Form.form(Comentario.class).bindFromRequest().get();
+		Long idComentario = nuevo.getId();
 		Doctor doc = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 
 
