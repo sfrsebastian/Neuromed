@@ -89,6 +89,6 @@ POST /paciente                                         controllers.PacienteContr
 GET /paciente/:idPaciente/episodios                           controllers.PacienteController.darTodosLosEpisodios(idPaciente:String)
 
 # Crear medicamento 
-#http://localhost:9000/medicamento {}
+#http://localhost:9000/medicamento {"nombre":"c", "id":234}
 POST /medicamento                                     controllers.MedicamentoController.crearMedicamento()                 
 
