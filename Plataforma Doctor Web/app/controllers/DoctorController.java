@@ -260,7 +260,7 @@ public class DoctorController extends Controller {
 
 
 		if(doc != null){
-			if(doc != null && doc.eliminarComentario(idComentario)){
+			if(doc.eliminarComentario(idComentario)){
 				JPA.em().remove(JPA.em().find(Comentario.class, idComentario));
 				ObjectMapper mapper = new ObjectMapper();  
 				JsonNode node = mapper.convertValue(doc, JsonNode.class);
