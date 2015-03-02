@@ -56,18 +56,24 @@ public class DoctorController extends Controller {
 	}
 
 	@Transactional
-	public static Result actualizarDoctor(String identificacion){
-		Doctor nuevo = Form.form(Doctor.class).bindFromRequest().get();
-		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
-		if(actual!=null){
-			actual.setPassword(nuevo.getPassword());
-			JPA.em().merge(actual);
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(actual, JsonNode.class);
-			return ok(node);
-		}	
-		else{
-			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+	public static Result actualizarDoctor(Long identificacion){
+		JsonNode json = request().body().asJson();
+		if(json == null) {
+			return badRequest("Se esperaban parámetros JSON");
+		} 
+		else {
+			String password=json.findPath("password").textValue();
+			Doctor actual = JPA.em().find(Doctor.class, identificacion);
+			if(actual!=null){
+				actual.setPassword(password);
+				JPA.em().merge(actual);
+				ObjectMapper mapper = new ObjectMapper(); 
+				JsonNode node = mapper.convertValue(actual, JsonNode.class);
+				return ok(node);
+			}	
+			else{
+				return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			}
 		}
 	}
 
