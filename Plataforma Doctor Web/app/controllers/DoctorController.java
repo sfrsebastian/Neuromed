@@ -257,14 +257,16 @@ public class DoctorController extends Controller {
 	}
 
 	//Mario 
-	@Transactional
-	public static Result eliminarComentario(String idDoctor, Long idComentario){
+	@Transactional    
+	public static Result eliminarComentario(String idDoctor){
 
+		Comentario nuevo = Form.form(Comentario.class).bindFromRequest().get();
+		Long idComentario = nuevo.getId();
 		Doctor doc = JPA.em().find(Doctor.class, Long.parseLong(idDoctor));
 
 
 		if(doc != null){
-			if(doc != null && doc.eliminarComentario(idComentario)){
+			if(doc.eliminarComentario(idComentario)){
 				JPA.em().remove(JPA.em().find(Comentario.class, idComentario));
 				ObjectMapper mapper = new ObjectMapper();  
 				JsonNode node = mapper.convertValue(doc, JsonNode.class);

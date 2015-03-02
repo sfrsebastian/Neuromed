@@ -140,7 +140,7 @@ public class PacienteController extends Controller {
 			actual = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.identificacion=?1",Paciente.class).setParameter(1, nuevo.getIdentificacion()).getSingleResult();
 		}
 		catch(Exception e){
-
+			System.out.println("Error ejecutando query");
 		}
 		if(actual==null){
 			JPA.em().persist(nuevo);			
