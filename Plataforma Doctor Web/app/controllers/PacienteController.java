@@ -131,6 +131,27 @@ public class PacienteController extends Controller {
 		}
 	}
 
+	@Transactional
+	public static Result eliminarEpisodio(Long id){
+		JsonNode json = request().body().asJson();
+		if(json == null) {
+			return badRequest("Se esperaban parámetros JSON");
+		} 
+		else {
+			Long idEpisodio = json.findPath("idEpisodio").asLong();
+			Paciente paciente = JPA.em().find(Paciente.class, id);	
+			Episodio eliminar = paciente.eliminarEpisodio(idEpisodio);
+			if(eliminar!=null){
+				JPA.em().remove(eliminar);
+				return ok("El episodio con id: " + id + " fue eliminado correctamente");
+			}	
+			else{
+				return ok("El episodio con id: " + id + " no existe");
+			}
+		}
+		
+	}
+	
 	//Mario
 	@Transactional
 	public static Result crearPaciente(){

@@ -28,17 +28,7 @@ public class EpisodioController extends Controller {
 		}
 	}
 
-	@Transactional
-	public static Result eliminarEpisodio(Long id){
-		Episodio eliminar = JPA.em().find(Episodio.class, id);
-		if(eliminar!=null){
-			JPA.em().remove(eliminar);
-			return ok("El episodio con id: " + id + " fue eliminado correctamente");
-		}	
-		else{
-			return ok("El episodio con id: " + id + " no existe");
-		}
-	}
+	
 	
 	@Transactional
 	public static Result crearComentario(Long id){

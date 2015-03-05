@@ -126,6 +126,16 @@ public class Paciente{
 		}
 		this.medicamentos.add(medicamento);
 	}
+
+	public Episodio eliminarEpisodio(Long idEpisodio) {
+		for (Episodio episodio : episodios) {
+			if(episodio.getId()==idEpisodio){
+				episodios.remove(episodio);
+				return episodio;
+			}
+		}
+		return null;
+	}
 	
 	
 }
