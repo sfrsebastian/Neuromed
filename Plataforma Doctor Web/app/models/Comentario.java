@@ -23,6 +23,9 @@ public class Comentario{
 	
 	private String contenido;
 	
+	@ManyToOne
+	private Doctor doctor;
+	
 	@PrePersist
 	private void prePersist() {
 		this.fecha = Calendar.getInstance().getTime();
@@ -51,4 +54,13 @@ public class Comentario{
 	public void setContenido(String contenido) {
 		this.contenido = contenido;
 	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+	
 }

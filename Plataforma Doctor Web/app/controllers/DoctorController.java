@@ -79,21 +79,21 @@ public class DoctorController extends Controller {
 
 
 	@Transactional
-	public static Result darComentarios(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
+	public static Result darComentarios(Long id){
+		Doctor actual = JPA.em().find(Doctor.class, id);
 		if(actual!=null){
-			Comentario nuevo = new Comentario();
-			nuevo.setContenido("El paciente presenta una migraña");
-			JPA.em().persist(nuevo);
-			actual.addComentario(nuevo);
+//			Comentario nuevo = new Comentario();
+//			nuevo.setContenido("El paciente presenta una migraña");
+//			JPA.em().persist(nuevo);
+//			actual.addComentario(nuevo);
 			List<Comentario> comentarios = actual.getComentarios();
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(comentarios, JsonNode.class);
-			JPA.em().merge(actual);
+//			JPA.em().merge(actual);
 			return ok(node);
 		}	
 		else{
-			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + id+ " no existe en el sistema.");
 		}
 	}
 

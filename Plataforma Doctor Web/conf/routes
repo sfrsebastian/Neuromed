@@ -15,12 +15,13 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(identificacion:Long)
 
 #Crear doctor
+#[CHECK]
 #http://localhost:9000/doctor {"nombre": "Juan","apellido": "Perez", "password":"1234","identificacion":"1472928"}
 POST /doctor									controllers.DoctorController.agregarDoctor()
 
 #Dar comentarios
 #http://localhost:9000/doctor/1472928/comentarios
-GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:String)
+GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:Long)
 
 #Dar segundas opiniones de un doctor
 #http://localhost:9000/doctor/1472928/segundaOpinion
