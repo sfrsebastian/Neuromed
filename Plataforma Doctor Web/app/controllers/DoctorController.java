@@ -79,21 +79,16 @@ public class DoctorController extends Controller {
 
 
 	@Transactional
-	public static Result darComentarios(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
+	public static Result darComentarios(Long id){
+		Doctor actual = JPA.em().find(Doctor.class, id);
 		if(actual!=null){
-			Comentario nuevo = new Comentario();
-			nuevo.setContenido("El paciente presenta una migraña");
-			JPA.em().persist(nuevo);
-			actual.addComentario(nuevo);
 			List<Comentario> comentarios = actual.getComentarios();
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(comentarios, JsonNode.class);
-			JPA.em().merge(actual);
 			return ok(node);
 		}	
 		else{
-			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + id+ " no existe en el sistema.");
 		}
 	}
 
@@ -125,27 +120,16 @@ public class DoctorController extends Controller {
 	}
 
 	@Transactional
-	public static Result darSegundasOpiniones(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
+	public static Result darSegundasOpiniones(Long id){
+		Doctor actual = JPA.em().find(Doctor.class, id);
 		if(actual!=null){
-			Episodio nuevo = new Episodio();
-			nuevo.setNivelDolor(10);
-			nuevo.setLocalizacion("Lobulo Occipital");
-			nuevo.setFecha(Calendar.getInstance().getTime());
-			Medicamento med = new Medicamento();
-			med.setNombre("Acetaminofen");
-			med.setMarca("Dolex");
-			JPA.em().persist(med);
-			nuevo.addMedicamento(med);
-			JPA.em().persist(nuevo);
-			actual.addSegundaOpinion(nuevo);
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(actual.getSegundasOpiniones(), JsonNode.class);
 			JPA.em().merge(actual);
 			return ok(node);
 		}	
 		else{
-			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+			return ok("El doctor con identificacion: " + id+ " no existe en el sistema.");
 		}
 	}
 

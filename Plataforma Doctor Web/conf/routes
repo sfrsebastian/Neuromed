@@ -15,19 +15,29 @@ GET           /assets/*file                                             controll
 PUT           /doctor/:identificacion                                   controllers.DoctorController.actualizarDoctor(identificacion:Long)
 
 #Crear doctor
+#[CHECK]
 #http://localhost:9000/doctor {"nombre": "Juan","apellido": "Perez", "password":"1234","identificacion":"1472928"}
 POST          /doctor                                                   controllers.DoctorController.agregarDoctor()
 
 #Dar comentarios
+#[CHECK]
 #http://localhost:9000/doctor/1472928/comentarios
+
 GET           /doctor/:id/comentarios                                   controllers.DoctorController.darComentarios(id:String)
 
+GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:Long)
+
 #Dar segundas opiniones de un doctor
+#[CHECK]
 #http://localhost:9000/doctor/1472928/segundaOpinion
+
 GET           /doctor/:id/segundaOpinion                                controllers.DoctorController.darSegundasOpiniones(id:String)
 
+GET  /doctor/:id/segundaOpinion					controllers.DoctorController.darSegundasOpiniones(id:Long)
+
+
 #Eliminar un episodio
-#DELETE /episodio/:id							controllers.EpisodioController.eliminarEpisodio(id:Long)
+DELETE /paciente/:idPaciente/episodio/			controllers.PacienteController.eliminarEpisodio(idPaciente:Long)
 
 #Crear comentario en un episodio
 POST          /episodio/:id/comentarios                                 controllers.EpisodioController.crearComentario(id:Long)
