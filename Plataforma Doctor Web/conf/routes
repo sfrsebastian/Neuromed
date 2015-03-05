@@ -52,14 +52,14 @@ GET           /episodio/:idEpisodio                                     controll
 
 #NICOLAS
 
-#Pacientes de un doctor
+#Pacientes de un doctor Listo
 #Revisada complejidad ciclomatica no me parece que deba modificarse la ruta
 #http://localhost:9000/doctor/:id/pacientes
 GET           /doctor/:id/pacientes                                     controllers.DoctorController.darPacientes(id:String)
 
-#Agregar un colega a un doctor
-#http://localhost:9000/doctor/:id/colega/:id {idDoctor}
-POST          /doctor/:idDoc/colega/:idColega                           controllers.DoctorController.agregarColega(idDoc:String,idColega:String)
+#Agregar un colega a un doctor Listo
+#http://localhost:9000/doctor/:id/colega/:id {idDoctor,idColega}
+POST          /doctor/:id/colega                           controllers.DoctorController.agregarColega(id:String)
 
 #Actualizar paciente
 #http://localhost:9000/paciente/2134 {“nombre”:”Nicolas” , “password”:”324425” }
@@ -69,13 +69,11 @@ PUT           /paciente/:identificacion                                 controll
 #http://localhost:9000/paciente/:id/episodios/:id 
 GET           /paciente/:id/episodios/:idEpisodio                       controllers.PacienteController.obtenerEpisodio(id:String,idEpisodio:String)
 
-#Autorizar un doctor
-#http://localhost:9000/doctor/autorizar {"id":"1"}
-PUT           /doctor/autorizar                                     controllers.DoctorController.autorizarDoctor()
-
-#Autorizar un doctor
+#Autorizar un doctor Pendiente
 #http://localhost:9000/doctor/:id {autorizado:true}
-#PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: String)
+PUT /doctor/:id/autorizar controllers.DoctorController.autorizarDoctor(id: String)
+
+
 
 #
 

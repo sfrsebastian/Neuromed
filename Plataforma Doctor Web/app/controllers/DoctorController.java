@@ -202,41 +202,52 @@ public class DoctorController extends Controller {
 	}
 
 	@Transactional
-	public static Result agregarColega(String idDoc,String idColega){
-		if(idDoc!=idColega){
-		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoc));
-		if(actual!=null){
-			Doctor colega = JPA.em().find(Doctor.class, Long.parseLong(idColega));
-			if(colega!=null){
-				actual.addColega(colega);;
-				JPA.em().merge(actual);
-				ObjectMapper mapper = new ObjectMapper(); 
-				JsonNode node = mapper.convertValue(actual, JsonNode.class);
-				return ok(node);
-			}else{
-				return ok("El doctor con identificacion: " + idColega+ " no existe en el sistema.");
+	public static Result agregarColega(String id){
+		JsonNode json=request().body().asJson();
+		if(json==null){
+			return badRequest("Expecting Json data");
+		}else {
+			String idDoc=id;
+			String idColega=json.findPath("idColega").asText();
+			if(idColega == null) {
+				return badRequest("Missing parameter [name]");
 			}
-		}	
-		else{
-			return ok("El doctor con identificacion: " + idDoc+ " no existe en el sistema.");
-		}
-		}else{
-			return ok("No se puede añadir un doctor a si mismo como colega");
+			if (idDoc != idColega) {
+				Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(idDoc));
+				if (actual != null) {
+					Doctor colega = JPA.em().find(Doctor.class, Long.parseLong(idColega));
+					if (colega != null) {
+						actual.addColega(colega);
+						;
+						JPA.em().merge(actual);
+						ObjectMapper mapper = new ObjectMapper();
+						JsonNode node = mapper.convertValue(actual, JsonNode.class);
+						return ok(node);
+					} else {
+						return ok("El doctor con identificacion: " + idColega + " no existe en el sistema.");
+					}
+				} else {
+					return ok("El doctor con identificacion: " + idDoc + " no existe en el sistema.");
+				}
+			} else {
+				return ok("No se puede añadir un doctor a si mismo como colega");
+			}
 		}
 	}
 
+
 	@Transactional
-	public static Result autorizarDoctor(){
-		Doctor nuevo = Form.form(Doctor.class).bindFromRequest().get();
-		Doctor actual = JPA.em().find(Doctor.class, nuevo.getId());
+	public static Result autorizarDoctor(String identificacion){
+		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
 		if(actual!=null){
 			actual.setAutorizado(true);
 			JPA.em().merge(actual);
-			ObjectMapper mapper = new ObjectMapper(); 
+			ObjectMapper mapper = new ObjectMapper();
 			JsonNode node = mapper.convertValue(actual, JsonNode.class);
 			return ok(node);
-		}else{
-			return ok("El doctor con identificacion: " + nuevo.getId()+ " no existe en el sistema.");
+		}
+		else{
+			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
 		}
 	}
 
