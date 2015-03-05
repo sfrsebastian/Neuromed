@@ -54,6 +54,7 @@ GET /episodio/:idEpisodio							controllers.EpisodioController.getEpisodio(idEpi
 #NICOLAS
 
 #Pacientes de un doctor
+#Revisada complejidad ciclomatica
 #http://localhost:9000/doctor/:id/pacientes
 GET  /doctor/:id/pacientes     controllers.DoctorController.darPacientes(id:String)
 
