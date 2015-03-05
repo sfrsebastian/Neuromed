@@ -9,12 +9,13 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
+//import views.html.index;
 
 public class MedicamentoController extends Controller {
 
 	public static Result index() {
-		return ok(index.render("Your new application is ready."));
+//		return ok(index.render("Your new application is ready."));
+		return ok();
 	}
 	
     //Mario
