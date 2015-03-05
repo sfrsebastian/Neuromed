@@ -3,49 +3,49 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.DoctorController.index()
+GET           /                                                         controllers.DoctorController.index()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET           /assets/*file                                             controllers.Assets.at(path="/public", file)
 
 #SEBASTIAN
 
 #Actualizar doctor 
 #[CHECK]
-PUT /doctor/:identificacion						controllers.DoctorController.actualizarDoctor(identificacion:Long)
+PUT           /doctor/:identificacion                                   controllers.DoctorController.actualizarDoctor(identificacion:Long)
 
 #Crear doctor
 #http://localhost:9000/doctor {"nombre": "Juan","apellido": "Perez", "password":"1234","identificacion":"1472928"}
-POST /doctor									controllers.DoctorController.agregarDoctor()
+POST          /doctor                                                   controllers.DoctorController.agregarDoctor()
 
 #Dar comentarios
 #http://localhost:9000/doctor/1472928/comentarios
-GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:String)
+GET           /doctor/:id/comentarios                                   controllers.DoctorController.darComentarios(id:String)
 
 #Dar segundas opiniones de un doctor
 #http://localhost:9000/doctor/1472928/segundaOpinion
-GET  /doctor/:id/segundaOpinion					controllers.DoctorController.darSegundasOpiniones(id:String)
+GET           /doctor/:id/segundaOpinion                                controllers.DoctorController.darSegundasOpiniones(id:String)
 
 #Eliminar un episodio
 #DELETE /episodio/:id							controllers.EpisodioController.eliminarEpisodio(id:Long)
 
 #Crear comentario en un episodio
-POST /episodio/:id/comentarios					controllers.EpisodioController.crearComentario(id:Long)
+POST          /episodio/:id/comentarios                                 controllers.EpisodioController.crearComentario(id:Long)
 
-GET /doctor/									controllers.DoctorController.getDoctores()
+GET           /doctor/                                                  controllers.DoctorController.getDoctores()
 
-GET /paciente/									controllers.PacienteController.getPacientes()
+GET           /paciente/                                                controllers.PacienteController.getPacientes()
 #
 
 #FELIPE
 
-GET /doctor/:idDoctor/pacientes/:idPaciente		controllers.DoctorController.getPacienteDoctor(idDoctor:String,idPaciente:String)
-POST /doctor/:idDoctor/colegas/:idColega/segundaOpinion		controllers.DoctorController.publicarSegundaOpinionEpisodio(idDoctor:String,idColega:String)
-GET /paciente/:idPaciente/episodios/:fecha1&:fecha2			controllers.PacienteController.getEpisodiosPeriodo(idPaciente:String,fecha1:String,fecha2:String)
-POST /paciente/:idPaciente/episodio/					controllers.PacienteController.agregarEpisodioPaciente(idPaciente:String)
-GET /doctor/:idDoctor							controllers.DoctorController.getDoctor(idDoctor:String)
-GET /paciente/:idPaciente							controllers.PacienteController.getPaciente(idPaciente:String)
-GET /episodio/:idEpisodio							controllers.EpisodioController.getEpisodio(idEpisodio:String)
+GET           /doctor/:idDoctor/pacientes/:idPaciente                   controllers.DoctorController.getPacienteDoctor(idDoctor:String,idPaciente:String)
+POST          /doctor/:idDoctor/colegas/:idColega/segundaOpinion        controllers.DoctorController.publicarSegundaOpinionEpisodio(idDoctor:String,idColega:String)
+GET           /paciente/:idPaciente/episodios/:fecha1&:fecha2           controllers.PacienteController.getEpisodiosPeriodo(idPaciente:String,fecha1:String,fecha2:String)
+POST          /paciente/:idPaciente/episodio/                           controllers.PacienteController.agregarEpisodioPaciente(idPaciente:String)
+GET           /doctor/:idDoctor                                         controllers.DoctorController.getDoctor(idDoctor:String)
+GET           /paciente/:idPaciente                                     controllers.PacienteController.getPaciente(idPaciente:String)
+GET           /episodio/:idEpisodio                                     controllers.EpisodioController.getEpisodio(idEpisodio:String)
 
 
 #
@@ -53,25 +53,29 @@ GET /episodio/:idEpisodio							controllers.EpisodioController.getEpisodio(idEpi
 #NICOLAS
 
 #Pacientes de un doctor
-#Revisada complejidad ciclomatica
+#Revisada complejidad ciclomatica no me parece que deba modificarse la ruta
 #http://localhost:9000/doctor/:id/pacientes
-GET  /doctor/:id/pacientes     controllers.DoctorController.darPacientes(id:String)
+GET           /doctor/:id/pacientes                                     controllers.DoctorController.darPacientes(id:String)
 
 #Agregar un colega a un doctor
 #http://localhost:9000/doctor/:id/colega/:id {idDoctor}
-POST /doctor/:idDoc/colega/:idColega 		controllers.DoctorController.agregarColega(idDoc:String,idColega:String)
+POST          /doctor/:idDoc/colega/:idColega                           controllers.DoctorController.agregarColega(idDoc:String,idColega:String)
 
 #Actualizar paciente
 #http://localhost:9000/paciente/2134 {“nombre”:”Nicolas” , “password”:”324425” }
-PUT  /paciente/:identificacion 			controllers.PacienteController.actualizarPaciente(identificacion:String)
+PUT           /paciente/:identificacion                                 controllers.PacienteController.actualizarPaciente(identificacion:String)
 
 #Obtener episodio de un paciente
 #http://localhost:9000/paciente/:id/episodios/:id 
-GET /paciente/:id/episodios/:idEpisodio controllers.PacienteController.obtenerEpisodio(id:String,idEpisodio:String)
+GET           /paciente/:id/episodios/:idEpisodio                       controllers.PacienteController.obtenerEpisodio(id:String,idEpisodio:String)
+
+#Autorizar un doctor
+#http://localhost:9000/doctor/autorizar {"id":"1"}
+PUT           /doctor/autorizar                                     controllers.DoctorController.autorizarDoctor()
 
 #Autorizar un doctor
 #http://localhost:9000/doctor/:id {autorizado:true}
-PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: String)
+#PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: String)
 
 #
 
@@ -79,21 +83,21 @@ PUT /doctor/:id/autorizar    controllers.DoctorController.autorizarDoctor(id: St
 
 # agregar paciente a doctor
 #http://localhost:9000/doctor/:id/pacientes  {"identificacion":"900"}
-PUT /doctor/:idDoctor/pacientes                       controllers.DoctorController.agregarPaciente(idDoctor:String)
+PUT           /doctor/:idDoctor/pacientes                               controllers.DoctorController.agregarPaciente(idDoctor:String)
 
 # eliminar comentario doctor
 #http://localhost:9000/doctor/214235/comentarios {"id":"2527625"}
-DELETE /doctor/:idDoctor/comentarios                 controllers.DoctorController.eliminarComentario(idDoctor:String)
+DELETE        /doctor/:idDoctor/comentarios                             controllers.DoctorController.eliminarComentario(idDoctor:String)
 
 # Crear paciente
 #http://localhost:9000/paciente {"nombre":"nkjni" , "apellido":"makfmisfe","identificacion":"2414","password":"8080u7","fechaVinculacion":"3515","fechaNacimiento":"42665,"}
-POST /paciente                                         controllers.PacienteController.crearPaciente()
+POST          /paciente                                                 controllers.PacienteController.crearPaciente()
 
 # Obtener todos los episodios del paciente
 #http://localhost:9000/paciente/134134/episodios
-GET /paciente/:idPaciente/episodios                           controllers.PacienteController.darTodosLosEpisodios(idPaciente:String)
+GET           /paciente/:idPaciente/episodios                           controllers.PacienteController.darTodosLosEpisodios(idPaciente:String)
 
 # Crear medicamento 
 #http://localhost:9000/medicamento {"nombre":"c", "id":234}
-POST /medicamento                                     controllers.MedicamentoController.crearMedicamento()                 
+POST          /medicamento                                              controllers.MedicamentoController.crearMedicamento()
 

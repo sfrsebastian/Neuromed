@@ -226,17 +226,17 @@ public class DoctorController extends Controller {
 	}
 
 	@Transactional
-	public static Result autorizarDoctor(String identificacion){
-		Doctor actual = JPA.em().find(Doctor.class, Long.parseLong(identificacion));
+	public static Result autorizarDoctor(){
+		Doctor nuevo = Form.form(Doctor.class).bindFromRequest().get();
+		Doctor actual = JPA.em().find(Doctor.class, nuevo.getId());
 		if(actual!=null){
 			actual.setAutorizado(true);
 			JPA.em().merge(actual);
 			ObjectMapper mapper = new ObjectMapper(); 
 			JsonNode node = mapper.convertValue(actual, JsonNode.class);
 			return ok(node);
-		}	
-		else{
-			return ok("El doctor con identificacion: " + identificacion+ " no existe en el sistema.");
+		}else{
+			return ok("El doctor con identificacion: " + nuevo.getId()+ " no existe en el sistema.");
 		}
 	}
 
