@@ -1,111 +1,85 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
-
-# Home page
-GET           /                                                         controllers.DoctorController.index()
-
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                                             controllers.Assets.at(path="/public", file)
 
-#SEBASTIAN
-
-#Actualizar doctor 
-#[CHECK]
-PUT           /doctor/:identificacion                                   controllers.DoctorController.actualizarDoctor(identificacion:Long)
-
+#DONE
+#DOCTOR
 #Crear doctor
-#[CHECK]
-#http://localhost:9000/doctor {"nombre": "Juan","apellido": "Perez", "password":"1234","identificacion":"1472928"}
-POST          /doctor                                                   controllers.DoctorController.agregarDoctor()
+POST          	/doctor                                                   controllers.DoctorController.agregar()
 
-#Dar comentarios
-#[CHECK]
-#http://localhost:9000/doctor/1472928/comentarios
+#Dar doctor
+GET          	/doctor/:idDoctor                                         controllers.DoctorController.dar(idDoctor:Long)
 
-GET           /doctor/:id/comentarios                                   controllers.DoctorController.darComentarios(id:String)
+#Dar doctores
+GET           	/doctor                                                   controllers.DoctorController.darTodos()
 
-GET  /doctor/:id/comentarios 					controllers.DoctorController.darComentarios(id:Long)
+#Actualizar doctor
+PUT   			/doctor/:idDoctor                                  	 	  controllers.DoctorController.actualizar(idDoctor:Long)
 
-#Dar segundas opiniones de un doctor
-#[CHECK]
-#http://localhost:9000/doctor/1472928/segundaOpinion
+#Eliminar doctor
+DELETE			/doctor/:idDoctor									  	  controllers.DoctorController.eliminar(idDoctor:Long)
 
-GET           /doctor/:id/segundaOpinion                                controllers.DoctorController.darSegundasOpiniones(id:String)
+#Agregar paciente a doctor
+PUT           	/doctor/:idDoctor/pacientes                               controllers.DoctorController.agregarPaciente(idDoctor:Long)
 
-GET  /doctor/:id/segundaOpinion					controllers.DoctorController.darSegundasOpiniones(id:Long)
-
-
-#Eliminar un episodio
-DELETE /paciente/:idPaciente/episodio/			controllers.PacienteController.eliminarEpisodio(idPaciente:Long)
+#Dar Pacientes de un doctor
+GET           	/doctor/:idDoctor/pacientes                               controllers.DoctorController.darPacientes(idDoctor:Long)
 
 #Crear comentario en un episodio
-POST          /episodio/:id/comentarios                                 controllers.EpisodioController.crearComentario(id:Long)
+POST           /doctor/:idDoctor/comentario                               controllers.DoctorController.crearComentario(idDoctor:Long)
 
-GET           /doctor/                                                  controllers.DoctorController.getDoctores()
+#Dar comentarios Doctor
+GET  		   /doctor/:id/comentario 									  controllers.DoctorController.darComentarios(id:Long)
 
-GET           /paciente/                                                controllers.PacienteController.getPacientes()
-#
-
-#FELIPE
-
-GET           /doctor/:idDoctor/pacientes/:idPaciente                   controllers.DoctorController.getPacienteDoctor(idDoctor:String,idPaciente:String)
-POST          /doctor/:idDoctor/colegas/:idColega/segundaOpinion        controllers.DoctorController.publicarSegundaOpinionEpisodio(idDoctor:String,idColega:String)
-GET           /paciente/:idPaciente/episodios/:fecha1&:fecha2           controllers.PacienteController.getEpisodiosPeriodo(idPaciente:String,fecha1:String,fecha2:String)
-POST          /paciente/:idPaciente/episodio/                           controllers.PacienteController.agregarEpisodioPaciente(idPaciente:String)
-GET           /doctor/:idDoctor                                         controllers.DoctorController.getDoctor(idDoctor:String)
-GET           /paciente/:idPaciente                                     controllers.PacienteController.getPaciente(idPaciente:String)
-GET           /episodio/:idEpisodio                                     controllers.EpisodioController.getEpisodio(idEpisodio:String)
+#Dar segundas opiniones doctor
+GET			   /doctor/:idDoctor/segundaOpinion							  controllers.DoctorController.darEpisodiosSegundaOpinion(idDoctor:Long)
 
 
-#
+#PACIENTE
+#Crear paciente
+POST          	/paciente                                                 controllers.PacienteController.agregar()
 
-#NICOLAS
+#Dar paciente
+GET           	/paciente/:idPaciente                                     controllers.PacienteController.dar(idPaciente:Long)
 
-#Pacientes de un doctor Listo
-#Revisada complejidad ciclomatica no me parece que deba modificarse la ruta
-#http://localhost:9000/doctor/:id/pacientes
-GET           /doctor/:id/pacientes                                     controllers.DoctorController.darPacientes(id:String)
-
-#Agregar un colega a un doctor Listo
-#http://localhost:9000/doctor/:id/colega/:id {idDoctor,idColega}
-POST          /doctor/:id/colega                           controllers.DoctorController.agregarColega(id:String)
+#Dar pacientes
+GET           	/paciente                                              	  controllers.PacienteController.darTodos()
 
 #Actualizar paciente
-#http://localhost:9000/paciente/2134 {“nombre”:”Nicolas” , “password”:”324425” }
-PUT           /paciente/:identificacion                                 controllers.PacienteController.actualizarPaciente(identificacion:String)
+PUT           	/paciente/:idPaciente                                 	  controllers.PacienteController.actualizar(idPaciente:Long)
 
-#Obtener episodio de un paciente
-#http://localhost:9000/paciente/:id/episodios/:id 
-GET           /paciente/:id/episodios/:idEpisodio                       controllers.PacienteController.obtenerEpisodio(id:String,idEpisodio:String)
+#Eliminar paciente
+DELETE			/paciente/:idPaciente									  controllers.PacienteController.eliminar(idPaciente:Long)
+
+#Agregar episodio
+POST          	/paciente/:idPaciente/episodio                            controllers.PacienteController.agregarEpisodio(idPaciente:Long)
+
+#Dar Episodio
+GET          	/paciente/:idPaciente/episodio/:idEpisodio                controllers.PacienteController.darEpisodio(idPaciente:Long,idEpisodio:Long)
+
+#Dar todos los episodios de paciente
+GET           	/paciente/:idPaciente/episodio                            controllers.PacienteController.darTodosLosEpisodios(idPaciente:Long)
+
+#Dar episodios por fecha
+GET           	/paciente/:idPaciente/episodio/:inicio/:fin               controllers.PacienteController.darEpisodiosPorFecha(idPaciente:Long,inicio:String,fin:String)
+
+#Eliminar un episodio
+DELETE 			/paciente/:idPaciente/episodio/:idEpisodio				  controllers.PacienteController.eliminarEpisodio(idPaciente:Long,idEpisodio:Long)
+
+#Pedir segundaOpinion
+PUT		   		/paciente/:idPaciente/episodio/:idEpisodio/doctores		  controllers.PacienteController.agregarDoctorAEpisodio(idPaciente:Long,idEpisodio:Long)
+
+
+
 
 #Autorizar un doctor Pendiente
 #http://localhost:9000/doctor/:id {autorizado:true}
-PUT /doctor/:id/autorizar controllers.DoctorController.autorizarDoctor(id: String)
+#PUT /doctor/:id/autorizar controllers.DoctorController.autorizarDoctor(id: String)
 
-
-
-#
-
-# MARIO
-
-# agregar paciente a doctor
-#http://localhost:9000/doctor/:id/pacientes  {"identificacion":"900"}
-PUT           /doctor/:idDoctor/pacientes                               controllers.DoctorController.agregarPaciente(idDoctor:String)
-
-# eliminar comentario doctor
-#http://localhost:9000/doctor/214235/comentarios {"id":"2527625"}
-DELETE        /doctor/:idDoctor/comentarios                             controllers.DoctorController.eliminarComentario(idDoctor:String)
-
-# Crear paciente
-#http://localhost:9000/paciente {"nombre":"nkjni" , "apellido":"makfmisfe","identificacion":"2414","password":"8080u7","fechaVinculacion":"3515","fechaNacimiento":"42665,"}
-POST          /paciente                                                 controllers.PacienteController.crearPaciente()
-
-# Obtener todos los episodios del paciente
-#http://localhost:9000/paciente/134134/episodios
-GET           /paciente/:idPaciente/episodios                           controllers.PacienteController.darTodosLosEpisodios(idPaciente:String)
 
 # Crear medicamento 
 #http://localhost:9000/medicamento {"nombre":"c", "id":234}
-POST          /medicamento                                              controllers.MedicamentoController.crearMedicamento()
+#POST          /medicamento                                              controllers.MedicamentoController.crearMedicamento()
 

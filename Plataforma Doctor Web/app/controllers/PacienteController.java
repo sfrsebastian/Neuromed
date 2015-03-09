@@ -1,202 +1,259 @@
 package controllers;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
+import Excepciones.EpisodioException;
+import Excepciones.PacienteException;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
 import models.Doctor;
 import models.Episodio;
 import models.Paciente;
-import play.data.Form;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.*;
-import views.html.*;
 
 public class PacienteController extends Controller {
 
-	public static Result index() {
-		return ok();
-	}
-
 	@Transactional
-	public static Result getPaciente(String idPaciente){
-		Paciente buscado = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
-		if(buscado != null){
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(buscado, JsonNode.class);
-			return ok(node);
-		}else{
+	public static Result dar(Long idPaciente){
+		try{
+			Paciente buscado = JPA.em().find(Paciente.class, idPaciente);
+			return ok(buscado.toJson());
+		}
+		catch(Exception e){
 			return ok("El paciente con identificacion " + idPaciente + " no existe");
 		}
 	}
 
 	@Transactional
-	public static Result getEpisodiosPeriodo(String idPaciente, String fecha1,String fecha2){
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+	public static Result darTodos(){
+		List<Paciente> doctores=JPA.em().createQuery("SELECT u FROM Paciente u",Paciente.class).getResultList();
+		return ok(pacientesToJson(doctores));
+	}
 
-		Date f1 = null;
-		Date f2 = null;
-
-		try {
-			f1 = sdf.parse(fecha1);
-			f2 = sdf.parse(fecha2);
-		} catch (ParseException e) {
-			System.out.println("Error en parser fecha, revisar formato");
-
-			System.out.println(fecha1);
-			System.out.println(fecha2);
-			return ok("No se ha podido parsear las fechas dadas");
-		}
-
-		Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
-
-		if(actual != null){
-			List<Episodio> episodios = actual.getEpisodios();
-			List<Episodio> ep = new ArrayList<Episodio>();
-
-			for (Episodio episodio : episodios) {
-				Date fechaActual = episodio.getFecha();
-				if (fechaActual.after(f1) && fechaActual.before(f2))
-					ep.add(episodio);
+	@Transactional
+	public static Result agregar(){
+		Paciente nuevo = null;
+		try{
+			nuevo = new Paciente(request().body().asJson());
+			List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.identificacion=?1",Paciente.class).setParameter(1, nuevo.getIdentificacion()).getResultList();
+			if(pacientes.size()>0){
+				return ok("El paciente con identificacion " + nuevo.getIdentificacion() + " ya existe");
 			}
-
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(ep, JsonNode.class);
-			return ok(node);
-		}else{
-			return ok("No se ha podido encontrar el paciente dado");
-		}
-	}
-
-	@Transactional
-	public static Result agregarEpisodioPaciente(String idPaciente){
-		Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
-		if(actual != null){
-			Episodio datos = Form.form(Episodio.class).bindFromRequest().get();
-			JPA.em().persist(datos);
-			actual.addEpisodio(datos);
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(actual, JsonNode.class);
-			JPA.em().merge(actual);
-			return ok(node);
-
-		}else{
-			return ok("No se ha podido encontrar el paciente dado");
-		}
-	}
-
-	@Transactional
-	public static Result actualizarPaciente(String identificacion){
-		Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
-		Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(identificacion));
-		if(actual!=null){
-			actual.setPassword(nuevo.getPassword());
-			actual.setNombre(nuevo.getNombre());
-			JPA.em().merge(actual);
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(actual, JsonNode.class);
-			return ok(node);
-		}	
-		else{
-			return ok("El paciente con identificacion: " + identificacion+ " no existe en el sistema.");
-		}
-	}
-
-	@Transactional
-	public static Result obtenerEpisodio(String idPaciente,String idEpisodio){
-
-		Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
-
-		if(actual != null){
-			List<Episodio> episodios = actual.getEpisodios();
-			Episodio ep=null;
-			for(int i=0;i<episodios.size();i++){
-				if(episodios.get(i).getId()==Long.parseLong(idEpisodio)){
-					ep=episodios.get(i);
-					break;
-				}
-			}
-
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(ep, JsonNode.class);
-			return ok(node);
-		}else{
-			return ok("No se ha podido encontrar el paciente dado");
-		}
-	}
-
-	@Transactional
-	public static Result eliminarEpisodio(Long id){
-		JsonNode json = request().body().asJson();
-		if(json == null) {
-			return badRequest("Se esperaban parámetros JSON");
-		} 
-		else {
-			Long idEpisodio = json.findPath("idEpisodio").asLong();
-			Paciente paciente = JPA.em().find(Paciente.class, id);	
-			Episodio eliminar = paciente.eliminarEpisodio(idEpisodio);
-			if(eliminar!=null){
-				JPA.em().remove(eliminar);
-				return ok("El episodio con id: " + id + " fue eliminado correctamente");
-			}	
 			else{
-				return ok("El episodio con id: " + id + " no existe");
+				JPA.em().persist(nuevo);
+				return ok(nuevo.toJson());
 			}
+		}
+		catch(PacienteException p){
+			return ok(p.getMessage());
+		}
+	}
+
+	@Transactional
+	public static Result actualizar(Long idPaciente){
+		JsonNode json = request().body().asJson();
+		//Unicamente se puede actualizar la contraseña o correo.
+		String password=json.findPath("password").textValue();
+		String email = json.findPath("email").textValue();
+		Paciente actual = null;
+		try{
+			actual=JPA.em().find(Paciente.class, idPaciente);
+			actual.setPassword(password);
+			actual.setEmail(email);
+			JPA.em().merge(actual);
+			return ok(actual.toJson());
+		}
+		catch(Exception e){
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+	}
+
+	@Transactional
+	public static Result eliminar(Long idPaciente){
+		try{
+			Paciente actual = JPA.em().find(Paciente.class, idPaciente);
+			JPA.em().remove(actual);
+			return ok(actual.toJson());
+		}
+		catch(Exception e){
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+	}
+
+	@Transactional
+	public static Result agregarEpisodio(Long idPaciente){
+		JsonNode json = request().body().asJson();
+		try{
+			Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
+			if(paciente.getDoctor()!=null){
+				Episodio episodio = new Episodio(json);
+				episodio.setDoctor(paciente.getDoctor());
+				JPA.em().persist(episodio);
+				paciente.addEpisodio(episodio);
+				JPA.em().merge(paciente);
+				return ok(paciente.toJson());
+			}
+			else{
+				return ok("El paciente con identificacion: " + idPaciente + " no tiene asignado a un doctor.");
+			}
+		}
+		catch(EpisodioException a){
+			return ok(a.getMessage());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+	}
+
+	@Transactional
+	public static Result eliminarEpisodio(Long idPaciente,Long idEpisodio){
+		Paciente paciente=null;
+		Episodio episodio=null;
+		try{
+			paciente = JPA.em().find(Paciente.class, idPaciente);
+		}
+		catch(Exception e){
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+		try{
+			episodio = JPA.em().find(Episodio.class, idEpisodio);
+		}
+		catch(Exception e){
+			return ok("El episodio con identificacion: " + idEpisodio + " no existe en el sistema.");
+		}
+		
+		if(paciente!=null && paciente.eliminarEpisodio(episodio)){
+			JPA.em().remove(episodio);
+			return ok(paciente.toJson());
+		}
+		else{
+			return ok("El episodio con id: " + idEpisodio + " no hace parte de los episodios del paciente");
+		}
+	}
+	
+	@Transactional
+	public static Result darEpisodio(Long idPaciente,Long idEpisodio){
+		Paciente paciente=null;
+		Episodio episodio=null;
+		try{
+			paciente = JPA.em().find(Paciente.class, idPaciente);
+		}
+		catch(Exception e){
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+		try{
+			episodio = JPA.em().find(Episodio.class, idEpisodio);
+		}
+		catch(Exception e){
+			return ok("El episodio con identificacion: " + idEpisodio + " no existe en el sistema.");
+		}
+		if(paciente.tieneEpisodio(episodio)){
+			return ok(episodio.toJson());
+		}
+		else{
+			return ok("El episodio con id: " + idEpisodio + " no hace parte de los episodios del paciente");
+		}
+	}
+	
+	@Transactional
+	public static Result darTodosLosEpisodios(Long idPaciente){
+		try{
+			Paciente actual = JPA.em().find(Paciente.class,idPaciente);
+			List<Episodio> episodios = actual.getEpisodios();
+			return ok(episodiosToJson(episodios));
+		}
+		catch(Exception e){
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+	}
+	
+	@Transactional
+	public static Result darEpisodiosPorFecha(Long idPaciente,String inic, String fi){
+		try{
+			Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
+			Date inicio=stringToDate(inic);
+			Date fin = stringToDate(fi);
+			return ok(episodiosToJson(paciente.getEpisodios(inicio,fin)));
+		}
+		catch(PacienteException a){
+			return ok(a.getMessage());
+		}
+		catch(Exception e){
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+	}
+	
+	//REVISAR POR SESION SI QUIEN SOLICITA ES PARTE DEL EPISODIO
+	@Transactional
+	public static Result agregarDoctorAEpisodio(Long idPaciente,Long idEpisodio){
+		JsonNode json = request().body().asJson();
+		Paciente paciente=null;
+		Episodio episodio=null;
+		Long idDoctor = json.path("idDoctor").asLong();
+		Doctor doctor=null;
+		try{
+			paciente = JPA.em().find(Paciente.class, idPaciente);
+		}
+		catch(Exception e){
+			return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+		}
+		try{
+			episodio = JPA.em().find(Episodio.class, idEpisodio);
+		}
+		catch(Exception e){
+			return ok("El episodio con identificacion: " + idEpisodio + " no existe en el sistema.");
+		}
+		try{
+			doctor = JPA.em().find(Doctor.class, idDoctor);
+		}
+		catch(Exception e){
+			return ok("El doctor con identificacion " + idDoctor + " no existe");
+		}
+		if(paciente.tieneEpisodio(episodio) && !episodio.contieneDoctor(doctor)){
+			episodio.addDoctor(doctor);
+			JPA.em().merge(episodio);
+			return ok("El doctor fue agregado al episodio");
+		}
+		else{
+			return ok("El episodio con id: " + idEpisodio + " no hace parte de los episodios del paciente");
 		}
 		
 	}
+
+	private static ArrayNode episodiosToJson(List<Episodio> episodios){
+		JsonNodeFactory factory = JsonNodeFactory.instance;
+		ArrayNode array = new ArrayNode(factory);
+		for (Episodio p : episodios) {
+			array.add(p.toJson());
+		}
+		return array;
+	}
 	
-	//Mario
-	@Transactional
-	public static Result crearPaciente(){
-		Paciente nuevo = Form.form(Paciente.class).bindFromRequest().get();
-		Paciente actual = null;
-		try{
-			actual = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.identificacion=?1",Paciente.class).setParameter(1, nuevo.getIdentificacion()).getSingleResult();
+	private static ArrayNode pacientesToJson(List<Paciente> pacientes){
+		JsonNodeFactory factory = JsonNodeFactory.instance;
+		ArrayNode array = new ArrayNode(factory);
+		for (Paciente p : pacientes) {
+			array.add(p.toJson());
 		}
-		catch(Exception e){
-			System.out.println("Error ejecutando query");
-		}
-		if(actual==null){
-			JPA.em().persist(nuevo);			
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(nuevo, JsonNode.class);
-			return ok(node);
-		}	
-		else{
-			return ok("El paciente ya existe");
+		return array;
+	}
+	
+	private static Date stringToDate(String date) throws PacienteException{
+		try {
+			DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy"); 
+			return formatter.parse(date);
+		} 
+		catch (ParseException e) {
+			throw new PacienteException("Error interpretando la fecha");
 		}
 	}
-
-	//Mario
-	@Transactional
-	public static Result darTodosLosEpisodios(String idPaciente){
-		Paciente actual = JPA.em().find(Paciente.class, Long.parseLong(idPaciente));
-		if(actual != null){
-			ObjectMapper mapper = new ObjectMapper(); 
-			JsonNode node = mapper.convertValue(actual.getEpisodios(), JsonNode.class);
-			return ok(node);
-
-		}
-		else{
-			return ok("El paciente no existe");
-		}
-	}
-
-	@Transactional
-	public static Result getPacientes(){
-		List<Paciente> pacientes=JPA.em().createQuery("SELECT u FROM Paciente u",Paciente.class).getResultList();
-		ObjectMapper mapper = new ObjectMapper(); 
-		JsonNode node = mapper.convertValue(pacientes, JsonNode.class);
-		return ok(node);
-	}
-
-
-
 }

@@ -1,5 +1,7 @@
 package models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -10,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import play.libs.Json;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Entity
 @Table(name="Comentarios")
@@ -31,6 +37,14 @@ public class Comentario{
 		this.fecha = Calendar.getInstance().getTime();
 	}
 
+	public Comentario(){
+		
+	}
+	
+	public Comentario(JsonNode node){
+		this.setContenido(node.findPath("contenido").asText());
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +75,19 @@ public class Comentario{
 
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
+	}
+	
+	public ObjectNode toJson(){
+		ObjectNode node = Json.newObject();
+		node.put("id", getId());
+		node.put("fecha", dateToString(getFecha()));
+		node.put("contenido", getContenido());
+		return node;
+	}
+	
+	private String dateToString(Date date){
+		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+		return formatter.format(date);
 	}
 	
 }

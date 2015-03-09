@@ -1,29 +1,35 @@
 package models;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import play.libs.Json;
+import Excepciones.DoctorException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 @Entity
 @Table(name="Doctores")
-public class Doctor{
+public class Doctor implements Comparable<Doctor>{
+	private static final String MASCULINO="Masculino";
+	private static final String FEMENINO="Femenino";
+
 	@Id
-	@Column(name="id")
+	@Column(name="id_doctor")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String nombre;
 
 	private String apellido;
@@ -38,41 +44,37 @@ public class Doctor{
 
 	private Date fechaNacimiento;
 
-	@OneToMany
-	private List<Paciente> pacientes;
+	private String email;
 
-	@OneToMany
-	private List<Comentario> comentarios;
-
-	@ManyToMany
-	private List<Episodio> segundasOpiniones;
-
-	@ManyToMany
-	private List<Doctor> colegas;
+	private String genero;
 
 	@PrePersist
 	private void prePersist() {
 		this.fechaVinculacion = Calendar.getInstance().getTime();
 		this.autorizado=false;
-		this.pacientes = new ArrayList<Paciente>();
-		this.comentarios = new ArrayList<Comentario>();
-		this.segundasOpiniones = new ArrayList<Episodio>();
-		this.colegas = new ArrayList<Doctor>();
+	}
+
+	public Doctor(){
+		
 	}
 	
-	
-	
+	public Doctor(JsonNode node) throws DoctorException{
+		this.setNombre(node.findPath("nombre").asText());
+		this.setApellido(node.findPath("apellido").asText());
+		this.setPassword(node.findPath("password").asText());
+		this.setGenero(node.findPath("genero").asInt());
+		this.setEmail(node.findPath("email").asText());
+		this.setIdentificacion(node.findPath("identificacion").asText());
+		this.setFechaNacimiento(stringToDate(node.findPath("fechaNacimiento").asText()));
+	}
+
 	public Long getId() {
 		return id;
 	}
 
-
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 	public String getNombre() {
 		return nombre;
@@ -130,109 +132,68 @@ public class Doctor{
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public List<Paciente> getPacientes() {
-		return pacientes;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setPacientes(List<Paciente> pacientes) {
-		this.pacientes = pacientes;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public void addPaciente(Paciente paciente){
-		if(this.pacientes==null){
-			this.pacientes=new ArrayList<Paciente>();
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(int genero) throws DoctorException{
+		if(genero==1){
+			this.genero=MASCULINO;
 		}
-		this.pacientes.add(paciente);
-	}
-
-	public List<Comentario> getComentarios() {
-		return comentarios;
-	}
-
-	public void setComentarios(List<Comentario> comentarios) {
-		this.comentarios = comentarios;
-	}
-
-	public void addComentario(Comentario comentario){
-		if(this.comentarios==null){
-			this.comentarios=new ArrayList<Comentario>();
+		else if(genero==0){
+			this.genero=FEMENINO;
 		}
-		this.comentarios.add(comentario);
-	}
-
-	public List<Episodio> getSegundasOpiniones() {
-		return segundasOpiniones;
-	}
-
-	public void setSegundasOpiniones(List<Episodio> segundasOpiniones) {
-		this.segundasOpiniones = segundasOpiniones;
-	}
-
-	public void addSegundaOpinion(Episodio episodio){
-		if(this.segundasOpiniones==null){
-			this.segundasOpiniones=new ArrayList<Episodio>();
+		else{
+			throw new DoctorException("Error con el género del doctor");
 		}
-		this.segundasOpiniones.add(episodio);
 	}
 
-	public List<Doctor> getColegas() {
-		return colegas;
+	public ObjectNode toJson(){
+		ObjectNode node = Json.newObject();
+		node.put("id", getId());
+		node.put("nombre", getNombre());
+		node.put("apellido", getApellido());
+		node.put("genero", getGenero());
+		node.put("identificacion", getIdentificacion());
+		node.put("email", getEmail());
+		node.put("fechaNacimiento", dateToString(getFechaNacimiento()));
+		node.put("fechaVinculacion", dateToString(getFechaVinculacion()));
+		return node;
+	}
+	
+	private String dateToString(Date date){
+		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+		return formatter.format(date);
 	}
 
-	public void setColegas(List<Doctor> colegas) {
-		this.colegas = colegas;
-	}
-
-	public void addColega(Doctor colega){
-		if(this.colegas==null){
-			this.colegas=new ArrayList<Doctor>();
+	private static Date stringToDate(String date) throws DoctorException{
+		try {
+			DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+			return formatter.parse(date);
+		} catch (ParseException e) {
+			throw new DoctorException("Error interpretando la fecha");
 		}
-		this.colegas.add(colega);
 	}
 
-	public boolean poseePaciente(String id){
-
-
-		Iterator<Paciente> it = pacientes.listIterator();
-
-		while(it.hasNext()){
-
-			Paciente p = it.next();
-
-			if(p.getIdentificacion().equals(id)){
-
-				return true;
-
-			}
-
+	@Override
+	public int compareTo(Doctor o) {
+		if(this.id == o.getId()){
+			return 0;
 		}
-
-		return false;
-
-	}
-
-	public boolean eliminarComentario(Long id){
-
-
-		Iterator<Comentario> it = comentarios.listIterator();
-
-		while(it.hasNext()){
-
-			Comentario p = it.next();
-
-			if(p.getId() == id){
-
-				it.remove();
-
-				return true;
-
-			}
-
+		else if(this.id > o.getId()){
+			return 1;
 		}
-
-		return false;
-
+		else{
+			return -1;
+		}
 	}
-
 
 }
