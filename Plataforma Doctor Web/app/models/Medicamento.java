@@ -6,6 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import play.libs.Json;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 @Entity
 @Table(name="Medicamentos")
 public class Medicamento{
@@ -23,6 +28,10 @@ public class Medicamento{
 	private String advertencias;
 	
 
+	public Medicamento(){
+		
+	}
+	
 	public String getTipoMedicamento() {
 		return tipoMedicamento;
 	}
@@ -63,5 +72,10 @@ public class Medicamento{
 
 	public void setMarca(String marca) {
 		this.marca = marca;
+	}
+
+	public JsonNode toJson() {
+		ObjectNode node = Json.newObject();
+		return node;
 	}
 }

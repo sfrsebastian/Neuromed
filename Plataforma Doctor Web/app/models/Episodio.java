@@ -200,9 +200,39 @@ public class Episodio implements Comparable<Episodio>{
 		node.put("comentarios", comentariosToJson());
 		node.put("doctor",doctor.toJson());
 		node.put("doctores",doctoresToJson());
+		node.put("causas", causasToJson());
+		node.put("medicamentos", medicamentosToJson());
+		node.put("patronesDeSueno", patronesToJson());
 		return node;
 	}
 	
+	private JsonNode patronesToJson() {
+		JsonNodeFactory factory = JsonNodeFactory.instance;
+		ArrayNode array = new ArrayNode(factory);
+		for (Intervalo p : patronesSueno) {
+			array.add(p.toJson());
+		}
+		return array;
+	}
+
+	private JsonNode medicamentosToJson() {
+		JsonNodeFactory factory = JsonNodeFactory.instance;
+		ArrayNode array = new ArrayNode(factory);
+		for (Medicamento p : medicamentos) {
+			array.add(p.toJson());
+		}
+		return array;
+	}
+
+	private JsonNode causasToJson() {
+		JsonNodeFactory factory = JsonNodeFactory.instance;
+		ArrayNode array = new ArrayNode(factory);
+		for (Causa p : causas) {
+			array.add(p.toJson());
+		}
+		return array;
+	}
+
 	private ArrayNode comentariosToJson(){
 		JsonNodeFactory factory = JsonNodeFactory.instance;
 		ArrayNode array = new ArrayNode(factory);

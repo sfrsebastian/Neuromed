@@ -20,7 +20,7 @@ public class DoctorController extends Controller {
 	@Transactional
 	public static Result dar(Long idDoctor){
 		try{
-			Doctor buscado = JPA.em().find(Doctor.class, idDoctor);
+			Doctor buscado = JPA.em().createQuery("SELECT u FROM Doctor u WHERE u.identificacion = ?1",Doctor.class).setParameter(1, idDoctor+"").getSingleResult();
 			return ok(buscado.toJson());
 		}
 		catch(Exception e){
