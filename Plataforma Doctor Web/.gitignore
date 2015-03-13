@@ -13,6 +13,9 @@ dist
 /.project
 /RUNNING_PID
 /.settings
-bin
 bin/
-
+data/
+db/
+test-result/
+lib/
+modules/

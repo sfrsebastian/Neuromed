@@ -195,5 +195,4 @@ public class Doctor implements Comparable<Doctor>{
 			return -1;
 		}
 	}
-
 }
