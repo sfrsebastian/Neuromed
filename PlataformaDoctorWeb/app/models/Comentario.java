@@ -34,7 +34,10 @@ public class Comentario{
 	
 	@ManyToOne
 	private Doctor doctor;
-	
+
+    @ManyToOne
+    private Episodio episodio;
+
 	@PrePersist
 	private void prePersist() {
 		this.fecha = Calendar.getInstance().getTime();
@@ -79,12 +82,22 @@ public class Comentario{
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
 	}
-	
-	public ObjectNode toJson(){
+
+    public Episodio getEpisodio() {
+        return episodio;
+    }
+
+    public void setEpisodio(Episodio episodio) {
+        this.episodio = episodio;
+    }
+
+    public ObjectNode toJson(){
 		ObjectNode node = Json.newObject();
 		node.put("id", getId());
 		node.put("fecha", dateToString(getFecha()));
 		node.put("contenido", getContenido());
+        node.put("doctor", getDoctor().getId());
+        node.put("episodio", getEpisodio().getId());
 		return node;
 	}
 	

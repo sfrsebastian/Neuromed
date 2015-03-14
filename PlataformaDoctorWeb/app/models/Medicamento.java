@@ -27,20 +27,27 @@ public class Medicamento{
 	
 	private String marca;
 	
-	private String tipoMedicamento;
+	private String tipo;
 	
 	private String advertencias;
 
 	public Medicamento(){
 		
 	}
+
+    public Medicamento(JsonNode node){
+        this.setNombre(node.findPath("nombre").asText());
+        this.setMarca(node.findPath("marca").asText());
+        this.setTipo(node.findPath("tipo").asText());
+        this.setAdvertencias(node.findPath("advertencias").asText());
+    }
 	
-	public String getTipoMedicamento() {
-		return tipoMedicamento;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setTipoMedicamento(String tipoMedicamento) {
-		this.tipoMedicamento = tipoMedicamento;
+	public void setTipo(String tipoMedicamento) {
+		this.tipo = tipoMedicamento;
 	}
 
 	public String getAdvertencias() {
@@ -79,6 +86,10 @@ public class Medicamento{
 
 	public JsonNode toJson() {
 		ObjectNode node = Json.newObject();
+        node.put("id", getId());
+        node.put("nombre", getNombre());
+        node.put("marca", getMarca());
+        node.put("advertencias", getAdvertencias());
 		return node;
 	}
 

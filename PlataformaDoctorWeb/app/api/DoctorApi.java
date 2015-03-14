@@ -124,6 +124,7 @@ public class DoctorApi extends Controller {
         else{
             Comentario comentario = new Comentario(json);
             comentario.setDoctor(doctor);
+            comentario.setEpisodio(episodio);
             if(episodio.contieneDoctor(doctor)){
                 JPA.em().persist(comentario);
                 episodio.addComentario(comentario);

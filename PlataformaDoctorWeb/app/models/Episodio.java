@@ -196,8 +196,8 @@ public class Episodio implements Comparable<Episodio>{
 		node.put("fecha", dateToString(getFecha()));
 		node.put("localizacion", getLocalizacion());
 		node.put("comentarios", Comentario.listToJson(this.comentarios));
-		node.put("doctor", doctor.getId());
-        node.put("paciente", paciente.getId());
+		node.put("doctor", this.doctor.getId());
+        node.put("paciente", this.paciente.getId());
 		node.put("doctores",Doctor.listToJson(this.doctores,true));
 		node.put("causas", Causa.listToJson(this.causas));
 		node.put("medicamentos", Medicamento.listToJson(this.medicamentos));

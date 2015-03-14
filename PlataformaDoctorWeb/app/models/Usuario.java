@@ -1,5 +1,6 @@
 package models;
 
+import Excepciones.TimeException;
 import Excepciones.UsuarioException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -58,7 +59,12 @@ public abstract class Usuario implements Comparable<Usuario> {
         this.setGenero(node.findPath("genero").asInt());
         this.setEmail(node.findPath("email").asText());
         this.setIdentificacion(node.findPath("identificacion").asText());
-        this.setFechaNacimiento(stringToDate(node.findPath("fechaNacimiento").asText()));
+        try {
+            this.setFechaNacimiento(stringToDate(node.findPath("fechaNacimiento").asText()));
+        }
+        catch (TimeException e){
+            throw new UsuarioException(e.getMessage());
+        }
     }
 
     public Long getId() {
@@ -137,13 +143,13 @@ public abstract class Usuario implements Comparable<Usuario> {
         }
     }
 
-    private static Date stringToDate(String date) throws UsuarioException {
+    private static Date stringToDate(String date) throws TimeException {
         try {
             DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
             return formatter.parse(date);
         }
         catch (ParseException e) {
-            throw new UsuarioException("Error interpretando la fecha");
+            throw new TimeException("Error interpretando la fecha");
         }
     }
 

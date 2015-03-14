@@ -20,12 +20,11 @@ public class Doctor extends Usuario{
     @PrePersist
     public void prePersist() {
         super.prePersist();
-        autorizado=false;
+        setAutorizado(false);
     }
 
     public Doctor (JsonNode node) throws UsuarioException {
         super(node);
-        autorizado=false;
     }
 
     public boolean isAutorizado() {
