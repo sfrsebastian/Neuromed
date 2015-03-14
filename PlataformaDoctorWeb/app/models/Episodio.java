@@ -7,15 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import play.libs.Json;
 import Excepciones.EpisodioException;
@@ -30,7 +22,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Episodio implements Comparable<Episodio>{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private int nivelDolor;
@@ -53,13 +45,20 @@ public class Episodio implements Comparable<Episodio>{
 	
 	@ManyToOne
 	private Doctor doctor;
+
+    @OneToOne
+    private Paciente paciente;
 	
 	@ManyToMany
 	private List<Doctor> doctores;
 
 	@PrePersist
 	private void prePersist() {
-		comentarios=new ArrayList<Comentario>();
+        doctores = new ArrayList<Doctor>();
+		comentarios = new ArrayList<Comentario>();
+        causas = new ArrayList<Causa>();
+        medicamentos = new ArrayList<Medicamento>();
+        patronesSueno = new ArrayList<Intervalo>();
 	}
 	
 	public Episodio(){
@@ -69,8 +68,7 @@ public class Episodio implements Comparable<Episodio>{
 	public Episodio(JsonNode node) throws EpisodioException{
 		this.setNivelDolor(node.findPath("nivelDolor").asInt());
 		this.setFecha(stringToDate(node.findPath("fecha").asText()));
-		this.setLocalizacion(node.findPath("localizacion").asText());	
-		doctores=new ArrayList<Doctor>();
+		this.setLocalizacion(node.findPath("localizacion").asText());
 	}
 	
 	private static Date stringToDate(String date) throws EpisodioException{
@@ -124,9 +122,6 @@ public class Episodio implements Comparable<Episodio>{
 	}
 
 	public void addComentario(Comentario comentario){
-		if(this.comentarios==null){
-			this.comentarios=new ArrayList<Comentario>();
-		}
 		this.comentarios.add(comentario);
 	}
 
@@ -139,9 +134,6 @@ public class Episodio implements Comparable<Episodio>{
 	}
 	
 	public void addMedicamento(Medicamento medicamento){
-		if(this.medicamentos==null){
-			this.medicamentos=new ArrayList<Medicamento>();
-		}
 		this.medicamentos.add(medicamento);
 	}
 
@@ -154,9 +146,6 @@ public class Episodio implements Comparable<Episodio>{
 	}
 
 	public void addPatronDeSueno(Intervalo patron){
-		if(this.patronesSueno==null){
-			this.patronesSueno=new ArrayList<Intervalo>();
-		}
 		this.patronesSueno.add(patron);
 	}
 
@@ -169,9 +158,6 @@ public class Episodio implements Comparable<Episodio>{
 	}
 
 	public void addCausa(Causa causa){
-		if(this.causas==null){
-			this.causas=new ArrayList<Causa>();
-		}
 		this.causas.add(causa);
 	}
 	
@@ -191,65 +177,42 @@ public class Episodio implements Comparable<Episodio>{
 		this.doctor = doctor;
 	}
 
-	public ObjectNode toJson(){
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public boolean contieneDoctor(Doctor doctor) {
+        return doctores.contains(doctor) || this.doctor==doctor;
+    }
+
+    public ObjectNode toJson(){
 		ObjectNode node = Json.newObject();
 		node.put("id", getId());
 		node.put("nivelDolor", getNivelDolor());
 		node.put("fecha", dateToString(getFecha()));
 		node.put("localizacion", getLocalizacion());
-		node.put("comentarios", comentariosToJson());
-		node.put("doctor",doctor.toJson());
-		node.put("doctores",doctoresToJson());
-		node.put("causas", causasToJson());
-		node.put("medicamentos", medicamentosToJson());
-		node.put("patronesDeSueno", patronesToJson());
+		node.put("comentarios", Comentario.listToJson(this.comentarios));
+		node.put("doctor", doctor.getId());
+        node.put("paciente", paciente.getId());
+		node.put("doctores",Doctor.listToJson(this.doctores,true));
+		node.put("causas", Causa.listToJson(this.causas));
+		node.put("medicamentos", Medicamento.listToJson(this.medicamentos));
+		node.put("patronesDeSueno", Intervalo.listToJson(this.patronesSueno));
 		return node;
 	}
-	
-	private JsonNode patronesToJson() {
-		JsonNodeFactory factory = JsonNodeFactory.instance;
-		ArrayNode array = new ArrayNode(factory);
-		for (Intervalo p : patronesSueno) {
-			array.add(p.toJson());
-		}
-		return array;
-	}
 
-	private JsonNode medicamentosToJson() {
-		JsonNodeFactory factory = JsonNodeFactory.instance;
-		ArrayNode array = new ArrayNode(factory);
-		for (Medicamento p : medicamentos) {
-			array.add(p.toJson());
-		}
-		return array;
-	}
-
-	private JsonNode causasToJson() {
-		JsonNodeFactory factory = JsonNodeFactory.instance;
-		ArrayNode array = new ArrayNode(factory);
-		for (Causa p : causas) {
-			array.add(p.toJson());
-		}
-		return array;
-	}
-
-	private ArrayNode comentariosToJson(){
-		JsonNodeFactory factory = JsonNodeFactory.instance;
-		ArrayNode array = new ArrayNode(factory);
-		for (Comentario p : comentarios) {
-			array.add(p.toJson());
-		}
-		return array;
-	}
-	
-	private ArrayNode doctoresToJson(){
-		JsonNodeFactory factory = JsonNodeFactory.instance;
-		ArrayNode array = new ArrayNode(factory);
-		for (Doctor p : doctores) {
-			array.add(p.toJson());
-		}
-		return array;
-	}
+    public static ArrayNode listToJson(List<Episodio> episodios){
+        JsonNodeFactory factory = JsonNodeFactory.instance;
+        ArrayNode array = new ArrayNode(factory);
+        for (Episodio p : episodios) {
+            array.add(p.toJson());
+        }
+        return array;
+    }
 	
 	private String dateToString(Date date){
 		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
@@ -267,9 +230,5 @@ public class Episodio implements Comparable<Episodio>{
 		else{
 			return -1;
 		}
-	}
-
-	public boolean contieneDoctor(Doctor doctor) {
-		return doctores.contains(doctor) || this.doctor==doctor;
 	}
 }

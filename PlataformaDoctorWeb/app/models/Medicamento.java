@@ -6,17 +6,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.util.List;
 
 @Entity
 @Table(name="Medicamentos")
 public class Medicamento{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String nombre;
@@ -26,7 +30,6 @@ public class Medicamento{
 	private String tipoMedicamento;
 	
 	private String advertencias;
-	
 
 	public Medicamento(){
 		
@@ -78,4 +81,13 @@ public class Medicamento{
 		ObjectNode node = Json.newObject();
 		return node;
 	}
+
+    public static ArrayNode listToJson(List<Medicamento> medicamentos) {
+        JsonNodeFactory factory = JsonNodeFactory.instance;
+        ArrayNode array = new ArrayNode(factory);
+        for (Medicamento p : medicamentos) {
+            array.add(p.toJson());
+        }
+        return array;
+    }
 }

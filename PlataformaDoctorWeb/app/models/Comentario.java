@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import play.libs.Json;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -22,7 +25,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Comentario{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private Date fecha;
@@ -89,5 +92,13 @@ public class Comentario{
 		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
 		return formatter.format(date);
 	}
-	
+
+    public static ArrayNode listToJson(List<Comentario> comentarios) {
+        JsonNodeFactory factory = JsonNodeFactory.instance;
+        ArrayNode array = new ArrayNode(factory);
+        for (Comentario p : comentarios) {
+            array.add(p.toJson());
+        }
+        return array;
+    }
 }

@@ -6,17 +6,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.util.List;
 
 @Entity
 @Table(name="Causas")
 public class Causa {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String descripcion;
@@ -45,10 +49,19 @@ public class Causa {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
+
 	public JsonNode toJson() {
 		ObjectNode node = Json.newObject();
 		return node;
 	}
-	
-	
+
+
+    public static ArrayNode listToJson(List<Causa> causas) {
+        JsonNodeFactory factory = JsonNodeFactory.instance;
+        ArrayNode array = new ArrayNode(factory);
+        for (Causa p : causas) {
+            array.add(p.toJson());
+        }
+        return array;
+    }
 }

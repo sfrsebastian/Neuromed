@@ -1,6 +1,7 @@
 package models;
 
 import java.sql.Time;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -18,7 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Intervalo {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private Time inicio;
@@ -54,5 +57,13 @@ public class Intervalo {
 		return node;
 	}
 
-	
+
+    public static ArrayNode listToJson(List<Intervalo> intervalos) {
+        JsonNodeFactory factory = JsonNodeFactory.instance;
+        ArrayNode array = new ArrayNode(factory);
+        for (Intervalo p : intervalos) {
+            array.add(p.toJson());
+        }
+        return array;
+    }
 }
