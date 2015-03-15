@@ -4,8 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
-import Excepciones.UsuarioException;
 import com.fasterxml.jackson.databind.JsonNode;
+
+import excepciones.UsuarioException;
 
 @Entity
 @Table(name="Doctores")

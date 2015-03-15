@@ -1,13 +1,15 @@
 package api;
 import java.util.List;
 
-import Excepciones.UsuarioException;
 import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
+
 import com.fasterxml.jackson.databind.JsonNode;
+
+import excepciones.UsuarioException;
 
 public class DoctorApi extends Controller {
 

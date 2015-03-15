@@ -5,11 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import Excepciones.EpisodioException;
-import Excepciones.UsuarioException;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
+import excepciones.EpisodioException;
+import excepciones.UsuarioException;
 import models.Doctor;
 import models.Episodio;
 import models.Paciente;

@@ -11,8 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import Excepciones.TimeException;
-
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
@@ -20,6 +18,8 @@ import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import excepciones.TimeException;
 
 @Entity
 @Table(name="Intervalos")

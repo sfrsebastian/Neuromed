@@ -58,8 +58,6 @@ public class Medicamento{
 		this.advertencias = advertencias;
 	}
 
-	
-
 	public Long getId() {
 		return id;
 	}
