@@ -9,16 +9,10 @@
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"></property>
 	        <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"></property>
-	        <!--Cambiar atributo a usuario de mac -->
-	        <!--bwtfffzxygvpdj -->
-	        <property name="hibernate.connection.username" value="sfrsebastian"></property>
-	        <!--XHt2mflKzLnk715UEC-vkOKUfu -->
-	        <property name="hibernate.connection.password" value=""></property>
-	        <!--Cambiar atributo a usuario de mac -->
-	        <!--jdbc:postgresql://ec2-107-20-177-12.compute-1.amazonaws.com:5432/detbefkc8md80m -->
-	        <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/sfrsebastian"></property>
-            <!--Cambiar a create en primera corrida, para futuras cambiar a update -->
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+	        <property name="hibernate.connection.username" value="${?DB_USER}"></property>
+	        <property name="hibernate.connection.password" value="${?DB_PASS}"></property>
+	        <property name="hibernate.connection.url" value="${?DB_URL}"></property>
+            <property name="hibernate.hbm2ddl.auto" value="${?DB_TYPE}"/>
         </properties>
     </persistence-unit>
 

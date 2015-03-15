@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,8 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import Excepciones.TimeException;
+
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,7 +23,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Entity
 @Table(name="Intervalos")
-public class Intervalo {
+public class Intervalo implements Serializable{
 	
 	@Id
 	private Date inicio;
