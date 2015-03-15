@@ -12,7 +12,7 @@
 	        <property name="hibernate.connection.username" value="${?DB_USER}"></property>
 	        <property name="hibernate.connection.password" value="${?DB_PASS}"></property>
 	        <property name="hibernate.connection.url" value="${?DB_URL}"></property>
-            <property name="hibernate.hbm2ddl.auto" value="${?DB_TYPE}"/>
+            <property name="hibernate.hbm2ddl.auto" value="${?DB_METHOD}"/>
         </properties>
     </persistence-unit>
 
