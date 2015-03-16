@@ -58,6 +58,9 @@ DELETE			/api/paciente/:idPaciente									 api.PacienteApi.eliminar(idPaciente:
 #Agregar episodio
 POST          	/api/paciente/:idPaciente/episodio                           api.PacienteApi.agregarEpisodio(idPaciente:Long)
 
+#Agregar Grabacion a episodio
+PUT		   		/api/paciente/:idPaciente/episodio/:idEpisodio		         api.PacienteApi.agregarGrabacionAEpisodio(idPaciente:Long,idEpisodio:Long)
+
 #Dar Episodio
 GET          	/api/paciente/:idPaciente/episodio/:idEpisodio               api.PacienteApi.darEpisodio(idPaciente:Long,idEpisodio:Long)
 
@@ -72,9 +75,6 @@ DELETE 			/api/paciente/:idPaciente/episodio/:idEpisodio				 api.PacienteApi.eli
 
 #Pedir segundaOpinion
 PUT		   		/api/paciente/:idPaciente/episodio/:idEpisodio/doctores		 api.PacienteApi.agregarDoctorAEpisodio(idPaciente:Long,idEpisodio:Long)
-
-
-
 
 #Autorizar un doctor Pendiente
 #http://localhost:9000/doctor/:id {autorizado:true}

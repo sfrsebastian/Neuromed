@@ -53,6 +53,9 @@ public class Episodio implements Comparable<Episodio>{
 	@ManyToMany
 	private List<Doctor> doctores;
 
+    @OneToOne
+    private S3File grabacion;
+
 	@PrePersist
 	private void prePersist() {
         doctores = new ArrayList<Doctor>();
@@ -186,6 +189,14 @@ public class Episodio implements Comparable<Episodio>{
         this.paciente = paciente;
     }
 
+    public S3File getGrabacion() {
+        return grabacion;
+    }
+
+    public void setGrabacion(S3File grabacion) {
+        this.grabacion = grabacion;
+    }
+
     public boolean contieneDoctor(Doctor doctor) {
         return doctores.contains(doctor) || this.doctor==doctor;
     }
@@ -203,6 +214,7 @@ public class Episodio implements Comparable<Episodio>{
 		node.put("causas", Causa.listToJson(this.causas));
 		node.put("medicamentos", Medicamento.listToJson(this.medicamentos));
 		node.put("patronesDeSueno", Intervalo.listToJson(this.patronesSueno));
+        node.put("grabacion",grabacion!=null?grabacion.getUrl().toString():null);
 		return node;
 	}
 

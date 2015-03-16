@@ -7,12 +7,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import excepciones.EpisodioException;
 import excepciones.UsuarioException;
-import models.Doctor;
-import models.Episodio;
-import models.Paciente;
-import models.Usuario;
+import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.*;
@@ -96,11 +92,11 @@ public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result agregarEpisodio(Long idPaciente){
-		JsonNode json = request().body().asJson();
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
         if(paciente != null){
             if(paciente.getDoctor() != null){
                 try{
+                    JsonNode json = request().body().asJson();
                     Episodio episodio = new Episodio(json);
                     episodio.setDoctor(paciente.getDoctor());
                     episodio.setPaciente(paciente);
@@ -109,7 +105,7 @@ public class PacienteApi extends Controller {
                     JPA.em().merge(paciente);
                     return ok(paciente.toJson());
                 }
-                catch(EpisodioException a){
+                catch(Exception a){
                     return ok(a.getMessage());
                 }
             }
@@ -120,8 +116,36 @@ public class PacienteApi extends Controller {
         else{
             return ok("El paciente con identificacion " + idPaciente + " no existe en el sistema.");
         }
-
 	}
+
+    @Transactional
+    public static Result agregarGrabacionAEpisodio(Long idPaciente, Long idEpisodio){
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart uploadFilePart = body.getFile("grabacion");
+        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
+        Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
+        if(paciente == null){
+            return ok("El paciente con identificacion " + idPaciente + " no existe en el sistema.");
+        }
+        else if(episodio == null){
+            return ok("El episodio con identificacion " + idEpisodio + " no existe en el sistema.");
+        }
+        else if (uploadFilePart == null) {
+            return ok("No se encontro archivo adjunto");
+        }
+        else{
+            S3File s3File = new S3File();
+            s3File.setName("episodios/" + episodio.getId() + "/" + uploadFilePart.getFilename());
+            s3File.setFile(uploadFilePart.getFile());
+            s3File.setOwner(paciente);
+            System.out.println("Va a guardar");
+            S3File.save(s3File);
+            System.out.println("guardo");
+            episodio.setGrabacion(s3File);
+            JPA.em().merge(episodio);
+            return ok("Archivo persistido en S3 " + s3File.getUrl().toString());
+        }
+    }
 
 	@Transactional
 	public static Result eliminarEpisodio(Long idPaciente, Long idEpisodio){
