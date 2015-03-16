@@ -91,7 +91,7 @@ public class S3File {
             nFile.bucket = S3Plugin.s3Bucket;
             JPA.em().persist(nFile); // assigns an id
             PutObjectRequest putObjectRequest = new PutObjectRequest(nFile.bucket, nFile.getActualFileName(), nFile.getFile());
-            putObjectRequest.withCannedAcl(CannedAccessControlList.BucketOwnerFullControl); // public for all
+            putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead); // public for all
             S3Plugin.amazonS3.putObject(putObjectRequest); // upload file
         }
     }
