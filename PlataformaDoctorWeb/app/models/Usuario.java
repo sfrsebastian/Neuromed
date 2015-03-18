@@ -46,6 +46,9 @@ public abstract class Usuario implements Comparable<Usuario> {
 
     private String genero;
 
+    @OneToOne
+    private S3File profilePicture;
+
     public void prePersist() {
         this.fechaVinculacion = Calendar.getInstance().getTime();
     }
@@ -145,6 +148,13 @@ public abstract class Usuario implements Comparable<Usuario> {
         }
     }
 
+    public S3File getProfilePicture(){
+        return profilePicture;
+    }
+    public void setProfilePicture(S3File s3File) {
+        this.profilePicture = s3File;
+    }
+
     private static Date stringToDate(String date) throws TimeException {
         try {
             DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -170,6 +180,7 @@ public abstract class Usuario implements Comparable<Usuario> {
         node.put("email", getEmail());
         node.put("fechaNacimiento", dateToString(getFechaNacimiento()));
         node.put("fechaVinculacion", dateToString(getFechaVinculacion()));
+        node.put("picture", profilePicture!=null?profilePicture.getUrl().toString():null);
         return node;
     }
 
@@ -198,4 +209,6 @@ public abstract class Usuario implements Comparable<Usuario> {
             return -1;
         }
     }
+
+
 }

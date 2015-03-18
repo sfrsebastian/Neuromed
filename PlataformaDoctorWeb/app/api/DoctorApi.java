@@ -5,6 +5,7 @@ import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.Result;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,6 +28,7 @@ public class DoctorApi extends Controller {
 	@Transactional
 	public static Result darTodos(){
 		List<Doctor> doctores = JPA.em().createQuery("SELECT u FROM Doctor u", Doctor.class).getResultList();
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return ok(Usuario.listToJson(doctores,false));
 	}
 	
@@ -162,4 +164,27 @@ public class DoctorApi extends Controller {
 			return ok("El doctor con identificacion: " + idDoctor + " no existe en el sistema.");
 		}
 	}
+
+    @Transactional
+    public static Result agregarFotoADoctor(Long idDoctor){
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart uploadFilePart = body.getFile("imagen");
+        Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
+        if(doctor == null){
+            return ok("El doctor con identificacion " + idDoctor + " no existe en el sistema.");
+        }
+        else if (uploadFilePart == null) {
+            return ok("No se encontro archivo adjunto");
+        }
+        else{
+            S3File s3File = new S3File();
+            s3File.setName(uploadFilePart.getFilename());
+            s3File.setFile(uploadFilePart.getFile());
+            s3File.setOwner(doctor);
+            S3File.save(s3File);
+            doctor.setProfilePicture(s3File);
+            JPA.em().merge(doctor);
+            return ok("Archivo persistido en S3 " + s3File.getUrl().toString());
+        }
+    }
 }
