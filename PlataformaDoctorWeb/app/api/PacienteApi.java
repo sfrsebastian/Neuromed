@@ -40,6 +40,7 @@ public class PacienteApi extends Controller {
 	@Transactional
 	public static Result darTodos(){
 		List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u", Paciente.class).getResultList();
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		return ok(Usuario.listToJson(pacientes,false));
 	}
 
@@ -138,11 +139,32 @@ public class PacienteApi extends Controller {
             s3File.setName("episodios/" + episodio.getId() + "/" + uploadFilePart.getFilename());
             s3File.setFile(uploadFilePart.getFile());
             s3File.setOwner(paciente);
-            System.out.println("Va a guardar");
             S3File.save(s3File);
-            System.out.println("guardo");
             episodio.setGrabacion(s3File);
             JPA.em().merge(episodio);
+            return ok("Archivo persistido en S3 " + s3File.getUrl().toString());
+        }
+    }
+
+    @Transactional
+    public static Result agregarFotoAPaciente(Long idPaciente){
+        Http.MultipartFormData body = request().body().asMultipartFormData();
+        Http.MultipartFormData.FilePart uploadFilePart = body.getFile("imagen");
+        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
+        if(paciente == null){
+            return ok("El paciente con identificacion " + idPaciente + " no existe en el sistema.");
+        }
+        else if (uploadFilePart == null) {
+            return ok("No se encontro archivo adjunto");
+        }
+        else{
+            S3File s3File = new S3File();
+            s3File.setName(uploadFilePart.getFilename());
+            s3File.setFile(uploadFilePart.getFile());
+            s3File.setOwner(paciente);
+            S3File.save(s3File);
+            paciente.setProfilePicture(s3File);
+            JPA.em().merge(paciente);
             return ok("Archivo persistido en S3 " + s3File.getUrl().toString());
         }
     }

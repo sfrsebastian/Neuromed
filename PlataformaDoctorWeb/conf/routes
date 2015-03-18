@@ -35,6 +35,9 @@ GET  		    /api/doctor/:id/comentario 									 api.DoctorApi.darComentarios(id:
 #Dar segundas opiniones doctor
 GET			    /api/doctor/:idDoctor/segundaOpinion						 api.DoctorApi.darEpisodiosSegundaOpinion(idDoctor:Long)
 
+#Agregar foto de perfil a Doctor
+PUT            /api/doctor/:idDoctor/profilePicture                          api.DoctorApi.agregarFotoADoctor(idDoctor:Long)
+
 
 #PACIENTE
 #Crear paciente
@@ -76,6 +79,11 @@ DELETE 			/api/paciente/:idPaciente/episodio/:idEpisodio				 api.PacienteApi.eli
 #Pedir segundaOpinion
 PUT		   		/api/paciente/:idPaciente/episodio/:idEpisodio/doctores		 api.PacienteApi.agregarDoctorAEpisodio(idPaciente:Long,idEpisodio:Long)
 
+#Agregar foto de perfil a paciente
+PUT            /api/paciente/:idPaciente/profilePicture                      api.PacienteApi.agregarFotoAPaciente(idPaciente:Long)
+
+
+#OPTIONS
 #Autorizar un doctor Pendiente
 #http://localhost:9000/doctor/:id {autorizado:true}
 #PUT /doctor/:id/autorizar api.DoctorApi.autorizarDoctor(id: String)
