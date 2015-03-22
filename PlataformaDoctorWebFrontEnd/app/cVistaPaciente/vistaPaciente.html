@@ -1,0 +1,181 @@
+<html>
+<head>
+	<title>Informacion del Paciente</title>
+	<!-- Latest compiled and minified CSS -->
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<style type="text/css">
+	#headingTwo{
+		background-color: #eeb2b2;
+		border-color: #eeb2b2;
+	}
+	footer{
+		position: relative;
+		bottom: 0;
+		width: 100%;
+		/* Set the fixed height of the footer here */
+		height: 60px;
+		background-color: #f5f5f5;
+		text-align: center;
+	}
+
+	</style>
+	</head>
+	<body>
+		<div class="container">
+
+			<!-- Static navbar -->
+			<nav class="navbar navbar-default" style="margin-top: 20px;">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">Neuromed</a>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="#">Pacientes</a></li>
+							<li class="dropdown">
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">Action</a></li>
+									<li><a href="#">Another action</a></li>
+									<li><a href="#">Something else here</a></li>
+									<li class="divider"></li>
+									<li class="dropdown-header">Nav header</li>
+									<li><a href="#">Separated link</a></li>
+									<li><a href="#">One more separated link</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="active"><a href="./">Dr. Chaves <span class="sr-only">(current)</span></a></li>
+							<li><a href="../navbar-fixed-top/">Cerrar Sesion</a></li>
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div><!--/.container-fluid -->
+			</nav>
+
+			<!-- Main component for a primary marketing message or call to action -->
+
+			<h1>Nombre del Paciente</h1>
+			<hr>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Informaci&oacute;n del paciente</h3>
+						</div>
+						<div class="panel-body">
+							<img src="http://placehold.it/500x500" class="img-responsive">
+						</div>
+						<div class="panel-footer">
+							<p>Nombre</p>
+							<p>G&eacute;nero</p>
+							<p>&Uacute;ltimo registro</p>
+							<p>RH</p>
+							<p>Peso</p>
+							<p>Altura</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">Resumen del paciente</h3>
+						</div>
+						<div class="panel-body">
+							<br>
+							<br>
+							<br>
+							<img class="img-responsive" src="http://community.protoshare.com/wp-content/uploads/2012/12/highcharts.png">
+							<br>
+							<br>
+							<br>
+						</div>
+						<div class="panel-footer">
+							Informaci&oacute;n del cuadro
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>
+						<h1>Cuadros Registrados</h1>
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="">
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button">Filtrar</button>
+							</span>
+						</div>
+					</p>
+					<div class="bs-example" data-example-id="collapse-accordion">
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingOne">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
+											02/15/2015
+										</a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+									<div class="panel-body">
+										<p><b>Hora: </b>11:59 pm.</p>
+										<p><b>Nivel de dolor: </b>Alto/Medio/Bajo (Clasificado seg&uacute;n un n&uacute;mero, el usuario ingresa un n&uacute;mero de 1 a 10 y el sistema lo clasifica en alguno de los tres, esos n&uacute;meros se usaran para los gr&aacute;ficos).</p> 
+										<p><b>Localizaci&oacute;n del dolor: </b></p>
+										<img class="img-responsive" style="max-width: 300px;max-height:300px;" src="http://previews.123rf.com/images/medusa81/medusa811105/medusa81110500001/9640689-vista-superior-de-cerebro-humano.jpg">
+										<p><b>Patrones de sue&#241;o: </b>Anoche dorm&iacute; a las 12 y hoy me levante a las 5 am. (o podria ser informaci&oacute;n suministrada por una app de monitoreo de sue&#241;o).</p> 
+										<p><b>Actividad F&iacute;sica/Alimentos/Bebidas: </b>Hace una hora com&iacute; un turr&oacute;n y un banano, hoy no he salido de la casa y me he tomado dos vasos de coca cola.</p>
+									</div>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingTwo">
+									<h4 class="panel-title">
+										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+											01/30/2015
+										</a>
+									</h4>
+								</div>
+								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">
+									<div class="panel-body">
+										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading" role="tab" id="headingThree">
+									<h4 class="panel-title">
+										<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+											12/05/2014
+										</a>
+									</h4>
+								</div>
+								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="">
+									<div class="panel-body">
+										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<br>
+				<p class="text-muted">Informaci&oacute;n del hospital</p>
+			</div>
+		</footer>
+	</body>
+	</html>
