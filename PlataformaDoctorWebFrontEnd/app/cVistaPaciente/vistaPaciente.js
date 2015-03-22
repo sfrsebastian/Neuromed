@@ -12,10 +12,11 @@ angular.module('mVistaPaciente', ['ngRoute'])
 .controller('vistaPacienteCont', ['$scope','$http','$routeParams',
         function($scope,$http,$routeParams) {
         $scope.idPaciente=$routeParams.idPaciente;
+        $scope.fecha='';
+        $scope.comentario='';
         $http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente).then(function(resp) {
             console.log('Success', resp);
             $scope.paciente=resp.data;
-            $scope.episodios=$scope.paciente.episodios;
             // For JSON responses, resp.data contains the result
         });
 

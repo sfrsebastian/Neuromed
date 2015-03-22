@@ -7,7 +7,8 @@ angular.module('myApp', [
   'mInicioDoctor','mLogin',
   'myApp.version',
     'mActualizarDatos',
-    'angularCharts'
+    'angularCharts',
+    'mRegistrarDoctor'
 
 ]).
 config(['$routeProvider', function($routeProvider) {

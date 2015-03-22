@@ -84,13 +84,13 @@
 
 
 
-            <div
+           <!-- <div
                     data-ac-chart="line"
                     data-ac-data="data"
                     data-ac-config="config"
                     class="chart1"
                     id="chart">
-            </div>
+            </div>-->
 
 
 
@@ -100,49 +100,19 @@
 					<p>
 						<h1>Cuadros Registrados</h1>
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="" ng-model="busqueda">
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">Filtrar</button>
-							</span>
+							<input type="text" class="form-control" placeholder="Filtrar" ng-model="busqueda">
 						</div>
+                        </br>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="dd/mm/aaaa - dd/mm/aaaa"  ng-model="fecha">
+							    <span class="input-group-btn">
+								    <button class="btn btn-default" type="button">Buscar</button>
+							    </span>
+                        </div>
 					</p>
 					<div class="bs-example" data-example-id="collapse-accordion">
-						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-							<div class="panel panel-default">
-								<div class="panel-heading" role="tab" id="headingOne">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="collapsed">
-											02/15/2015
-										</a>
-									</h4>
-								</div>
-								<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
-									<div class="panel-body">
-										<p><b>Hora: </b>11:59 pm.</p>
-										<p><b>Nivel de dolor: </b>Alto/Medio/Bajo (Clasificado seg&uacute;n un n&uacute;mero, el usuario ingresa un n&uacute;mero de 1 a 10 y el sistema lo clasifica en alguno de los tres, esos n&uacute;meros se usaran para los gr&aacute;ficos).</p> 
-										<p><b>Localizaci&oacute;n del dolor: </b></p>
-										<img class="img-responsive" style="max-width: 300px;max-height:300px;" src="http://previews.123rf.com/images/medusa81/medusa811105/medusa81110500001/9640689-vista-superior-de-cerebro-humano.jpg">
-										<p><b>Patrones de sue&#241;o: </b>Anoche dorm&iacute; a las 12 y hoy me levante a las 5 am. (o podria ser informaci&oacute;n suministrada por una app de monitoreo de sue&#241;o).</p> 
-										<p><b>Actividad F&iacute;sica/Alimentos/Bebidas: </b>Hace una hora com&iacute; un turr&oacute;n y un banano, hoy no he salido de la casa y me he tomado dos vasos de coca cola.</p>
-									</div>
-								</div>
-							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading" role="tab" id="headingTwo">
-									<h4 class="panel-title">
-										<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-											01/30/2015
-										</a>
-									</h4>
-								</div>
-								<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">
-									<div class="panel-body">
-										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-									</div>
-								</div>
-							</div>
-							<div class="panel panel-default" ng-repeat="ep in paciente.episodios | busqueda">
+
+							<div class="panel panel-default" ng-repeat="ep in paciente.episodios | filter:busqueda">
 								<div class="panel-heading" role="tab" id="headingThree">
 									<h4 class="panel-title">
 										<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
@@ -150,11 +120,19 @@
 										</a>
 									</h4>
 								</div>
-								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="" ">
+								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="" >
 									<div class="panel-body">
-                                        {{ep.comentarios}}
+                                        <p> El nivel de dolor es de {{ep.nivelDolor}}  y se ubica en el lobulo {{ep.localizacion}} </p>
+                                        <p>Comentarios del doctor:
+                                        {{ep.comentarios}} </p>
 									</div>
 								</div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Comentar"  ng-model="comentario">
+							    <span class="input-group-btn">
+								    <button class="btn btn-default" type="button">Comentar</button>
+							    </span>
+                                </div>
 							</div>
 						</div>
 					</div>

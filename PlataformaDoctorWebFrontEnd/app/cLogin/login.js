@@ -21,8 +21,8 @@ angular.module('mLogin', ['ngRoute'])
                 var contrasenia=user.contrasenia;
                 var json=[
                     {
-                        "email": "juansito@correo.com",
-                        "password": "12345"
+                        "email": "nicolas@correo.com",
+                        "password": "1234"
                     }
                 ];
                 var res =$http.post('http://neuromed.herokuapp.com/api/usuario/autenticar',json);
