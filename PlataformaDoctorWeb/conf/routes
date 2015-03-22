@@ -82,6 +82,8 @@ PUT		   		/api/paciente/:idPaciente/episodio/:idEpisodio/doctores		 api.Paciente
 #Agregar foto de perfil a paciente
 PUT            /api/paciente/:idPaciente/profilePicture                      api.PacienteApi.agregarFotoAPaciente(idPaciente:Long)
 
+#USUARIO
+POST           /api/usuario/autenticar                                       api.UsuarioApi.autenticar()
 
 #OPTIONS
 #Autorizar un doctor Pendiente

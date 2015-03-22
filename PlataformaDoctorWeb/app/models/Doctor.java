@@ -16,6 +16,7 @@ public class Doctor extends Usuario{
 
 	public Doctor(){
 		super();
+        this.rol=ROL_DOCTOR;
 	}
 
     @PrePersist
@@ -26,6 +27,7 @@ public class Doctor extends Usuario{
 
     public Doctor (JsonNode node) throws UsuarioException {
         super(node);
+        this.rol=ROL_DOCTOR;
     }
 
     public boolean isAutorizado() {

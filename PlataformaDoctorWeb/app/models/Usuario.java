@@ -22,32 +22,37 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Usuario implements Comparable<Usuario> {
 
-    private static final String MASCULINO="Masculino";
-    private static final String FEMENINO="Femenino";
+    protected static final String MASCULINO="Masculino";
+    protected static final String FEMENINO="Femenino";
+    protected static final String ROL_ADMIN="Administrador";
+    protected static final String ROL_DOCTOR="Doctor";
+    protected static final String ROL_PACIENTE="Paciente";
 
     @Id
     @Column(name="id_usuario")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
 
-    private String nombre;
+    protected String nombre;
 
-    private String apellido;
+    protected String apellido;
 
-    private String identificacion;
+    protected String identificacion;
 
-    private String password;
+    protected String password;
 
-    private Date fechaVinculacion;
+    protected Date fechaVinculacion;
 
-    private Date fechaNacimiento;
+    protected Date fechaNacimiento;
 
-    private String email;
+    protected String email;
 
-    private String genero;
+    protected String genero;
 
     @OneToOne
-    private S3File profilePicture;
+    protected S3File profilePicture;
+
+    protected String rol;
 
     public void prePersist() {
         this.fechaVinculacion = Calendar.getInstance().getTime();
@@ -155,6 +160,14 @@ public abstract class Usuario implements Comparable<Usuario> {
         this.profilePicture = s3File;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     private static Date stringToDate(String date) throws TimeException {
         try {
             DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -181,6 +194,7 @@ public abstract class Usuario implements Comparable<Usuario> {
         node.put("fechaNacimiento", dateToString(getFechaNacimiento()));
         node.put("fechaVinculacion", dateToString(getFechaVinculacion()));
         node.put("picture", profilePicture!=null?profilePicture.getUrl().toString():null);
+        node.put("rol", this.rol);
         return node;
     }
 
