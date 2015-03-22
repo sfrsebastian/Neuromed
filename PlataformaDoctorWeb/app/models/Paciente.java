@@ -54,6 +54,8 @@ public class Paciente extends Usuario{
 		super(node);
         this.rol=ROL_PACIENTE;
         tipoSangre = node.path("tipoSangre").asText();
+        peso = node.path("peso").asDouble();
+        altura = node.path("altura").asDouble();
 	}
 
 	public List<Episodio> getEpisodios() {
@@ -125,6 +127,8 @@ public class Paciente extends Usuario{
 		node.put("idDoctor", doctor!=null?doctor.getId():null);
 		node.put("episodios", Episodio.listToJson(this.episodios));
         node.put("tipoSangre", tipoSangre);
+        node.put("peso", peso);
+        node.put("altura", altura);
 		return node;
 	}
 }
