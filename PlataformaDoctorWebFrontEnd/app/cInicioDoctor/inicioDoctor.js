@@ -15,7 +15,7 @@ angular.module('mInicioDoctor', ['ngRoute'])
             $scope.medicos=resp.data;
             // For JSON responses, resp.data contains the result
         });
-        $scope.imagenxDefecto='http://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0CAcQjRw&url=http%3A%2F%2Fwww.sojaysalud.com%2Fsoja-en-el-hombre.php&ei=6uAJVeLWLvWNsQTh14CQAQ&bvm=bv.88198703,d.cWc&psig=AFQjCNGBg27nUW51QZ0w5EhnV2LNHvDUog&ust=1426797154526851';
+        $scope.imagenD='http://www.fancyicons.com/free-icons/101/diamond-medical/png/256/patient_256.png';
         $scope.paciente=function(input){
             window.top.location="#/vistaPaciente/"+input;
             console.log(input);

@@ -9,9 +9,34 @@ angular.module('mLogin', ['ngRoute'])
   });
 }])
 
-.controller('loginCont', ['$scope','$window', function($scope,$window) {
-    $scope.entrar=function(){
-       // open("#/inicioDoctor");
-        window.top.location="#/inicioDoctor";
-    };
+.controller('loginCont', ['$scope','$window','$http' ,function($scope,$window,$http) {
+
+
+
+        $scope.update=function(user){
+            if(user.mail==null || user.contrasenia==null){
+                $window.alert("Introduzca los datos completos")
+            }else{
+                var mail=user.mail;
+                var contrasenia=user.contrasenia;
+                var json=[
+                    {
+                        "email": "juansito@correo.com",
+                        "password": "12345"
+                    }
+                ];
+                var res =$http.post('http://neuromed.herokuapp.com/api/usuario/autenticar',json);
+                res.success(function(data, status, headers, config) {
+                    $scope.message = data;
+                    console.log(data);
+                });
+                console.log($scope.message);
+                //Hago post
+                var usuario=2;//ahi va guardado el post
+                if(usuario!=null){
+                    window.top.location="#/inicioDoctor";
+                }
+            }
+
+        };
 }]);

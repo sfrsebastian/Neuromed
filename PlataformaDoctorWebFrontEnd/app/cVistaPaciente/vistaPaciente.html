@@ -1,29 +1,5 @@
-<html>
-<head>
-	<title>Informacion del Paciente</title>
-	<!-- Latest compiled and minified CSS -->
-	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<style type="text/css">
-	#headingTwo{
-		background-color: #eeb2b2;
-		border-color: #eeb2b2;
-	}
-	footer{
-		position: relative;
-		bottom: 0;
-		width: 100%;
-		/* Set the fixed height of the footer here */
-		height: 60px;
-		background-color: #f5f5f5;
-		text-align: center;
-	}
 
-	</style>
-	</head>
-	<body>
+
 		<div class="container">
 
 			<!-- Static navbar -->
@@ -40,7 +16,7 @@
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li class="active"><a href="#">Pacientes</a></li>
+							<li ><a href="#">Pacientes</a></li> <!--class="active"-->
 							<li class="dropdown">
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="#">Action</a></li>
@@ -63,7 +39,7 @@
 
 			<!-- Main component for a primary marketing message or call to action -->
 
-			<h1>Nombre del Paciente</h1>
+			<h1>{{paciente.nombre}} {{paciente.apellido}}</h1>
 			<hr>
 
 			<div class="row">
@@ -76,12 +52,12 @@
 							<img src="http://placehold.it/500x500" class="img-responsive">
 						</div>
 						<div class="panel-footer">
-							<p>Nombre</p>
-							<p>G&eacute;nero</p>
-							<p>&Uacute;ltimo registro</p>
-							<p>RH</p>
-							<p>Peso</p>
-							<p>Altura</p>
+							<p>Nombre: {{paciente.nombre}}</p>
+							<p>G&eacute;nero: {{paciente.genero}}</p>
+							<p>&Uacute;ltimo registro: {{paciente.fechaVinculacion}}</p>
+							<p>RH: A+</p>
+							<p>Peso: 120 kg</p>
+							<p>Altura: 1.73 m</p>
 						</div>
 					</div>
 				</div>
@@ -105,12 +81,26 @@
 					</div>
 				</div>
 			</div>
+
+
+
+            <div
+                    data-ac-chart="line"
+                    data-ac-data="data"
+                    data-ac-config="config"
+                    class="chart1"
+                    id="chart">
+            </div>
+
+
+
+
 			<div class="row">
 				<div class="col-md-12">
 					<p>
 						<h1>Cuadros Registrados</h1>
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="">
+							<input type="text" class="form-control" placeholder="" ng-model="busqueda">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">Filtrar</button>
 							</span>
@@ -152,17 +142,17 @@
 									</div>
 								</div>
 							</div>
-							<div class="panel panel-default">
+							<div class="panel panel-default" ng-repeat="ep in paciente.episodios | busqueda">
 								<div class="panel-heading" role="tab" id="headingThree">
 									<h4 class="panel-title">
 										<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-											12/05/2014
+											{{ep.fecha}}
 										</a>
 									</h4>
 								</div>
-								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="">
+								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="" ">
 									<div class="panel-body">
-										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        {{ep.comentarios}}
 									</div>
 								</div>
 							</div>
@@ -171,11 +161,3 @@
 				</div>
 			</div>
 		</div>
-		<footer class="footer">
-			<div class="container">
-				<br>
-				<p class="text-muted">Informaci&oacute;n del hospital</p>
-			</div>
-		</footer>
-	</body>
-	</html>

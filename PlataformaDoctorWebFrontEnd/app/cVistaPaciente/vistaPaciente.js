@@ -12,9 +12,43 @@ angular.module('mVistaPaciente', ['ngRoute'])
 .controller('vistaPacienteCont', ['$scope','$http','$routeParams',
         function($scope,$http,$routeParams) {
         $scope.idPaciente=$routeParams.idPaciente;
-        $http.get('http://neuromed.herokuapp.com/api/paciente').then(function(resp) {
+        $http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente).then(function(resp) {
             console.log('Success', resp);
-            $scope.medicos=resp.data;
+            $scope.paciente=resp.data;
+            $scope.episodios=$scope.paciente.episodios;
             // For JSON responses, resp.data contains the result
         });
+
+            $scope.config = {
+                title: 'Products',
+                tooltips: true,
+                labels: false,
+                mouseover: function() {},
+                mouseout: function() {},
+                click: function() {},
+                legend: {
+                    display: true,
+                    //could be 'left, right'
+                    position: 'right'
+                }
+            };
+
+            $scope.data = {
+                series: ['Sales', 'Income', 'Expense', 'Laptops', 'Keyboards'],
+                data: [{
+                    x: "Laptops",
+                    y: [100, 500, 0],
+                    tooltip: "this is tooltip"
+                }, {
+                    x: "Desktops",
+                    y: [300, 100, 100]
+                }, {
+                    x: "Mobiles",
+                    y: [351]
+                }, {
+                    x: "Tablets",
+                    y: [54, 0, 879]
+                }]
+            };
 }]);
+
