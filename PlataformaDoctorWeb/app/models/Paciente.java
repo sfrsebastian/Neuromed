@@ -14,7 +14,21 @@ import excepciones.UsuarioException;
 @Table(name="Pacientes")
 public class Paciente extends Usuario{
 
-	
+    private static final String APOS = "A+";
+    private static final String ANEG = "A-";
+    private static final String BPOS = "B+";
+    private static final String BNEG = "B-";
+    private static final String OPOS = "O+";
+    private static final String ONEG = "O-";
+    private static final String ABPOS = "AB+";
+    private static final String ABNEG = "AB-";
+
+	private double peso;
+
+    private double altura;
+
+    private String tipoSangre;
+
 	@OneToOne
 	private Doctor doctor;
 	
@@ -32,11 +46,14 @@ public class Paciente extends Usuario{
 	}
 	
 	public Paciente(){
-		
+        super();
+		this.rol=ROL_PACIENTE;
 	}
 	
 	public Paciente(JsonNode node) throws UsuarioException{
 		super(node);
+        this.rol=ROL_PACIENTE;
+        tipoSangre = node.path("tipoSangre").asText();
 	}
 
 	public List<Episodio> getEpisodios() {
@@ -79,10 +96,35 @@ public class Paciente extends Usuario{
         return episodios.contains(episodio);
     }
 
-	public ObjectNode toJson() {
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public String getTipoSangre() {
+        return tipoSangre;
+    }
+
+    public void setTipoSangre(String tipoSangre) {
+        this.tipoSangre = tipoSangre;
+    }
+
+    public ObjectNode toJson() {
 		ObjectNode node = super.toJson();
 		node.put("idDoctor", doctor!=null?doctor.getId():null);
 		node.put("episodios", Episodio.listToJson(this.episodios));
+        node.put("tipoSangre", tipoSangre);
 		return node;
 	}
 }

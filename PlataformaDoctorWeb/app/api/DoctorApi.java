@@ -16,6 +16,7 @@ public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result dar(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null) {
             return ok(doctor.toJson());
@@ -34,6 +35,7 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result agregar(){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		try{
             Doctor nuevo = new Doctor(request().body().asJson());
 			List<Usuario> usuarios = JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.identificacion = ?1", Usuario.class).setParameter(1, nuevo.getIdentificacion()).getResultList();
@@ -52,6 +54,7 @@ public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result actualizar(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		JsonNode json = request().body().asJson();
 		String password = json.findPath("password").textValue();
 		String email = json.findPath("email").textValue();
@@ -69,6 +72,7 @@ public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result eliminar(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
             JPA.em().remove(doctor);
@@ -81,6 +85,7 @@ public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result agregarPaciente(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		JsonNode json = request().body().asJson();
 		Long idPaciente = json.findPath("idPaciente").asLong();
 		Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
@@ -103,6 +108,7 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result darPacientes(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
             List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.doctor = ?1", Paciente.class).setParameter(1, doctor).getResultList();
@@ -115,6 +121,7 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result crearComentario(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		JsonNode json = request().body().asJson();
 		Long idEpisodio = json.findPath("idEpisodio").asLong();
 		Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
@@ -143,6 +150,7 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result darComentarios(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
             List<Comentario> comentarios = JPA.em().createQuery("SELECT u FROM Comentario u WHERE u.doctor=?1",Comentario.class).setParameter(1, doctor).getResultList();
@@ -155,6 +163,7 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result darEpisodiosSegundaOpinion(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
 			List<Episodio> episodios = JPA.em().createQuery("SELECT u FROM Episodio u WHERE (?1 MEMBER OF u.doctores)",Episodio.class).setParameter(1, doctor).getResultList();
@@ -167,6 +176,7 @@ public class DoctorApi extends Controller {
 
     @Transactional
     public static Result agregarFotoADoctor(Long idDoctor){
+        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart uploadFilePart = body.getFile("imagen");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
