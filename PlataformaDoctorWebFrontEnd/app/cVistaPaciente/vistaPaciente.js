@@ -34,6 +34,11 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 }
             };
 
+            $scope.comentar = function(id,comentario){
+                console.log("Este es el id: "+id);
+                console.log("Este es el comentario: "+comentario);
+            }
+
             $scope.data = {
                 series: ['Sales', 'Income', 'Expense', 'Laptops', 'Keyboards'],
                 data: [{
