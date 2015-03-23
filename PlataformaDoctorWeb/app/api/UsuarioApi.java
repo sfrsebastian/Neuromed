@@ -1,5 +1,5 @@
 package api;
-
+import actions.CorsComposition;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Usuario;
 import play.db.jpa.JPA;
@@ -8,12 +8,12 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
-
+@CorsComposition.Cors
 public class UsuarioApi extends Controller {
 
     @Transactional
     public static Result autenticar(){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        response().setHeader("Response-Syle","Json-Object");
         JsonNode json = request().body().asJson();
         String password = json.findPath("password").textValue();
         String email = json.findPath("email").textValue();
@@ -24,5 +24,9 @@ public class UsuarioApi extends Controller {
         else {
             return ok("Usuario o contraseña invalidos");
         }
+    }
+
+    public static Result preflight(String path) {
+        return ok("");
     }
 }

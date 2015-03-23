@@ -1,6 +1,7 @@
 package api;
 import java.util.List;
 
+import actions.CorsComposition;
 import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -12,11 +13,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import excepciones.UsuarioException;
 
+@CorsComposition.Cors
 public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result dar(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null) {
@@ -29,7 +30,6 @@ public class DoctorApi extends Controller {
 
     @Transactional
 	public static Result darTodos(){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Array");
 		List<Doctor> doctores = JPA.em().createQuery("SELECT u FROM Doctor u", Doctor.class).getResultList();
 		return ok(Usuario.listToJson(doctores,false));
@@ -37,7 +37,6 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result agregar(){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
 		try{
             Doctor nuevo = new Doctor(request().body().asJson());
@@ -57,7 +56,6 @@ public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result actualizar(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
 		JsonNode json = request().body().asJson();
 		String password = json.findPath("password").textValue();
@@ -76,7 +74,6 @@ public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result eliminar(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
             JPA.em().remove(doctor);
@@ -89,7 +86,6 @@ public class DoctorApi extends Controller {
 
 	@Transactional
 	public static Result agregarPaciente(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		JsonNode json = request().body().asJson();
 		Long idPaciente = json.findPath("idPaciente").asLong();
 		Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
@@ -112,7 +108,6 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result darPacientes(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Array");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
@@ -126,7 +121,6 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result crearComentario(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
 		JsonNode json = request().body().asJson();
 		Long idEpisodio = json.findPath("idEpisodio").asLong();
@@ -156,7 +150,6 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result darComentarios(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Array");
 		Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
@@ -170,7 +163,6 @@ public class DoctorApi extends Controller {
 	
 	@Transactional
 	public static Result darEpisodiosSegundaOpinion(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Array");
 		Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
         if(doctor != null){
@@ -184,7 +176,6 @@ public class DoctorApi extends Controller {
 
     @Transactional
     public static Result agregarFotoADoctor(Long idDoctor){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart uploadFilePart = body.getFile("imagen");
         Doctor doctor = JPA.em().find(Doctor.class, idDoctor);

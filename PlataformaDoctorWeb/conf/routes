@@ -85,6 +85,8 @@ PUT            /api/paciente/:idPaciente/profilePicture                      api
 #USUARIO
 POST           /api/usuario/autenticar                                       api.UsuarioApi.autenticar()
 
+OPTIONS        /*path                                                       api.UsuarioApi.preflight(path: String)
+
 #OPTIONS
 #Autorizar un doctor Pendiente
 #http://localhost:9000/doctor/:id {autorizado:true}
