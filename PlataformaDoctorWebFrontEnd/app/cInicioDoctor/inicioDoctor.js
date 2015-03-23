@@ -3,14 +3,16 @@
 angular.module('mInicioDoctor', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/inicioDoctor', {
+  $routeProvider.when('/inicioDoctor/:id', {
     templateUrl: 'cInicioDoctor/inicioDoctor.html',
     controller: 'inicioDoctorCont'
   });
 }])
 
-.controller('inicioDoctorCont', ['$scope','$http',function($scope,$http) {
-        $http.get('http://neuromed.herokuapp.com/api/paciente').then(function(resp) {
+.controller('inicioDoctorCont', ['$scope','$http','$routeParams',function($scope,$http,$routeParams) {
+        $scope.id=$routeParams.id;
+        console.log('Este es el id del doctor: '+$scope.id);
+        $http.get('http://neuromed.herokuapp.com/api/doctor/'+$scope.id+'/pacientes').then(function(resp) {
             console.log('Success', resp);
             $scope.medicos=resp.data;
             // For JSON responses, resp.data contains the result

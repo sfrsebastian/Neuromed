@@ -71,7 +71,7 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                     $scope.message = data;
                     //console.log(data);
                 });
-                //console.log($scope.message);
+                console.log($scope.message);
                 //Hago post
                 var usuario=2;//ahi va guardado el post
                 if(usuario!=null){

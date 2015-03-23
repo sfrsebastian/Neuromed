@@ -21,20 +21,20 @@ angular.module('mLogin', ['ngRoute'])
                 var contrasenia=user.contrasenia;
                 var json=[
                     {
-                        "email": "nicolas@correo.com",
-                        "password": "1234"
+                        "email": mail,
+                        "password": contrasenia
                     }
                 ];
                 var res =$http.post('http://neuromed.herokuapp.com/api/usuario/autenticar',json);
                 res.success(function(data, status, headers, config) {
                     $scope.message = data;
-                    console.log(data);
                 });
                 console.log($scope.message);
                 //Hago post
-                var usuario=2;//ahi va guardado el post
+                var usuario=1;//$scope.message.id;//ahi va guardado el post
                 if(usuario!=null){
-                    window.top.location="#/inicioDoctor";
+                    window.top.location="#/" +
+                    "inicioDoctor/"+usuario;
                 }
             }
 
