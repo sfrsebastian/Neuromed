@@ -40,9 +40,9 @@ public class DoctorApi extends Controller {
         response().setHeader("Response-Syle","Json-Object");
 		try{
             Doctor nuevo = new Doctor(request().body().asJson());
-			List<Usuario> usuarios = JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.identificacion = ?1", Usuario.class).setParameter(1, nuevo.getIdentificacion()).getResultList();
+			List<Usuario> usuarios = JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.identificacion = ?1 OR u.email = ?2", Usuario.class).setParameter(1, nuevo.getIdentificacion()).setParameter(2, nuevo.getEmail()).getResultList();
 			if(usuarios.size()>0){
-				return ok("El usuario con identificacion " + nuevo.getIdentificacion() + " ya existe");
+				return ok("El usuario con identificacion " + nuevo.getIdentificacion() + " o correo " + nuevo.getEmail() +" ya existe");
 			}
 			else{
 				JPA.em().persist(nuevo);
