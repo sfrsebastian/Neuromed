@@ -37,6 +37,24 @@ angular.module('mVistaPaciente', ['ngRoute'])
             $scope.comentar = function(id,comentario){
                 console.log("Este es el id: "+id);
                 console.log("Este es el comentario: "+comentario);
+                var json=[
+                    {
+                     "idEpisodio":id,
+                    "contenido":comentario
+                    }
+                ];
+                console.log(json);
+                var res =$http.post('http://neuromed.herokuapp.com/api/doctor/1/comentario',json);
+                res.success(function(data, status, headers, config) {
+                    $scope.message = data;
+                    //console.log(data);
+                });
+                console.log($scope.message);
+                //Hago post
+                var usuario=2;//ahi va guardado el post
+                if(usuario!=null){
+                    window.top.location="#/inicioDoctor";
+                }
             }
 
             $scope.data = {
