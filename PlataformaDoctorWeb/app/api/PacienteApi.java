@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import actions.CorsComposition;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import excepciones.UsuarioException;
@@ -13,11 +14,11 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.*;
 
+@CorsComposition.Cors
 public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result dar(Long idPaciente){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
         if(paciente != null) {
@@ -30,7 +31,6 @@ public class PacienteApi extends Controller {
 
     @Transactional
     public static Result darPorCedula(String cedula){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
         List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.identificacion = ?1", Paciente.class).setParameter(1, cedula).getResultList();
         if(pacientes.size() > 0) {
@@ -43,7 +43,6 @@ public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result darTodos(){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Array");
 		List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u", Paciente.class).getResultList();
 		return ok(Usuario.listToJson(pacientes,false));
@@ -51,7 +50,6 @@ public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result agregar(){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
         try{
             Paciente nuevo = new Paciente(request().body().asJson());
@@ -71,7 +69,6 @@ public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result actualizar(Long idPaciente){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
         JsonNode json = request().body().asJson();
         String password = json.findPath("password").textValue();
@@ -90,7 +87,6 @@ public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result eliminar(Long idPaciente){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
         if(paciente != null){
             JPA.em().remove(paciente);
@@ -103,7 +99,6 @@ public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result agregarEpisodio(Long idPaciente){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
         if(paciente != null){
@@ -133,7 +128,6 @@ public class PacienteApi extends Controller {
 
     @Transactional
     public static Result agregarGrabacionAEpisodio(Long idPaciente, Long idEpisodio){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart uploadFilePart = body.getFile("grabacion");
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
@@ -161,7 +155,6 @@ public class PacienteApi extends Controller {
 
     @Transactional
     public static Result agregarFotoAPaciente(Long idPaciente){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Http.MultipartFormData body = request().body().asMultipartFormData();
         Http.MultipartFormData.FilePart uploadFilePart = body.getFile("imagen");
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
@@ -185,7 +178,6 @@ public class PacienteApi extends Controller {
 
 	@Transactional
 	public static Result eliminarEpisodio(Long idPaciente, Long idEpisodio){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
 		Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
         if(paciente == null){
@@ -206,7 +198,6 @@ public class PacienteApi extends Controller {
 	
 	@Transactional
 	public static Result darEpisodio(Long idPaciente,Long idEpisodio){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Object");
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
         Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
@@ -226,7 +217,6 @@ public class PacienteApi extends Controller {
 	
 	@Transactional
 	public static Result darTodosLosEpisodios(Long idPaciente){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Array");
         Paciente actual = JPA.em().find(Paciente.class,idPaciente);
         if(actual != null){
@@ -240,7 +230,6 @@ public class PacienteApi extends Controller {
 	
 	@Transactional
 	public static Result darEpisodiosPorFecha(Long idPaciente, String inic, String fi){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         response().setHeader("Response-Syle","Json-Array");
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
         if(paciente != null){
@@ -262,7 +251,6 @@ public class PacienteApi extends Controller {
 	//REVISAR POR SESION SI QUIEN SOLICITA ES PARTE DEL EPISODIO
 	@Transactional
 	public static Result agregarDoctorAEpisodio(Long idPaciente,Long idEpisodio){
-        response().setHeader(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		JsonNode json = request().body().asJson();
 		Long idDoctor = json.path("idDoctor").asLong();
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
