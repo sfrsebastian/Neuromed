@@ -25,7 +25,7 @@ public class CorsComposition {
             response.setHeader("Access-Control-Allow-Origin", "*");
 
             //Handle preflight requests
-            if(context.request().method().equals("POST")) {
+            if(context.request().method().equals("POST") || context.request().method().equals("PUT")|| context.request().method().equals("OPTIONS")) {
                 response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
                 response.setHeader("Access-Control-Max-Age", "3600");
                 response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token");

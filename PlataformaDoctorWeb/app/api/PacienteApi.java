@@ -111,7 +111,7 @@ public class PacienteApi extends Controller {
                     JPA.em().persist(episodio);
                     paciente.addEpisodio(episodio);
                     JPA.em().merge(paciente);
-                    return ok(paciente.toJson());
+                    return ok(episodio.toJson());
                 }
                 catch(Exception a){
                     return ok(a.getMessage());
@@ -142,14 +142,15 @@ public class PacienteApi extends Controller {
             return ok("No se encontro archivo adjunto");
         }
         else{
-            S3File s3File = new S3File();
+            /*S3File s3File = new S3File();
             s3File.setName("episodios/" + episodio.getId() + "/" + uploadFilePart.getFilename());
             s3File.setFile(uploadFilePart.getFile());
             s3File.setOwner(paciente);
             S3File.save(s3File);
             episodio.setGrabacion(s3File);
             JPA.em().merge(episodio);
-            return ok("Archivo persistido en S3 " + s3File.getUrl().toString());
+            return ok("Archivo persistido en S3 " + s3File.getUrl().toString());*/
+            return ok("Recibido archivo: " + uploadFilePart.getFilename());
         }
     }
 
