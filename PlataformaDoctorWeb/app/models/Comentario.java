@@ -96,7 +96,8 @@ public class Comentario{
 		node.put("id", getId());
 		node.put("fecha", dateToString(getFecha()));
 		node.put("contenido", getContenido());
-        node.put("doctor", getDoctor().getId());
+        node.put("doctorNombre", "Dr. " + getDoctor().getNombre() + " " + getDoctor().getApellido());
+        node.put("idDoctor",getDoctor().getId());
         node.put("episodio", getEpisodio().getId());
 		return node;
 	}
