@@ -2,8 +2,10 @@
 
       <form class="form-signin">
         <h2 class="form-signin-heading">Ingresar a Neuromed</h2>
+          </br>
         <label for="inputEmail" class="sr-only">Usuario</label>
         <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" ng-required="" ng-model="mail" autofocus="">
+
         <label for="inputPassword" class="sr-only">Constraseña</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Palabra clave" required="" ng-model="contrasenia">
         <!--<div class="checkbox">
@@ -12,7 +14,8 @@
           </label>
         </div>--></br>
         <button class="btn btn-lg btn-primary btn-block" ng-disabled="error || incomplete" type="submit" ng-click="update()">Ingresar</button>
-          <a href="#/registrarse">Registrese!</a>
+          </br>
+          <a href="#/registrarse" class="btn btn-lg btn-primary btn-block">Registrese!</a>
       </form>
 
 </div>

@@ -12,6 +12,11 @@ angular.module('mInicioDoctor', ['ngRoute'])
 .controller('inicioDoctorCont', ['$scope','$http','$routeParams',function($scope,$http,$routeParams) {
         $scope.id=$routeParams.id;
         console.log('Este es el id del doctor: '+$scope.id);
+        $http.get('http://neuromed.herokuapp.com/api/doctor/'+$scope.id).then(function(resp) {
+            console.log('Success', resp);
+            $scope.medico=resp.data;
+            // For JSON responses, resp.data contains the result
+        });
         $http.get('http://neuromed.herokuapp.com/api/doctor/'+$scope.id+'/pacientes').then(function(resp) {
             console.log('Success', resp);
             $scope.medicos=resp.data;

@@ -3,44 +3,60 @@
 angular.module('mActualizarDatos', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/actualizarDatos', {
+  $routeProvider.when('/actualizarDatos/:id', {
     templateUrl: 'cActualizarDatos/actualizarDatos.html',
     controller: 'actualizarCont'
   });
 }])
 
-.controller('actualizarCont', ['$scope','$window','$http' ,function($scope,$window,$http) {
+.controller('actualizarCont', ['$scope','$window','$http' ,'$routeParams',function($scope,$window,$http,$routeParams) {
 
-        $http.get('http://neuromed.herokuapp.com/api/doctor/2').then(function(resp) {
+        $scope.id=$routeParams.id;
+        $http.get('http://neuromed.herokuapp.com/api/doctor/'+$scope.id).then(function(resp) {
             console.log('Success', resp);
             $scope.medico=resp.data;
             // For JSON responses, resp.data contains the result
         });
 
-        $scope.update=function(user){
-            /*if(user.mail==null || user.contrasenia==null){
-                $window.alert("Introduzca los datos completos")
-            }else{
-                var mail=user.mail;
-                var contrasenia=user.contrasenia;
-                var json=[
-                    {
-                        "email": "juansito@correo.com",
-                        "password": "12345"
-                    }
-                ];
-                var res =$http.post('http://neuromed.herokuapp.com/api/usuario/autenticar',json);
-                res.success(function(data, status, headers, config) {
-                    $scope.message = data;
-                    console.log(data);
-                });
-                console.log($scope.message);
-                //Hago post
-                var usuario=2;//ahi va guardado el post
-                if(usuario!=null){
-                    window.top.location="#/inicioDoctor";
-                }
-            }*/
-            window.top.location="#/inicioDoctor";
+        $scope.edit = true;
+        $scope.error = false;
+        $scope.incomplete = true;
+
+        $scope.mail='';
+        $scope.contrasenia='';
+
+        $scope.$watch('mail',function() {$scope.test();});
+        $scope.$watch('contrasenia',function() {$scope.test();});
+
+        $scope.test = function(){
+
+            $scope.incomplete = false;
+            if ($scope.edit && (!$scope.mail.length ||
+                !$scope.contrasenia.length)) {
+                $scope.incomplete = true;
+            }
         };
-}]);
+
+        $scope.update=function(){
+            var mail=$scope.mail;
+            var contrasenia=$scope.contrasenia;
+            var json=[
+                {
+                    "password": contrasenia,
+                    "email": mail
+                }
+            ];
+            var res =$http.post('http://neuromed.herokuapp.com/api/doctor/'+$scope.id,json);
+            res.success(function(data, status, headers, config) {
+                $scope.message = data;
+                var id=$scope.message.id;
+                //Hago post
+                if(id!=null){
+                    window.top.location="#/inicioDoctor/"+id;
+                }
+            });
+
+
+        };
+
+        }]);

@@ -13,6 +13,11 @@ angular.module('mVistaPaciente', ['ngRoute'])
         function($scope,$http,$routeParams) {
         $scope.idPaciente=$routeParams.idPaciente;
         $scope.idDoctor=$routeParams.idDoctor;
+        $http.get('http://neuromed.herokuapp.com/api/doctor/'+$scope.idDoctor).then(function(resp) {
+            console.log('Success', resp);
+            $scope.medico=resp.data;
+            // For JSON responses, resp.data contains the result
+        });
         $scope.fecha='';
         $scope.comentario='';
         $http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente).then(function(resp) {
@@ -74,12 +79,12 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     //console.log(data);
                 });
                 console.log($scope.message);
-                //Hago post
-                var usuario=2;//ahi va guardado el post
-                if(usuario!=null){
-                    window.top.location="#/inicioDoctor";
-                }
+                $scope.comentario='';
             }
+
+            $scope.buscarRangoFecha=function(){
+                window.alert("Funcion en desarrollo");
+            };
 
             $scope.data = {
                 series: ['Sales', 'Income', 'Expense', 'Laptops', 'Keyboards'],

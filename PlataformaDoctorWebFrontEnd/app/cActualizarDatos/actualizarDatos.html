@@ -2,15 +2,14 @@
 
       <form class="form-signin">
         <h2 class="form-signin-heading">Actualizar Datos de {{medico.nombre}} {{medico.apellido}}</h2>
-          <label for="textNombre" class="sr-only">Nombre</label>
-          <input type="text" id="textNombre" class="form-control" placeholder="{{medico.nombre}}" ng-required="" ng-model="user.nombre" autofocus="">
-          <label for="textApellido" class="sr-only">Nombre</label>
-          <input type="text" id="textApellido" class="form-control" placeholder="{{medico.apellido}}" ng-required="" ng-model="user.nombre" autofocus="">
-          <label for="textIdentificacion" class="sr-only">Identificacion</label>
-          <input type="text" id="textIdentificacion" class="form-control" placeholder="{{medico.identificacion}}" ng-required="" ng-model="user.mail" autofocus="">
-          <label for="textEmail" class="sr-only">Identificacion</label>
-          <input type="text" id="textEmail" class="form-control" placeholder="{{medico.email}}" ng-required="" ng-model="user.mail" autofocus="">
+          <label for="inputEmail" class="sr-only">Usuario</label>
+          <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" ng-required="" ng-model="mail" autofocus="">
+
+          <label for="inputPassword" class="sr-only">Constraseña</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Palabra clave" required="" ng-model="contrasenia">
           </br>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="update(user)">Actualizar</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="error || incomplete" ng-click="update()">Actualizar</button>
+          </br>
+          <a href="#/inicioDoctor/{{id}}" class="btn btn-lg btn-primary btn-block">Cancelar</a>
       </form>
 </div>

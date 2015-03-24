@@ -30,7 +30,7 @@
 							</li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li class="active"><a href="./">Dr. Chaves <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#/actualizarDatos/{{idDoctor}}">Dr. {{medico.nombre}} <span class="sr-only">(current)</span></a></li>
 							<li><a href="../navbar-fixed-top/">Cerrar Sesion</a></li>
 						</ul>
 					</div><!--/.nav-collapse -->
@@ -84,12 +84,12 @@
 
 
 
-           <!-- <div
+           <!--<div
                     data-ac-chart="line"
                     data-ac-data="data"
                     data-ac-config="config"
-                    class="chart1"
-                    id="chart">
+                    class="chart"
+                    >
             </div>-->
 
 
@@ -98,15 +98,21 @@
 			<div class="row">
 				<div class="col-md-12">
 					<p>
-						<h1>Cuadros Registrados</h1>
-						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Filtrar" ng-model="busqueda">
-						</div>
+                    <div class="row">
+                         <h1 class="col-md-4">Cuadros Registrados</h1>
+						<div class="col-md-6">
+                            <div class="row"></div>
+                            <div class="input-group row">
+                                <input type="text" class="form-control" placeholder="Filtrar" ng-model="busqueda">
+                            </div>
+                            <div class="row"></div>
+                        </div>
+                </div>
                         </br>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="dd/mm/aaaa - dd/mm/aaaa"  ng-model="fecha">
+                            <input type="text" class="form-control" placeholder="dd/mm/aaaa-dd/mm/aaaa"  ng-model="fecha">
 							    <span class="input-group-btn">
-								    <button class="btn btn-default" type="button">Buscar</button>
+								    <button class="btn btn-default" ng-click="buscarRangoFecha()" type="button">Buscar</button>
 							    </span>
                         </div>
 					</p>
@@ -122,14 +128,18 @@
 								</div>
 								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="" >
 									<div class="panel-body">
-                                        <p> Nivel de dolor:{{ep.nivelDolor}}</p>
+                                        <p> Nivel de dolor: {{ep.nivelDolor}}</p>
                                         <p> Ubicacion: Lobulo {{ep.localizacion}}</p>
                                         <p> Doctor: {{ep.doctor}}</p>
-                                        <p> Doctores segundas opiniones: {{ep.doctores}}</p>
-                                        <p> Causas: {{ep.causas}}</p>
-                                        <p> Medicamentos: {{ep.medicamentos}}</p>
-                                        <p> Patrones de sueño: {{ep.patronesDeSueno}}</p>
-                                        <p>Comentarios del doctor: {{ep.comentarios}} </p>
+                                        <p> Causas:</p>
+                                            <p ng-repeat="causas in ep.causas">- {{causas}}</p>
+                                        <p> Medicamentos:</p>
+                                            <p ng-repeat="medicamentos in ep.medicamentos">- {{medicamentos}}</p>
+                                        <p> Patrones de sueño: </p>
+                                            <p ng-repeat="patrones in ep.patronesDeSueno">- {{patrones}}</p>
+                                        <p>Comentarios del doctor:  </p>
+                                           <p ng-repeat="comentario in ep.comentarios">&nbsp;&nbsp;&nbsp;&nbsp;- {{comentario.contenido}}</p>
+
                                         <!--<audio controls preload="none" style="width:480px;">
                                             <source ng-src="{{ep.grabacion}}" type="audio/mp4" />
                                             <p>Your browser does not support HTML5 audio.</p>
@@ -137,21 +147,34 @@
 									</div>
 								</div>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Comentar"  ng-model="comentario">
-							    <span class="input-group-btn">
-								    <button class="btn btn-default" ng-click="comentar(ep.id,comentario)" type="button">Comentar</button>
-							    </span>
+                                        <input type="text" class="form-control" placeholder="Comentar"  ng-model="comentario">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="comentar(ep.id,comentario)" type="button">Comentar</button>
+                                        </span>
+                                        <select class="form-control" ng-model="medico" ng-options="medico.nombre for medico in medicos">
+                                            <option value="">Seleccione un medico</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="pedirSegundaOpinion(ep.id,medico.id)" type="button">Segunda Opinion</button>
+                                        </span>
                                 </div>
-                                <div class="input-group">
+                                <!--<div class="input-group">
                                     <select class="form-control" ng-model="medico" ng-options="medico.nombre for medico in medicos">
                                         <option value="">Seleccione un medico</option>
                                     </select>
 							    <span class="input-group-btn">
 								    <button class="btn btn-default" ng-click="pedirSegundaOpinion(ep.id,medico.id)" type="button">Segunda Opinion</button>
 							    </span>
-                                </div>
+                                </div>-->
 							</div>
-						</div>
+					</div>
+
+
+                    <!---->
+
+                    <!---->
+
+
 					</div>
 				</div>
 			</div>
