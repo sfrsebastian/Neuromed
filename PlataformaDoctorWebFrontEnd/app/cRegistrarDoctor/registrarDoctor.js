@@ -11,10 +11,6 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
 
 .controller('registrarCont', ['$scope','$window','$http' ,function($scope,$window,$http) {
 
-
-
-
-
             $scope.edit = true;
             $scope.error = false;
             $scope.incomplete = true;

@@ -19,7 +19,7 @@ angular.module('mInicioDoctor', ['ngRoute'])
         });
         $scope.imagenD='http://www.fancyicons.com/free-icons/101/diamond-medical/png/256/patient_256.png';
         $scope.paciente=function(input){
-            window.top.location="#/vistaPaciente/"+input;
+            window.top.location="#/vistaPaciente/"+input+"/"+$scope.id;
             console.log(input);
         };
 }]);

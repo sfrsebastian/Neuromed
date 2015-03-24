@@ -3,15 +3,15 @@
       <form class="form-signin">
         <h2 class="form-signin-heading">Ingresar a Neuromed</h2>
         <label for="inputEmail" class="sr-only">Usuario</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" ng-required="" ng-model="user.mail" autofocus="">
+        <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" ng-required="" ng-model="mail" autofocus="">
         <label for="inputPassword" class="sr-only">Constraseña</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Palabra clave" required="" ng-model="user.contrasenia">
-        <div class="checkbox">
+        <input type="password" id="inputPassword" class="form-control" placeholder="Palabra clave" required="" ng-model="contrasenia">
+        <!--<div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Recordarme
           </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="update(user)">Ingresar</button>
+        </div>--></br>
+        <button class="btn btn-lg btn-primary btn-block" ng-disabled="error || incomplete" type="submit" ng-click="update()">Ingresar</button>
           <a href="#/registrarse">Registrese!</a>
       </form>
 
