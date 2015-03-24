@@ -11,14 +11,28 @@ angular.module('mLogin', ['ngRoute'])
 
 .controller('loginCont', ['$scope','$window','$http' ,function($scope,$window,$http) {
 
+        $scope.edit = true;
+        $scope.error = false;
+        $scope.incomplete = true;
 
+        $scope.mail='';
+        $scope.contrasenia='';
 
-        $scope.update=function(user){
-            if(user.mail==null || user.contrasenia==null){
-                $window.alert("Introduzca los datos completos")
-            }else{
-                var mail=user.mail;
-                var contrasenia=user.contrasenia;
+        $scope.$watch('mail',function() {$scope.test();});
+        $scope.$watch('contrasenia',function() {$scope.test();});
+
+        $scope.test = function(){
+
+            $scope.incomplete = false;
+            if ($scope.edit && (!$scope.mail.length ||
+                !$scope.contrasenia.length)) {
+                $scope.incomplete = true;
+            }
+        };
+
+        $scope.update=function(){
+                var mail=$scope.mail;
+                var contrasenia=$scope.contrasenia;
                 var json=[
                     {
                         "email": mail,
@@ -28,15 +42,13 @@ angular.module('mLogin', ['ngRoute'])
                 var res =$http.post('http://neuromed.herokuapp.com/api/usuario/autenticar',json);
                 res.success(function(data, status, headers, config) {
                     $scope.message = data;
+                    var id=$scope.message.id;
+                    //Hago post
+                    if(id!=null){
+                        window.top.location="#/inicioDoctor/"+id;
+                    }
                 });
-                console.log($scope.message);
-                //Hago post
-                var usuario=1;//$scope.message.id;//ahi va guardado el post
-                if(usuario!=null){
-                    window.top.location="#/" +
-                    "inicioDoctor/"+usuario;
-                }
-            }
+
 
         };
 }]);

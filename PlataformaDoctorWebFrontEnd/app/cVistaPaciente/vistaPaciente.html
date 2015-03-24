@@ -16,7 +16,7 @@
 					</div>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li ><a href="#">Pacientes</a></li> <!--class="active"-->
+							<li ><a href="#/inicioDoctor/{{idDoctor}}">Pacientes</a></li> <!--class="active"-->
 							<li class="dropdown">
 								<ul class="dropdown-menu" role="menu">
 									<li><a href="#">Action</a></li>
@@ -122,15 +122,32 @@
 								</div>
 								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="" >
 									<div class="panel-body">
-                                        <p> El nivel de dolor es de {{ep.nivelDolor}}  y se ubica en el lobulo {{ep.localizacion}} </p>
-                                        <p>Comentarios del doctor:
-                                        {{ep.comentarios}} </p>
+                                        <p> Nivel de dolor:{{ep.nivelDolor}}</p>
+                                        <p> Ubicacion: Lobulo {{ep.localizacion}}</p>
+                                        <p> Doctor: {{ep.doctor}}</p>
+                                        <p> Doctores segundas opiniones: {{ep.doctores}}</p>
+                                        <p> Causas: {{ep.causas}}</p>
+                                        <p> Medicamentos: {{ep.medicamentos}}</p>
+                                        <p> Patrones de sueño: {{ep.patronesDeSueno}}</p>
+                                        <p>Comentarios del doctor: {{ep.comentarios}} </p>
+                                        <!--<audio controls preload="none" style="width:480px;">
+                                            <source ng-src="{{ep.grabacion}}" type="audio/mp4" />
+                                            <p>Your browser does not support HTML5 audio.</p>
+                                        </audio>-->
 									</div>
 								</div>
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Comentar"  ng-model="comentario">
 							    <span class="input-group-btn">
 								    <button class="btn btn-default" ng-click="comentar(ep.id,comentario)" type="button">Comentar</button>
+							    </span>
+                                </div>
+                                <div class="input-group">
+                                    <select class="form-control" ng-model="medico" ng-options="medico.nombre for medico in medicos">
+                                        <option value="">Seleccione un medico</option>
+                                    </select>
+							    <span class="input-group-btn">
+								    <button class="btn btn-default" ng-click="pedirSegundaOpinion(ep.id,medico.id)" type="button">Segunda Opinion</button>
 							    </span>
                                 </div>
 							</div>

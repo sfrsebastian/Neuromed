@@ -3,7 +3,7 @@
 angular.module('mVistaPaciente', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/vistaPaciente/:idPaciente', {
+  $routeProvider.when('/vistaPaciente/:idPaciente/:idDoctor', {
     templateUrl: 'cVistaPaciente/vistaPaciente.html',
     controller: 'vistaPacienteCont'
   });
@@ -12,6 +12,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 .controller('vistaPacienteCont', ['$scope','$http','$routeParams',
         function($scope,$http,$routeParams) {
         $scope.idPaciente=$routeParams.idPaciente;
+        $scope.idDoctor=$routeParams.idDoctor;
         $scope.fecha='';
         $scope.comentario='';
         $http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente).then(function(resp) {
@@ -32,6 +33,29 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     //could be 'left, right'
                     position: 'right'
                 }
+            };
+
+            $http.get('http://neuromed.herokuapp.com/api/doctor').then(function(resp) {
+                console.log('Success', resp);
+                $scope.medicos=resp.data;
+                // For JSON responses, resp.data contains the result
+            });
+
+            $scope.pedirSegundaOpinion=function(id,mId){
+                console.log("Este es el id del episodio: "+id);
+                console.log("Este es el id del medico: "+mId);
+                var json=[
+                    {
+                        "idDoctor":mId
+                    }
+                ];
+                var res =$http.put('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+id+'/doctores',json);
+                res.success(function(data, status, headers, config) {
+                    $scope.message = data;
+                    //console.log(data);
+                });
+                console.log($scope.message);
+
             };
 
             $scope.comentar = function(id,comentario){
