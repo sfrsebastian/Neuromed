@@ -135,7 +135,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
             $scope.buscarRangoFecha=function(){
                 window.alert("Funcion en desarrollo"+$scope.fechaI+" "+$scope.fechaF);
-                $http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio'+$scope.fechaI+'/'+$scope.fechaF).then(function(resp) {
+                $http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+$scope.fechaI+'/'+$scope.fechaF).then(function(resp) {
                     console.log('SuccessFecha', resp);
                     $scope.episodiosF=resp.data;
                     // For JSON responses, resp.data contains the result

@@ -105,16 +105,16 @@
                 </div>
                         </br>
                     <div class="row">
-                        <div class="col-md-6">
-
+                        <h1 class="col-md-2">Filtrar: </h1>
+                        <div class="col-md-4">
                             <div class="input-group row">
                                 <input type="text" class="form-control" placeholder="Filtrar" ng-model="busqueda">
                             </div>
 
                         </div>
                         <div class="input-group col-md-6">
-                            <input type="text" class="form-control" id="datepicker1" placeholder="dd/mm/aaaa-dd/mm/aaaa"  ng-model="fechaI">
-                            <input type="text" class="form-control" id="datepicker2" placeholder="dd/mm/aaaa-dd/mm/aaaa"  ng-model="fechaF">
+                            <input type="text" class="form-control" id="datepicker1" placeholder="Fecha Inicial"  ng-model="fechaI">
+                            <input type="text" class="form-control" id="datepicker2" placeholder="Fecha Final"  ng-model="fechaF">
 							    <span class="input-group-btn">
 								    <button class="btn btn-default" ng-click="buscarRangoFecha()" type="button">Buscar</button>
 							    </span>
@@ -188,9 +188,9 @@
 
         <script>
             $(function() {
-                $( "#datepicker1" ).datepicker();
+                $( "#datepicker1" ).datepicker({ dateFormat: 'dd-mm-yy'});
             });
             $(function() {
-                $( "#datepicker2" ).datepicker();
+                $( "#datepicker2" ).datepicker({ dateFormat: 'dd-mm-yy'});
             });
         </script>
