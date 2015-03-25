@@ -23,7 +23,58 @@ angular.module('mVistaPaciente', ['ngRoute'])
         $http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente).then(function(resp) {
             console.log('Success', resp);
             $scope.paciente=resp.data;
+            $scope.info = {
+                labels: [],
+                nivelDolor:[]
+            };
+
+                var datos=$scope.paciente.episodios;
+                for(var i in datos)
+                {
+                    $scope.info.labels.push(datos[i].fecha);
+                }
+
+
+                var datos1=$scope.paciente.episodios;
+                for(var i in datos1)
+                {
+                    $scope.info.nivelDolor.push(datos[i].nivelDolor);
+                }
+
+
+
             // For JSON responses, resp.data contains the result
+
+            $(function () {
+                $('#grafico').highcharts({
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Episodios del paciente'
+                    },
+                    xAxis: {
+                        categories: $scope.info.labels
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nivel de dolor'
+                        }
+                    },
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            },
+                            enableMouseTracking: false
+                        }
+                    },
+                    series: [{
+                        name: 'Nombre del paciente',
+                        data: $scope.info.nivelDolor
+                    }]
+                });
+            });
         });
 
             $scope.config = {
