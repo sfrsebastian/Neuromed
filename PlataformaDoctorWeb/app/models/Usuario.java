@@ -4,29 +4,29 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import excepciones.TimeException;
 import excepciones.UsuarioException;
+import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 import play.libs.Json;
-
 import javax.persistence.*;
-
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Usuario implements Comparable<Usuario> {
+public abstract class Usuario implements Comparable<Usuario>{
 
     protected static final String MASCULINO="Masculino";
     protected static final String FEMENINO="Femenino";
-    protected static final String ROL_ADMIN="Administrador";
-    protected static final String ROL_DOCTOR="Doctor";
-    protected static final String ROL_PACIENTE="Paciente";
+    public static final String ROL_ADMIN="Administrador";
+    public static final String ROL_DOCTOR="Doctor";
+    public static final String ROL_PACIENTE="Paciente";
 
     @Id
     @Column(name="id_usuario")
@@ -38,6 +38,9 @@ public abstract class Usuario implements Comparable<Usuario> {
     protected String apellido;
 
     protected String identificacion;
+
+    @Column(length = 64, nullable = false)
+    private byte[] shaPassword;
 
     protected String password;
 
@@ -53,6 +56,8 @@ public abstract class Usuario implements Comparable<Usuario> {
     protected S3File profilePicture;
 
     protected String rol;
+
+    public String token;
 
     public void prePersist() {
         this.fechaVinculacion = Calendar.getInstance().getTime();
@@ -115,6 +120,7 @@ public abstract class Usuario implements Comparable<Usuario> {
 
     public void setPassword(String password) {
         this.password = password;
+        shaPassword = getSha512(password);
     }
 
     public Date getFechaVinculacion() {
@@ -212,7 +218,51 @@ public abstract class Usuario implements Comparable<Usuario> {
         return array;
     }
 
-    public int compareTo(Usuario o) {
+    public static byte[] getSha512(String value) {
+        try {
+            return MessageDigest.getInstance("SHA-512").digest(value.getBytes("UTF-8"));
+        }
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Usuario findByAuthToken(String authToken) {
+        if (authToken == null) {
+            return null;
+        }
+        try  {
+            Usuario usuario = JPA.withTransaction("default", false, new play.libs.F.Function0<Usuario>() {
+                public Usuario apply() throws Throwable {
+                    return JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.token = ?1", Usuario.class).setParameter(1, authToken).getSingleResult();
+                }
+            });
+            return usuario;
+        }
+        catch (Throwable e) {
+            return null;
+        }
+    }
+
+    @Transactional
+    public String createToken() {
+        if(token == null) {
+            token = UUID.randomUUID().toString();
+            JPA.em().merge(this);
+        }
+        return token;
+    }
+
+    @Transactional
+    public void deleteAuthToken() {
+        token = null;
+        JPA.em().merge(this);
+    }
+
+    public int compareTo(Usuario o){
         if(this.id == o.getId()){
             return 0;
         }
@@ -224,5 +274,15 @@ public abstract class Usuario implements Comparable<Usuario> {
         }
     }
 
+    public boolean equals(Object o){
+        if(o instanceof Usuario){
+            return this.id == ((Usuario)o).getId();
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        return this.id.hashCode();
+    }
 
 }

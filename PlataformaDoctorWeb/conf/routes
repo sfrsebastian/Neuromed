@@ -83,9 +83,7 @@ PUT		   		/api/paciente/:idPaciente/episodio/:idEpisodio/doctores		 api.Paciente
 PUT            /api/paciente/:idPaciente/profilePicture                      api.PacienteApi.agregarFotoAPaciente(idPaciente:Long)
 
 #USUARIO
-POST           /api/usuario/autenticar                                       api.UsuarioApi.autenticar()
-
-OPTIONS        /*path                                                       api.UsuarioApi.preflight(path: String)
+POST           /api/usuario/autenticar                                       api.SecurityController.login()
 
 #OPTIONS
 #Autorizar un doctor Pendiente

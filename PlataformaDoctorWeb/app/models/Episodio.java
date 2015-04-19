@@ -6,16 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.*;
-
 import play.libs.Json;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import excepciones.EpisodioException;
 
 @Entity
@@ -32,16 +28,16 @@ public class Episodio implements Comparable<Episodio>{
 
 	private String localizacion;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Comentario> comentarios;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Medicamento> medicamentos;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Intervalo> patronesSueno;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Causa> causas;
 	
 	@ManyToOne
@@ -50,7 +46,7 @@ public class Episodio implements Comparable<Episodio>{
     @OneToOne
     private Paciente paciente;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Doctor> doctores;
 
     @OneToOne
@@ -198,7 +194,7 @@ public class Episodio implements Comparable<Episodio>{
     }
 
     public boolean contieneDoctor(Doctor doctor) {
-        return doctores.contains(doctor) || this.doctor==doctor;
+        return this.doctores.contains(doctor) || this.doctor.equals(doctor);
     }
 
     public ObjectNode toJson(){
@@ -232,7 +228,6 @@ public class Episodio implements Comparable<Episodio>{
 		return formatter.format(date);
 	}
 
-	@Override
 	public int compareTo(Episodio o) {
 		if(this.id == o.getId()){
 			return 0;
@@ -243,5 +238,16 @@ public class Episodio implements Comparable<Episodio>{
 		else{
 			return -1;
 		}
+	}
+
+	public boolean equals(Object o){
+		if(o instanceof Episodio){
+			return this.id == ((Episodio)o).getId();
+		}
+		return false;
+	}
+
+	public int hashCode() {
+		return this.id.hashCode();
 	}
 }

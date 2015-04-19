@@ -32,10 +32,10 @@ public class Paciente extends Usuario{
 	@OneToOne
 	private Doctor doctor;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Episodio> episodios;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Medicamento> medicamentos;
 
 	@PrePersist
@@ -95,7 +95,7 @@ public class Paciente extends Usuario{
     }
 
     public boolean contieneEpisodio(Episodio episodio) {
-        return episodios.contains(episodio);
+        return this.episodios.contains(episodio);
     }
 
     public double getPeso() {

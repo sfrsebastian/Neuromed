@@ -1,13 +1,17 @@
 package api;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import actions.CorsComposition;
+import actions.SecuredDoctor;
+import actions.SecuredGlobal;
+import actions.SecuredPaciente;
 import com.fasterxml.jackson.databind.JsonNode;
-
+import excepciones.EpisodioException;
+import excepciones.StatusMessages;
 import excepciones.UsuarioException;
 import models.*;
 import play.db.jpa.JPA;
@@ -17,74 +21,83 @@ import play.mvc.*;
 @CorsComposition.Cors
 public class PacienteApi extends Controller {
 
-	@Transactional
+    @Security.Authenticated(SecuredGlobal.class)
+    @Transactional
 	public static Result dar(Long idPaciente){
-        response().setHeader("Response-Syle","Json-Object");
-        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
-        if(paciente != null) {
-            return ok(paciente.toJson());
+        if(SecurityController.validateOnlyMeWithDoctor(SecurityController.getUser())) {
+            response().setHeader("Response-Syle", "Json-Object");
+            Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
+            if (paciente != null) {
+                return ok(paciente.toJson());
+            }
         }
-        else {
-            return ok("El paciente con identificación " + idPaciente + " no existe");
-        }
+        return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
 	}
 
+    @Security.Authenticated(SecuredDoctor.class)
     @Transactional
     public static Result darPorCedula(String cedula){
         response().setHeader("Response-Syle","Json-Object");
         List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.identificacion = ?1", Paciente.class).setParameter(1, cedula).getResultList();
-        if(pacientes.size() > 0) {
+        if(pacientes.size() == 1) {
             return ok(pacientes.get(0).toJson());
         }
         else {
-            return ok("El paciente con cedula " + cedula + " no existe");
+            return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
         }
     }
 
+    @Security.Authenticated(SecuredDoctor.class)
 	@Transactional
 	public static Result darTodos(){
         response().setHeader("Response-Syle","Json-Array");
 		List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u", Paciente.class).getResultList();
-		return ok(Usuario.listToJson(pacientes,false));
+		return ok(Usuario.listToJson(pacientes, false));
 	}
 
 	@Transactional
 	public static Result agregar(){
-        response().setHeader("Response-Syle","Json-Object");
         try{
             Paciente nuevo = new Paciente(request().body().asJson());
-            List<Usuario> usuarios = JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.identificacion = ?1 OR u.email = ?2 ", Usuario.class).setParameter(1, nuevo.getIdentificacion()).setParameter(2, nuevo.getEmail()).getResultList();
-            if(usuarios.size()>0){
-                return ok("El usuario con identificacion " + nuevo.getIdentificacion() + "o correo " + nuevo.getEmail() + " ya existe");
-            }
-            else{
+            List<Usuario> usuarios = JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.identificacion = ?1 OR u.email = ?2", Usuario.class).setParameter(1, nuevo.getIdentificacion()).setParameter(2, nuevo.getEmail()).getResultList();
+            if(usuarios.size()==0){
+                response().setHeader("Response-Syle","Json-Object");
                 JPA.em().persist(nuevo);
-                return ok(nuevo.toJson());
+                return status(StatusMessages.C_CREATED, nuevo.toJson());
             }
+            return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
         }
         catch(UsuarioException p){
-            return ok(p.getMessage());
+            return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
         }
 	}
 
+    @Security.Authenticated(SecuredPaciente.class)
 	@Transactional
 	public static Result actualizar(Long idPaciente){
-        response().setHeader("Response-Syle","Json-Object");
-        JsonNode json = request().body().asJson();
-        String password = json.findPath("password").textValue();
-        String email = json.findPath("email").textValue();
-        Paciente actual = JPA.em().find(Paciente.class, idPaciente);
-        if(actual != null) {
-            actual.setPassword(password);
-            actual.setEmail(email);
-            JPA.em().merge(actual);
-            return ok(actual.toJson());
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            response().setHeader("Response-Syle", "Json-Object");
+            JsonNode json = request().body().asJson();
+            String password = json.findPath("password").textValue();
+            String email = json.findPath("email").textValue();
+            Paciente actual = (Paciente) SecurityController.getUser();
+            List<Usuario> usuarios = JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.email = ?1", Usuario.class).setParameter(1, email).getResultList();
+            if (email.equals("") || password.equals("") || usuarios.size() > 0) {
+                return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
+            }
+            else{
+                actual.setPassword(password);
+                actual.setEmail(email);
+                JPA.em().merge(actual);
+                return ok(StatusMessages.M_SUCCESS);
+            }
         }
         else {
-            return ok("El paciente con identificacion " + idPaciente + " no existe en el sistema.");
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
 	}
 
+    //Administrador
 	@Transactional
 	public static Result eliminar(Long idPaciente){
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
@@ -97,13 +110,14 @@ public class PacienteApi extends Controller {
         }
 	}
 
+    @Security.Authenticated(SecuredPaciente.class)
 	@Transactional
 	public static Result agregarEpisodio(Long idPaciente){
-        response().setHeader("Response-Syle","Json-Object");
-        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
-        if(paciente != null){
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            Paciente paciente = (Paciente)SecurityController.getUser();
             if(paciente.getDoctor() != null){
                 try{
+                    response().setHeader("Response-Syle","Json-Object");
                     JsonNode json = request().body().asJson();
                     Episodio episodio = new Episodio(json);
                     episodio.setDoctor(paciente.getDoctor());
@@ -113,127 +127,131 @@ public class PacienteApi extends Controller {
                     JPA.em().merge(paciente);
                     return ok(episodio.toJson());
                 }
-                catch(Exception a){
-                    return ok(a.getMessage());
+                catch(EpisodioException a){
+                    return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
                 }
             }
-            else {
-                return ok("El paciente con identificacion: " + idPaciente + " no tiene asignado a un doctor.");
+            else{
+                return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
             }
         }
-        else{
-            return ok("El paciente con identificacion " + idPaciente + " no existe en el sistema.");
+        else {
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
 	}
 
+    @Security.Authenticated(SecuredPaciente.class)
     @Transactional
     public static Result agregarGrabacionAEpisodio(Long idPaciente, Long idEpisodio){
-        Http.MultipartFormData body = request().body().asMultipartFormData();
-        Http.MultipartFormData.FilePart uploadFilePart = body.getFile("grabacion");
-        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
-        Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
-        if(paciente == null){
-            return ok("El paciente con identificacion " + idPaciente + " no existe en el sistema.");
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            Http.MultipartFormData body = request().body().asMultipartFormData();
+            Http.MultipartFormData.FilePart uploadFilePart = body.getFile("grabacion");
+            Paciente paciente = (Paciente)SecurityController.getUser();
+            Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
+            if(episodio == null || uploadFilePart == null){
+                return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
+            }
+            else{
+                S3File s3File = new S3File();
+                s3File.setName("episodios/" + episodio.getId() + "/" + uploadFilePart.getFilename());
+                s3File.setFile(uploadFilePart.getFile());
+                s3File.setOwner(paciente);
+                S3File.save(s3File);
+                episodio.setGrabacion(s3File);
+                JPA.em().merge(episodio);
+                return ok(StatusMessages.M_SUCCESS);
+            }
         }
-        else if(episodio == null){
-            return ok("El episodio con identificacion " + idEpisodio + " no existe en el sistema.");
-        }
-        else if (uploadFilePart == null) {
-            return ok("No se encontro archivo adjunto");
-        }
-        else{
-            /*S3File s3File = new S3File();
-            s3File.setName("episodios/" + episodio.getId() + "/" + uploadFilePart.getFilename());
-            s3File.setFile(uploadFilePart.getFile());
-            s3File.setOwner(paciente);
-            S3File.save(s3File);
-            episodio.setGrabacion(s3File);
-            JPA.em().merge(episodio);
-            return ok("Archivo persistido en S3 " + s3File.getUrl().toString());*/
-            return ok("Recibido archivo: " + uploadFilePart.getFilename());
+        else {
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
     }
 
+    @Security.Authenticated(SecuredPaciente.class)
     @Transactional
     public static Result agregarFotoAPaciente(Long idPaciente){
-        Http.MultipartFormData body = request().body().asMultipartFormData();
-        Http.MultipartFormData.FilePart uploadFilePart = body.getFile("imagen");
-        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
-        if(paciente == null){
-            return ok("El paciente con identificacion " + idPaciente + " no existe en el sistema.");
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            Http.MultipartFormData body = request().body().asMultipartFormData();
+            Http.MultipartFormData.FilePart uploadFilePart = body.getFile("imagen");
+            Paciente paciente = (Paciente)SecurityController.getUser();
+            if (uploadFilePart == null) {
+                return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
+            }
+            else{
+                S3File s3File = new S3File();
+                s3File.setName(uploadFilePart.getFilename());
+                s3File.setFile(uploadFilePart.getFile());
+                s3File.setOwner(paciente);
+                S3File.save(s3File);
+                paciente.setProfilePicture(s3File);
+                JPA.em().merge(paciente);
+                return ok(StatusMessages.M_SUCCESS);
+            }
         }
-        else if (uploadFilePart == null) {
-            return ok("No se encontro archivo adjunto");
-        }
-        else{
-            S3File s3File = new S3File();
-            s3File.setName(uploadFilePart.getFilename());
-            s3File.setFile(uploadFilePart.getFile());
-            s3File.setOwner(paciente);
-            S3File.save(s3File);
-            paciente.setProfilePicture(s3File);
-            JPA.em().merge(paciente);
-            return ok("Archivo persistido en S3 " + s3File.getUrl().toString());
+        else {
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
     }
 
+    @Security.Authenticated(SecuredPaciente.class)
 	@Transactional
 	public static Result eliminarEpisodio(Long idPaciente, Long idEpisodio){
-		Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
-		Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
-        if(paciente == null){
-            return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            Paciente paciente = (Paciente)SecurityController.getUser();
+            Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
+            if(paciente.eliminarEpisodio(episodio)){
+                JPA.em().merge(paciente);
+                JPA.em().remove(episodio);
+                return ok(StatusMessages.M_SUCCESS);
+            }
+            else{
+                return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
+            }
         }
-        else if(episodio == null){
-            return ok("El episodio con identificacion: " + idEpisodio + " no existe en el sistema.");
+        else {
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
-		else if(paciente.eliminarEpisodio(episodio)){
-			JPA.em().merge(paciente);
-            JPA.em().remove(episodio);
-			return ok("El episodio fue eliminado");
-		}
-		else{
-			return ok("El episodio con id: " + idEpisodio + " no hace parte de los episodios del paciente");
-		}
 	}
-	
+
+    @Security.Authenticated(SecuredPaciente.class)
 	@Transactional
 	public static Result darEpisodio(Long idPaciente,Long idEpisodio){
-        response().setHeader("Response-Syle","Json-Object");
-        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
-        Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
-        if(paciente == null){
-            return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            response().setHeader("Response-Syle","Json-Object");
+            Paciente paciente = (Paciente)SecurityController.getUser();
+            Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
+            if(episodio == null || !paciente.contieneEpisodio(episodio)) {
+                return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
+            }
+            else{
+                return ok(episodio.toJson());
+            }
         }
-        else if(episodio == null){
-            return ok("El episodio con identificacion: " + idEpisodio + " no existe en el sistema.");
+        else {
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
-		else if(paciente.contieneEpisodio(episodio)){
-			return ok(episodio.toJson());
-		}
-		else{
-			return ok("El episodio con id: " + idEpisodio + " no hace parte de los episodios del paciente");
-		}
 	}
-	
+
+    @Security.Authenticated(SecuredPaciente.class)
 	@Transactional
 	public static Result darTodosLosEpisodios(Long idPaciente){
-        response().setHeader("Response-Syle","Json-Array");
-        Paciente actual = JPA.em().find(Paciente.class,idPaciente);
-        if(actual != null){
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            response().setHeader("Response-Syle","Json-Array");
+            Paciente actual = (Paciente)SecurityController.getUser();
             List<Episodio> episodios = actual.getEpisodios();
             return ok(Episodio.listToJson(episodios));
         }
-        else{
-            return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+        else {
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
 	}
-	
+
+    @Security.Authenticated(SecuredPaciente.class)
 	@Transactional
 	public static Result darEpisodiosPorFecha(Long idPaciente, String inic, String fi){
-        response().setHeader("Response-Syle","Json-Array");
-        Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
-        if(paciente != null){
+        if (SecurityController.validateOnlyMe(idPaciente)) {
+            response().setHeader("Response-Syle","Json-Array");
+            Paciente paciente = (Paciente)SecurityController.getUser();
             try {
                 Date inicio = stringToDate(inic);
                 Date fin = stringToDate(fi);
@@ -241,39 +259,41 @@ public class PacienteApi extends Controller {
                 return ok(Episodio.listToJson(episodios));
             }
             catch(Exception e){
-                return ok(e.getMessage());
+                return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
             }
         }
-        else{
-            return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+        else {
+            return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
         }
 	}
-	
-	//REVISAR POR SESION SI QUIEN SOLICITA ES PARTE DEL EPISODIO
+
+    @Security.Authenticated(SecuredDoctor.class)
 	@Transactional
 	public static Result agregarDoctorAEpisodio(Long idPaciente,Long idEpisodio){
 		JsonNode json = request().body().asJson();
 		Long idDoctor = json.path("idDoctor").asLong();
         Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
         Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
-        Doctor doctor = JPA.em().find(Doctor.class, idDoctor);
-        if(paciente == null){
-            return ok("El paciente con identificacion: " + idPaciente + " no existe en el sistema.");
+        Doctor doctor = (Doctor)SecurityController.getUser();
+        Doctor doctorAgregar = JPA.em().find(Doctor.class, idDoctor);
+        if(episodio != null && paciente != null && doctorAgregar!= null){
+            if(episodio.contieneDoctor(doctor)){
+                if(paciente.contieneEpisodio(episodio) && !episodio.contieneDoctor(doctorAgregar)){
+                    episodio.addDoctor(doctorAgregar);
+                    JPA.em().merge(episodio);
+                    return ok(StatusMessages.M_SUCCESS);
+                }
+                else{
+                    return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
+                }
+            }
+            else{
+                return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
+            }
         }
-        else if(episodio == null){
-            return ok("El episodio con identificacion: " + idEpisodio + " no existe en el sistema.");
+        else{
+            return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
         }
-        else if(doctor == null){
-            return ok("El doctor con identificacion: " + idDoctor + " no existe en el sistema.");
-        }
-        else if(paciente.contieneEpisodio(episodio) && !episodio.contieneDoctor(doctor)){
-			episodio.addDoctor(doctor);
-			JPA.em().merge(episodio);
-			return ok("El doctor fue agregado al episodio");
-		}
-		else{
-			return ok("El episodio con id: " + idEpisodio + " no hace parte de los episodios del paciente");
-		}
 	}
 
     private static Date stringToDate(String date) throws Exception {
