@@ -62,11 +62,40 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                     }
                 ];
                 console.log(json);
-                var res =$http.post('http://neuromed.herokuapp.com/api/doctor',json);
-                res.success(function(data, status, headers, config) {
+
+                var pet={
+                    method: 'POST',
+                    url: 'http://neuromed.herokuapp.com/api/doctor',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-Auth-Token': $window.sessionStorage.token
+                    },
+                    data:
+                    {
+                        "nombre": $scope.nombre,
+                        "apellido": $scope.apellido,
+                        "password": $scope.contrasenia,
+                        "genero": 1,
+                        "identificacion": $scope.ident,
+                        "email": $scope.mail,
+                        "fechaNacimiento": $scope.fechaNacimiento
+                    }
+
+
+                };
+                console.log("2");
+                $http(pet).success(function(data, status, headers, config) {
                     $scope.message = data;
-                    //console.log(data);
+
+                }).error(function (data, status, headers, config) {
+                    // Erase the token if the user fails to log in
+                    delete $window.sessionStorage.token;
+
+                    // Handle login errors here
+                    console.log('ERROR');
+                    $scope.message = 'Error: Invalid user or password';
                 });
+
                 console.log($scope.message);
                 //Hago post
                 var usuario=2;//ahi va guardado el post
@@ -74,35 +103,5 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                     window.top.location="#/inicioDoctor";
                 }
             }
-
-            /*if(user.nombre==="" || user.apellido==="" || user.ident==="" || user.mail===""  || user.fechaNacimiento===""
-            || user.contrasenia==="" || user.reptContrasenia===""){
-                $window.alert("Complete todos los datos");
-
-            }else{
-
-                var mail=user.mail;
-                var contrasenia=user.contrasenia;
-                var json=[
-                    {
-                        "email": "juansito@correo.com",
-                        "password": "12345"
-                    }
-                ];
-                var res =$http.post('http://neuromed.herokuapp.com/api/usuario/autenticar',json);
-                res.success(function(data, status, headers, config) {
-                    $scope.message = data;
-                    console.log(data);
-                });
-                console.log($scope.message);
-                //Hago post
-                var usuario=2;//ahi va guardado el post
-                if(usuario!=null){
-                    window.top.location="#/inicioDoctor";
-                }
-            }*/
-
-
-
 
 }]);

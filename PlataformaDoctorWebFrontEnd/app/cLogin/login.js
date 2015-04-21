@@ -39,14 +39,40 @@ angular.module('mLogin', ['ngRoute'])
                         "password": contrasenia
                     }
                 ];
-                var res =$http.post('http://neuromed.herokuapp.com/api/usuario/autenticar',json);
-                res.success(function(data, status, headers, config) {
+            console.log("1");
+                var pet={
+                    method: 'POST',
+                    url: 'https://neuromed.herokuapp.com/api/usuario/autenticar',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    data:
+                        {
+                            "email": mail,
+                            "password": contrasenia
+                        }
+
+
+                };
+            console.log("2");
+                $http(pet).success(function(data, status, headers, config) {
                     $scope.message = data;
+                    $window.sessionStorage.token = data.token;
+                    console.log("TOKEN: "+$window.sessionStorage.token);
+                    console.log(data.id);
+                    //console.log("ROL: "+data.rol);
                     var id=$scope.message.id;
                     //Hago post
                     if(id!=null){
-                        window.top.location="#/inicioDoctor/"+id;
+                       window.top.location="#/inicioDoctor/"+id;
                     }
+                }).error(function (data, status, headers, config) {
+                    // Erase the token if the user fails to log in
+                    delete $window.sessionStorage.token;
+
+                    // Handle login errors here
+                    console.log('ERROR');
+                    $scope.message = 'Error: Invalid user or password';
                 });
 
 

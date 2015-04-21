@@ -123,7 +123,7 @@
 					</p>
 					<div class="bs-example" data-example-id="collapse-accordion">
 
-							<div class="panel panel-default" ng-repeat="ep in paciente.episodios | filter:busqueda">
+							<div class="panel panel-default" ng-repeat="ep in episodios | filter:busqueda">
 								<div class="panel-heading" role="tab" id="headingThree">
 									<h4 class="panel-title">
 										<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
@@ -186,11 +186,12 @@
 		</div>
 
 
-        <script>
+       <!-- <script>
             $(function() {
-                $( "#datepicker1" ).datepicker({ dateFormat: 'dd-mm-yy'});
+                $( "#datepicker1" ).datepicker({ dateFormat: 'mm-dd-yy'});
             });
             $(function() {
-                $( "#datepicker2" ).datepicker({ dateFormat: 'dd-mm-yy'});
+                $( "#datepicker2" ).datepicker({ dateFormat: 'mm-dd-yy'});
             });
-        </script>
+
+        </script>-->
