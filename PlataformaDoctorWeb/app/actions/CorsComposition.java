@@ -30,11 +30,10 @@ public class CorsComposition {
                 response.setHeader("Access-Control-Max-Age", "3600");
                 response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token");
                 response.setHeader("Access-Control-Allow-Credentials", "true");
-
                 return delegate.call(context);
             }
 
-            response.setHeader("Access-Control-Allow-Headers","X-Requested-With, Content-Type, X-Auth-Token");
+            response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, X-Auth-Token");
             return delegate.call(context);
         }
     }

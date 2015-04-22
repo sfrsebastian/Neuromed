@@ -249,17 +249,39 @@ public abstract class Usuario implements Comparable<Usuario>{
 
     @Transactional
     public String createToken() {
+        Usuario self = this;
         if(token == null) {
             token = UUID.randomUUID().toString();
-            JPA.em().merge(this);
+            try{
+                JPA.withTransaction("default", false, new play.libs.F.Function0<Usuario>() {
+                    public Usuario apply() throws Throwable {
+                        JPA.em().merge(self);
+                        return self;
+                    }
+                });
+            }
+            catch (Throwable e) {
+                return null;
+            }
         }
         return token;
     }
 
     @Transactional
     public void deleteAuthToken() {
+        Usuario self = this;
         token = null;
-        JPA.em().merge(this);
+        try{
+            JPA.withTransaction("default", false, new play.libs.F.Function0<Usuario>() {
+                public Usuario apply() throws Throwable {
+                    JPA.em().merge(self);
+                    return self;
+                }
+            });
+        }
+        catch (Throwable e) {
+
+        }
     }
 
     public int compareTo(Usuario o){

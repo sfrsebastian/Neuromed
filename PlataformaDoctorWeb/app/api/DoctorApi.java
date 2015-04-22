@@ -2,18 +2,17 @@ package api;
 
 import java.util.List;
 import actions.CorsComposition;
+import actions.ForceHttps;
 import actions.SecuredDoctor;
 import excepciones.StatusMessages;
 import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import play.mvc.Controller;
-import play.mvc.Http;
-import play.mvc.Result;
+import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import excepciones.UsuarioException;
-import play.mvc.Security;
 
+//@With(ForceHttps.class)
 @CorsComposition.Cors
 public class DoctorApi extends Controller {
 
@@ -49,8 +48,8 @@ public class DoctorApi extends Controller {
 			}
             return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
 		}
-		catch(UsuarioException p){
-			return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
+		catch(UsuarioException p) {
+            return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
 		}
 	}
 

@@ -84,7 +84,7 @@ PUT            /api/paciente/:idPaciente/profilePicture                      api
 
 #USUARIO
 POST           /api/usuario/autenticar                                       api.SecurityController.login()
-
+POST           /api/usuario/logout                                           api.SecurityController.logout()
 #OPTIONS
 #Autorizar un doctor Pendiente
 #http://localhost:9000/doctor/:id {autorizado:true}
