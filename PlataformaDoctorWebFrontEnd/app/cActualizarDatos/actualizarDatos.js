@@ -12,7 +12,18 @@ angular.module('mActualizarDatos', ['ngRoute'])
 .controller('actualizarCont', ['$scope','$window','$http' ,'$routeParams',function($scope,$window,$http,$routeParams) {
 
         $scope.id=$routeParams.id;
-        $http.get('http://neuromed.herokuapp.com/api/doctor/'+$scope.id).then(function(resp) {
+
+
+        var pet={
+            method: 'GET',
+            url: 'http://neuromed.herokuapp.com/api/doctor/'+$scope.id,
+            headers:{
+                'X-Auth-Token': $window.sessionStorage.token
+            }
+
+        };
+
+        $http(pet).then(function(resp) {
             console.log('Success', resp);
             $scope.medico=resp.data;
             // For JSON responses, resp.data contains the result
@@ -38,6 +49,7 @@ angular.module('mActualizarDatos', ['ngRoute'])
         };
 
         $scope.update=function(){
+
             var mail=$scope.mail;
             var contrasenia=$scope.contrasenia;
             var json=[
@@ -46,17 +58,39 @@ angular.module('mActualizarDatos', ['ngRoute'])
                     "email": mail
                 }
             ];
-            var res =$http.post('http://neuromed.herokuapp.com/api/doctor/'+$scope.id,json);
-            res.success(function(data, status, headers, config) {
+
+            var pet={
+                method: 'POST',
+                url: 'http://neuromed.herokuapp.com/api/doctor/'+$scope.id,
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-Auth-Token': $window.sessionStorage.token
+                },
+                data:
+                {
+                    "email": mail,
+                    "password": contrasenia
+                }
+
+
+            };
+            $http(pet).success(function(data, status, headers, config) {
                 $scope.message = data;
+                //console.log("ROL: "+data.rol);
                 var id=$scope.message.id;
                 //Hago post
                 if(id!=null){
                     window.top.location="#/inicioDoctor/"+id;
                 }
-            });
+            }).error(function (data, status, headers, config) {
+                // Erase the token if the user fails to log in
+                delete $window.sessionStorage.token;
 
+                // Handle login errors here
+                console.log('ERROR');
+                $scope.message = 'Error: Invalid user or password';
+            });
 
         };
 
-        }]);
+}]);
