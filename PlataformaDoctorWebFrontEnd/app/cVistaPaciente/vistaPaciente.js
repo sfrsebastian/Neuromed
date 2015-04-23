@@ -24,7 +24,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
         };
 
         $http(pet1).then(function(resp) {
-            console.log('Success', resp);
+            //console.log('Success', resp);
             $scope.medico=resp.data;
         });
 
@@ -41,10 +41,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
         $scope.comentario='';
 
         $http(pet2).then(function(resp) {
-            console.log('Success', resp);
+            //console.log('Success', resp);
             $scope.paciente=resp.data;
-            console.log("ESTA ES LA INFORMACION DEL PACIENTE: ");
-            console.log($scope.paciente);
+            //console.log("ESTA ES LA INFORMACION DEL PACIENTE: ");
+            //console.log($scope.paciente);
             $scope.episodios=$scope.paciente.episodios;
             $scope.info = {
                 labels: [],
@@ -184,15 +184,15 @@ angular.module('mVistaPaciente', ['ngRoute'])
             };
 
             $http(pet3).then(function(resp) {
-                console.log('Success', resp);
+                //console.log('Success', resp);
                 $scope.medicos=resp.data;
             });
 
 
 
             $scope.pedirSegundaOpinion=function(id,mId){
-                console.log("Este es el id del episodio: "+id);
-                console.log("Este es el id del medico: "+mId);
+                //console.log("Este es el id del episodio: "+id);
+                //console.log("Este es el id del medico: "+mId);
                 var json=[
                     {
                         "idDoctor":mId
@@ -203,13 +203,13 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     $scope.message = data;
                     //console.log(data);
                 });
-                console.log($scope.message);
+                //console.log($scope.message);
 
             };
 
             $scope.comentar = function(id,comentario){
-                console.log("Este es el id: "+id);
-                console.log("Este es el comentario: "+comentario);
+                //console.log("Este es el id: "+id);
+                //console.log("Este es el comentario: "+comentario);
 
                 var pet4={
                     method: 'POST',
@@ -232,10 +232,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 }).error(function (data, status, headers, config) {
                     // Erase the token if the user fails to log in
                     delete $window.sessionStorage.token;
-                    console.log('ERROR');
+                    //console.log('ERROR');
                 });
 
-                console.log($scope.message);
+                //console.log($scope.message);
                 $scope.comentario='';
             }
 
@@ -252,7 +252,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 };
 
                 $http(pet5).then(function(resp) {
-                    console.log('SuccessFecha', resp);
+                    //console.log('SuccessFecha', resp);
                     $scope.episodiosF=resp.data;
                     $scope.episodios=resp.data;
                 });
