@@ -4,11 +4,12 @@
 angular.module('myApp', [
   'ngRoute',
   'mVistaPaciente',
-  'mInicioDoctor','mLogin',
+  'mInicioDoctor','mLogin','mLogout',
   'myApp.version',
     'mActualizarDatos',
     'angularCharts',
-    'mRegistrarDoctor'
+    'mRegistrarDoctor',
+
 
 ]).
 config(['$routeProvider', function($routeProvider) {

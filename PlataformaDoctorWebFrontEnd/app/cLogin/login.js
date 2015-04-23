@@ -11,6 +11,7 @@ angular.module('mLogin', ['ngRoute'])
 
 .controller('loginCont', ['$scope','$window','$http' ,function($scope,$window,$http) {
 
+
         $scope.edit = true;
         $scope.error = false;
         $scope.incomplete = true;
@@ -50,7 +51,7 @@ angular.module('mLogin', ['ngRoute'])
                         {
                             "email": mail,
                             "password": contrasenia
-                        }
+                      }
 
 
                 };
