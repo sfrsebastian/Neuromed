@@ -43,7 +43,7 @@ angular.module('mLogin', ['ngRoute'])
             console.log("1");
                 var pet={
                     method: 'POST',
-                    url: 'https://neuromed.herokuapp.com/api/usuario/autenticar',
+                    url: 'http://neuromed.herokuapp.com/api/usuario/autenticar',
                     headers:{
                         'Content-Type': 'application/json'
                     },
