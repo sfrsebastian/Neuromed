@@ -14,7 +14,7 @@ import play.mvc.*;
 import javax.xml.ws.spi.http.HttpContext;
 import java.util.List;
 
-@CorsComposition.Cors
+//@CorsComposition.Cors
 public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-Auth-Token";

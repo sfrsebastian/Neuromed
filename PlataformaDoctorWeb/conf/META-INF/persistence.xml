@@ -9,11 +9,14 @@
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"></property>
 	        <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"></property>
-	        <property name="hibernate.connection.username" value="${?DB_USER}"></property>
-	        <property name="hibernate.connection.password" value="${?DB_PASS}"></property>
-	        <property name="hibernate.connection.url" value="${?DB_URL}"></property>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-        </properties>
-    </persistence-unit>
+            <!--<property name="hibernate.connection.username" value="bwtfffzxygvpdj"></property>
+            <property name="hibernate.connection.password" value="XHt2mflKzLnk715UEC-vkOKUfu"></property>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://ec2-107-20-177-12.compute-1.amazonaws.com:5432/detbefkc8md80m?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"></property>-->
+            <property name="hibernate.connection.username" value="Nicolas"></property>
+            <property name="hibernate.connection.password" value=""></property>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/Nicolas"></property>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+         </properties>
+     </persistence-unit>
 
-</persistence>
+ </persistence>

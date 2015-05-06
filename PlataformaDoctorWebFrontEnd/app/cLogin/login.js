@@ -57,16 +57,25 @@ angular.module('mLogin', ['ngRoute'])
                 };
             console.log("2");
                 $http(pet).success(function(data, status, headers, config) {
-                    $scope.message = data;
-                    $window.sessionStorage.token = data.token;
-                    console.log("TOKEN: "+$window.sessionStorage.token);
-                    console.log(data.id);
-                    //console.log("ROL: "+data.rol);
-                    var id=$scope.message.id;
-                    //Hago post
-                    if(id!=null){
-                       window.top.location="#/inicioDoctor/"+id;
-                    }
+                    console.log("STATUS:");
+                    console.log(status);
+
+                        $scope.message = data;
+                        if (data.rol === "Doctor") {
+
+                            $window.sessionStorage.token = data.token;
+                            console.log("TOKEN: " + $window.sessionStorage.token);
+                            console.log(data.id);
+                            //console.log("ROL: "+data.rol);
+                            var id = $scope.message.id;
+                            //Hago post
+                            if (id != null) {
+                                window.top.location = "#/inicioDoctor/" + id;
+                            }
+                        }else{
+                            window.top.location = "#/login/";
+                        }
+
                 }).error(function (data, status, headers, config) {
                     // Erase the token if the user fails to log in
                     delete $window.sessionStorage.token;

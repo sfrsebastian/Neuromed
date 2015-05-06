@@ -12,8 +12,12 @@ import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import excepciones.UsuarioException;
 
+<<<<<<< Updated upstream
 //@With(ForceHttps.class)
 @CorsComposition.Cors
+=======
+//@CorsComposition.Cors
+>>>>>>> Stashed changes
 public class DoctorApi extends Controller {
 
     @Security.Authenticated(SecuredDoctor.class)
