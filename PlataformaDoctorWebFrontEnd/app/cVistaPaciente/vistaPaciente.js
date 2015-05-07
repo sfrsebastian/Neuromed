@@ -9,8 +9,8 @@ angular.module('mVistaPaciente', ['ngRoute'])
   });
 }])
 
-.controller('vistaPacienteCont', ['$scope','$http','$routeParams','$window',
-        function($scope,$http,$routeParams,$window) {
+.controller('vistaPacienteCont', ['$scope','$http','$routeParams','$window','md5',
+        function($scope,$http,$routeParams,$window,md5) {
         $scope.idPaciente=$routeParams.idPaciente;
         $scope.idDoctor=$routeParams.idDoctor;
 
@@ -211,12 +211,14 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 //console.log("Este es el id: "+id);
                 //console.log("Este es el comentario: "+comentario);
 
+                var hash=md5.createHash(id+comentario);
                 var pet4={
                     method: 'POST',
                     url: 'https://neuromed.herokuapp.com/api/doctor/1/comentario',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-Auth-Token': $window.sessionStorage.token
+                        'X-Auth-Token': $window.sessionStorage.token,
+                        'X-Hash': hash
                     },
                     data:
                     {

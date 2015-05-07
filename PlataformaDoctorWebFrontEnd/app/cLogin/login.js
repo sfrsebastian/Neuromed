@@ -9,7 +9,7 @@ angular.module('mLogin', ['ngRoute'])
   });
 }])
 
-.controller('loginCont', ['$scope','$window','$http' ,function($scope,$window,$http) {
+.controller('loginCont', ['$scope','$window','$http','md5' ,function($scope,$window,$http,md5) {
 
 
         $scope.edit = true;
@@ -40,12 +40,15 @@ angular.module('mLogin', ['ngRoute'])
                         "password": contrasenia
                     }
                 ];
+            var hash=md5.createHash(mail+contrasenia);
+            console.log("Este es el HASH: "+hash);
             console.log("1");
                 var pet={
                     method: 'POST',
-                    url: 'http://neuromed.herokuapp.com/api/usuario/autenticar',
+                    url: 'https://neuromed.herokuapp.com/api/usuario/autenticar',
                     headers:{
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-Hash': hash
                     },
                     data:
                         {

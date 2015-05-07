@@ -7,6 +7,7 @@ angular.module('myApp', [
   'mInicioDoctor','mLogin','mLogout',
   'myApp.version',
     'mActualizarDatos',
+    'angular-md5',
     'angularCharts',
     'mRegistrarDoctor',
 

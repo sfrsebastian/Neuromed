@@ -9,7 +9,7 @@ angular.module('mActualizarDatos', ['ngRoute'])
   });
 }])
 
-.controller('actualizarCont', ['$scope','$window','$http' ,'$routeParams',function($scope,$window,$http,$routeParams) {
+.controller('actualizarCont', ['$scope','$window','$http' ,'$routeParams','md5',function($scope,$window,$http,$routeParams,md5) {
 
         $scope.id=$routeParams.id;
 
@@ -59,12 +59,14 @@ angular.module('mActualizarDatos', ['ngRoute'])
                 }
             ];
 
+            var hash=md5.createHash(contrasenia+mail);
             var pet={
                 method: 'POST',
                 url: 'http://neuromed.herokuapp.com/api/doctor/'+$scope.id,
                 headers:{
                     'Content-Type': 'application/json',
-                    'X-Auth-Token': $window.sessionStorage.token
+                    'X-Auth-Token': $window.sessionStorage.token,
+                    'X-Hash': hash
                 },
                 data:
                 {
