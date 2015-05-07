@@ -1,6 +1,7 @@
 package api;
 
 import actions.CorsComposition;
+import actions.ForceHttps;
 import actions.SecuredGlobal;
 import com.amazonaws.http.HttpResponse;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,10 +15,12 @@ import play.mvc.*;
 import javax.xml.ws.spi.http.HttpContext;
 import java.util.List;
 
-//@CorsComposition.Cors
+@CorsComposition.Cors
+@With(ForceHttps.class)
 public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-Auth-Token";
+    public final static String HASH_HEADER = "X-Hash";
     public static final String AUTH_TOKEN = "token";
 
 
@@ -53,6 +56,23 @@ public class SecurityController extends Controller {
         getUser().deleteAuthToken();
         return ok("Logged Out");
     }
+
+    public static Result cors(String s1){
+        return ok();
+    }
+
+    public static Result cors2(){
+        return ok();
+    }
+
+    public static Result cors3(String s1, String s2){
+        return ok();
+    }
+
+    public static Result cors4(String s1, String s2, String s3){
+        return ok();
+    }
+
 
     public static boolean validateOnlyMe(Long id){
         return getUser().getId()==id;
