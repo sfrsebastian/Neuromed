@@ -38,7 +38,7 @@ public class SecurityController extends Controller {
         if(device != null && Token.validDevice(device)){
             JsonNode json = request().body().asJson();
             String password = json.findPath("password").textValue();
-            String email = json.findPath("email").textValue();
+            String email = json.findPath("email").textValue().toLowerCase();
             String shaPassword = getSha512(password);
             List<Usuario> usuarios = JPA.em().createQuery("SELECT u FROM Usuario u WHERE u.email = ?1 AND u.password = ?2", Usuario.class).setParameter(1,email).setParameter(2,shaPassword).getResultList();
             if(usuarios.size() == 1) {

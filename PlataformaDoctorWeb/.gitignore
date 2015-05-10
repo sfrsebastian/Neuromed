@@ -18,5 +18,3 @@ db/
 test-result/
 lib/
 modules/
-conf/application.conf
-conf/META-INF/persistence.xml

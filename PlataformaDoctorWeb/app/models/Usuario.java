@@ -63,7 +63,7 @@ public abstract class Usuario implements Comparable<Usuario>{
         this.setApellido(node.findPath("apellido").asText());
         this.setPassword(node.findPath("password").asText());
         this.setGenero(node.findPath("genero").asInt());
-        this.setEmail(node.findPath("email").asText());
+        this.setEmail(node.findPath("email").asText().toLowerCase());
         this.setIdentificacion(node.findPath("identificacion").asText());
         try {
             this.setFechaNacimiento(stringToDate(node.findPath("fechaNacimiento").asText()));

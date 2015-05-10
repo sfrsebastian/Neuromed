@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/plataformadoctorweb -Dhttp.port=$PORT
+web: target/universal/stage/bin/plataformadoctorweb -Dhttp.port=$PORT -DapplyEvolutions.default=true
