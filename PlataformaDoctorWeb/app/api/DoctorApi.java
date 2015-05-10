@@ -16,7 +16,7 @@ import seguridad.SecurityController;
 
 @CorsComposition.Cors
 //@ForceHttps.Https
-//@IntegrityCheck.Integrity
+@IntegrityCheck.Integrity
 public class DoctorApi extends Controller {
 
     @Security.Authenticated(SecuredDoctor.class)

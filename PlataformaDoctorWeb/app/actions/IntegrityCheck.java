@@ -27,15 +27,20 @@ public class IntegrityCheck  {
         public F.Promise<Result> call(Http.Context context) throws Throwable {
             if(context.request().method().equals("POST") || context.request().method().equals("PUT")|| context.request().method().equals("DELETE")) {
                 String hash = context.request().getHeader(SecurityController.HASH_HEADER);
-                byte[] bytesOfMessage = context.request().body().asJson().toString().getBytes("UTF-8");
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                byte[] thedigest = md.digest(bytesOfMessage);
-                String hashed = Base64.getEncoder().encodeToString(thedigest);
-                boolean hashBien = hashed.equals(hash);
-                System.out.println("body " + context.request().body().asJson().toString());
-                System.out.println("Hash " + hashed);
-                System.out.println("Hash Recibido " + hash);
-                System.out.println("Hash bien " + hashBien);
+                Http.RequestBody body = context.request().body();
+                System.out.println(body.asText());
+                boolean hashBien = true;
+                if(body.asJson() != null) {
+                    byte[] bytesOfMessage = body.asJson().toString().getBytes("UTF-8");
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    byte[] thedigest = md.digest(bytesOfMessage);
+                    String hashed = Base64.getEncoder().encodeToString(thedigest);
+                    hashBien = hashed.equals(hash);
+                    System.out.println("body " + context.request().body().asJson().toString());
+                    System.out.println("Hash " + hashed);
+                    System.out.println("Hash Recibido " + hash);
+                    System.out.println("Hash bien " + hashBien);
+                }
                 if (hashBien) {
                     return delegate.call(context);
                 }

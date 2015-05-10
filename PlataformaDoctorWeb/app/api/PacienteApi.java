@@ -22,7 +22,7 @@ import seguridad.SecurityController;
 
 @CorsComposition.Cors
 //@ForceHttps.Https
-//@IntegrityCheck.Integrity
+@IntegrityCheck.Integrity
 public class PacienteApi extends Controller {
 
     @Security.Authenticated(SecuredGlobal.class)
