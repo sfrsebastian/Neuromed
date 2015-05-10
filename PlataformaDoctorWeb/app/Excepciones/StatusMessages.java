@@ -10,6 +10,7 @@ public class StatusMessages {
     public static final int C_BAD_REQUEST = 400;
     public static final int C_INTERNAL_SERVER_ERROR = 500;
     public static final int C_SSL_REQUIRED = 403;
+    public static final int C_INTEGRITY_VIOLATION = 403;
 
 
     //Status Messages
@@ -18,5 +19,8 @@ public class StatusMessages {
     public static final String M_INCORRECT_PARAMS = "Parametros incorrectos, deberias volver a realizar solicitud con valores distintos";
     public static final String M_SERVER_EXCEPTION = "Error procesando la solicitud";
     public static final String M_SSL_REQUIRED = "La conexion debe ser SSL";
-
+    public static final String M_INTEGRITY_VIOLATION = "Error de seguridad con conexion. Se violó la integridad de los datos";
+    public static final String M_METODO_NO_AUTORIZADO = "Método no autorizado";
+    public static final String M_LOGIN_FAILED = "Usuario y/o contraseña incorrecto";
+    public static final String M_UNSUPPORTED_DEVICE = "Dispositivo no válido" ;
 }

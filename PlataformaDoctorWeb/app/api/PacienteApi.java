@@ -15,9 +15,14 @@ import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.*;
+import seguridad.SecuredDoctor;
+import seguridad.SecuredGlobal;
+import seguridad.SecuredPaciente;
+import seguridad.SecurityController;
 
 @CorsComposition.Cors
-@With(ForceHttps.class)
+//@ForceHttps.Https
+//@IntegrityCheck.Integrity
 public class PacienteApi extends Controller {
 
     @Security.Authenticated(SecuredGlobal.class)
@@ -49,8 +54,8 @@ public class PacienteApi extends Controller {
     @Security.Authenticated(SecuredDoctor.class)
 	@Transactional
 	public static Result darTodos(){
-        response().setHeader("Response-Syle","Json-Array");
-		List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u", Paciente.class).getResultList();
+        response().setHeader("Response-Syle", "Json-Array");
+		List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.doctor != ?1 OR u.doctor IS NULL", Paciente.class).setParameter(1, SecurityController.getUser()).getResultList();
 		return ok(Usuario.listToJson(pacientes, false));
 	}
 
@@ -217,7 +222,7 @@ public class PacienteApi extends Controller {
 	public static Result darEpisodio(Long idPaciente,Long idEpisodio){
         if (SecurityController.validateOnlyMe(idPaciente)) {
             response().setHeader("Response-Syle","Json-Object");
-            Paciente paciente = (Paciente)SecurityController.getUser();
+            Paciente paciente = (Paciente) SecurityController.getUser();
             Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
             if(episodio == null || !paciente.contieneEpisodio(episodio)) {
                 return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
