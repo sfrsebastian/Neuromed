@@ -16,9 +16,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
         var pet1={
             method: 'GET',
-            url: 'https://neuromed.herokuapp.com/api/doctor/'+$scope.idDoctor,
+            url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.idDoctor,
             headers:{
-                'X-Auth-Token': $window.sessionStorage.token
+                'X-Auth-Token': $window.sessionStorage.token,
+                'X-Device': 'WEB'
             }
 
         };
@@ -30,9 +31,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
         var pet2={
             method: 'GET',
-            url: 'https://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente,
+            url: 'https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente,
             headers:{
-                'X-Auth-Token': $window.sessionStorage.token
+                'X-Auth-Token': $window.sessionStorage.token,
+                'X-Device': 'WEB'
             }
 
         };
@@ -176,9 +178,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
             var pet3={
                 method: 'GET',
-                url: 'https://neuromed.herokuapp.com/api/doctor',
+                url: 'https://neuroapi.herokuapp.com/api/doctor',
                 headers:{
-                    'X-Auth-Token': $window.sessionStorage.token
+                    'X-Auth-Token': $window.sessionStorage.token,
+                    'X-Device': 'WEB'
                 }
 
             };
@@ -198,7 +201,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
                         "idDoctor":mId
                     }
                 ];
-                var res =$http.put('https://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+id+'/doctores',json);
+                var res =$http.put('https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+id+'/doctores',json);
                 res.success(function(data, status, headers, config) {
                     $scope.message = data;
                     //console.log(data);
@@ -211,20 +214,24 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 //console.log("Este es el id: "+id);
                 //console.log("Este es el comentario: "+comentario);
 
-                var hash=md5.createHash(id+comentario);
+                json={
+                    "idEpisodio":id,
+                    "contenido":comentario
+                };
+
+                var hash=md5.createHash(JSON.stringify(json));
+                var hash64=btoa(hash);
                 var pet4={
                     method: 'POST',
-                    url: 'https://neuromed.herokuapp.com/api/doctor/1/comentario',
+                    url: 'https://neuroapi.herokuapp.com/api/doctor/1/comentario',
                     headers:{
                         'Content-Type': 'application/json',
                         'X-Auth-Token': $window.sessionStorage.token,
-                        'X-Hash': hash
+                        'X-Hash': hash64,
+                        'X-Device': 'WEB'
                     },
-                    data:
-                    {
-                        "idEpisodio":id,
-                        "contenido":comentario
-                    }
+                    data: json
+
 
 
                 };
@@ -246,9 +253,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
                 var pet5={
                     method: 'GET',
-                    url: 'https://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+$scope.fechaI+'/'+$scope.fechaF,
+                    url: 'https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+$scope.fechaI+'/'+$scope.fechaF,
                     headers:{
-                        'X-Auth-Token': $window.sessionStorage.token
+                        'X-Auth-Token': $window.sessionStorage.token,
+                        'X-Device': 'WEB'
                     }
 
                 };

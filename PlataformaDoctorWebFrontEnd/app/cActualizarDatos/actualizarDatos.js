@@ -16,9 +16,10 @@ angular.module('mActualizarDatos', ['ngRoute'])
 
         var pet={
             method: 'GET',
-            url: 'http://neuromed.herokuapp.com/api/doctor/'+$scope.id,
+            url: 'http://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
             headers:{
-                'X-Auth-Token': $window.sessionStorage.token
+                'X-Auth-Token': $window.sessionStorage.token,
+                'X-Device': 'WEB'
             }
 
         };
@@ -59,20 +60,22 @@ angular.module('mActualizarDatos', ['ngRoute'])
                 }
             ];
 
-            var hash=md5.createHash(contrasenia+mail);
+            var hash=md5.createHash(JSON.stringify(json));
+            var hash64=btoa(hash);
             var pet={
                 method: 'POST',
-                url: 'http://neuromed.herokuapp.com/api/doctor/'+$scope.id,
+                url: 'http://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
                 headers:{
                     'Content-Type': 'application/json',
                     'X-Auth-Token': $window.sessionStorage.token,
-                    'X-Hash': hash
+                    'X-Hash': hash64,
+                    'X-Device': 'WEB'
                 },
-                data:
-                {
-                    "email": mail,
-                    "password": contrasenia
-                }
+                data: json
+     //           {
+     //               "email": mail,
+     //               "password": contrasenia
+     //           }
 
 
             };
