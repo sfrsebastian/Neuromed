@@ -15,18 +15,20 @@ angular.module('mInicioDoctor', ['ngRoute'])
         //console.log("TOKEN INICIO DOCTOR"+$window.sessionStorage.token);
         var pet1={
             method: 'GET',
-            url: 'https://neuromed.herokuapp.com/api/doctor/'+$scope.id,
+            url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
             headers:{
-                'X-Auth-Token': $window.sessionStorage.token
+                'X-Auth-Token': $window.sessionStorage.token,
+                'X-Device': 'WEB'
             }
 
         };
 
         var pet2={
             method: 'GET',
-            url: 'https://neuromed.herokuapp.com/api/doctor/'+$scope.id+'/pacientes',
+            url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.id+'/pacientes',
             headers:{
-                'X-Auth-Token': $window.sessionStorage.token
+                'X-Auth-Token': $window.sessionStorage.token,
+                'X-Device': 'WEB'
             }
 
         };

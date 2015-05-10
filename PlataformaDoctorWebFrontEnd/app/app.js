@@ -8,7 +8,6 @@ angular.module('myApp', [
   'myApp.version',
     'mActualizarDatos',
     'angular-md5',
-    'angularCharts',
     'mRegistrarDoctor',
 
 

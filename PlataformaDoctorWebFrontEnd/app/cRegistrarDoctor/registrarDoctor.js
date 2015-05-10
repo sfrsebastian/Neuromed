@@ -62,26 +62,27 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                     }
                 ];
                 console.log(json);
-
-                var hash=md5.createHash($scope.nombre+$scope.apellido+$scope.identificacion);
+                var hash=md5.createHash(JSON.stringify(json));
+                var hash64=btoa(hash);
                 var pet={
                     method: 'POST',
                     url: 'http://neuromed.herokuapp.com/api/doctor',
                     headers:{
                         'Content-Type': 'application/json',
                         'X-Auth-Token': $window.sessionStorage.token,
-                        'X-Hash': hash
+                        'X-Hash': hash64,
+                        'X-Device': 'WEB'
                     },
-                    data:
-                    {
-                        "nombre": $scope.nombre,
-                        "apellido": $scope.apellido,
-                        "password": $scope.contrasenia,
-                        "genero": 1,
-                        "identificacion": $scope.ident,
-                        "email": $scope.mail,
-                        "fechaNacimiento": $scope.fechaNacimiento
-                    }
+                    data: json
+             //       {
+             //           "nombre": $scope.nombre,
+             //           "apellido": $scope.apellido,
+             //           "password": $scope.contrasenia,
+             //           "genero": 1,
+              //          "identificacion": $scope.ident,
+              //          "email": $scope.mail,
+              //          "fechaNacimiento": $scope.fechaNacimiento
+              //      }
 
 
                 };
