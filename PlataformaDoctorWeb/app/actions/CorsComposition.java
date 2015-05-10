@@ -23,22 +23,19 @@ public class CorsComposition  {
         @Override
         public F.Promise<Result> call(Http.Context context) throws Throwable {
             Http.Response response = context.response();
-            System.out.println("entro cors");
             response.setHeader("Access-Control-Allow-Origin", "*");
             if(context.request().method().equals("OPTIONS")) {
-                System.out.println(context.request().toString());
                 response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
                 response.setHeader("Access-Control-Max-Age", "3600");
-                response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token");
+                response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token, X-Hash, X-Device");
                 response.setHeader("Access-Control-Allow-Credentials", "true");
-                System.out.println("reponder cors");
                 return F.Promise.promise(() -> ok());
             }
             else if(context.request().method().equals("POST") || context.request().method().equals("PUT")|| context.request().method().equals("GET") || context.request().method().equals("DELETE")){
                 return delegate.call(context);
             }
             else{
-                return F.Promise.promise(() -> ok());
+                return F.Promise.promise(() -> status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_METODO_NO_AUTORIZADO));
             }
         }
     }

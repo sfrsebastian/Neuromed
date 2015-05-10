@@ -1,4 +1,4 @@
-package actions;
+package seguridad;
 
 import models.Usuario;
 import play.mvc.Http;

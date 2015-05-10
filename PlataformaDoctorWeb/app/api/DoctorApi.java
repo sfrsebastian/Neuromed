@@ -3,7 +3,8 @@ package api;
 import java.util.List;
 import actions.CorsComposition;
 import actions.ForceHttps;
-import actions.SecuredDoctor;
+import actions.IntegrityCheck;
+import seguridad.SecuredDoctor;
 import excepciones.StatusMessages;
 import models.*;
 import play.db.jpa.JPA;
@@ -11,9 +12,11 @@ import play.db.jpa.Transactional;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import excepciones.UsuarioException;
+import seguridad.SecurityController;
 
 @CorsComposition.Cors
-@With(ForceHttps.class)
+//@ForceHttps.Https
+//@IntegrityCheck.Integrity
 public class DoctorApi extends Controller {
 
     @Security.Authenticated(SecuredDoctor.class)
@@ -97,7 +100,7 @@ public class DoctorApi extends Controller {
         if (SecurityController.validateOnlyMe(idDoctor)) {
             JsonNode json = request().body().asJson();
             Long idPaciente = json.findPath("idPaciente").asLong();
-            Doctor doctor = (Doctor)SecurityController.getUser();
+            Doctor doctor = (Doctor) SecurityController.getUser();
             Paciente paciente = JPA.em().find(Paciente.class, idPaciente);
             if(paciente == null || paciente.getDoctor() != null){
                 return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
