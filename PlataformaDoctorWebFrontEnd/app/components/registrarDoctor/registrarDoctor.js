@@ -4,7 +4,7 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/registrarse', {
-    templateUrl: 'cRegistrarDoctor/registrarDoctor.html',
+    templateUrl: 'components/registrarDoctor/registrarDoctor.html',
     controller: 'registrarCont'
   });
 }])

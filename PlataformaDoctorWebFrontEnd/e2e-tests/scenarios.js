@@ -6,19 +6,19 @@ describe('my app', function() {
 
   browser.get('index.html');
 
-  it('should automatically redirect to /cLogin when location hash/fragment is empty', function() {
-    expect(browser.getLocationAbsUrl()).toMatch("/cLogin");
+  it('should automatically redirect to /login when location hash/fragment is empty', function() {
+    expect(browser.getLocationAbsUrl()).toMatch("/login");
   });
 
 
   describe('view1', function() {
 
     beforeEach(function() {
-      browser.get('index.html#/cLogin');
+      browser.get('index.html#/login');
     });
 
 
-    it('should render cLogin when user navigates to /cLogin', function() {
+    it('should render login when user navigates to /login', function() {
       expect(element.all(by.css('[ng-view] p')).first().getText()).
         toMatch(/partial for view 1/);
     });
@@ -29,11 +29,11 @@ describe('my app', function() {
   describe('view2', function() {
 
     beforeEach(function() {
-      browser.get('index.html#/cInicioDoctor');
+      browser.get('index.html#/inicioDoctor');
     });
 
 
-    it('should render cInicioDoctor when user navigates to /cInicioDoctor', function() {
+    it('should render inicioDoctor when user navigates to /inicioDoctor', function() {
       expect(element.all(by.css('[ng-view] p')).first().getText()).
         toMatch(/partial for view 2/);
     });

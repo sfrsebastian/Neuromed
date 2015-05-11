@@ -4,7 +4,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/vistaPaciente/:idPaciente/:idDoctor', {
-    templateUrl: 'cVistaPaciente/vistaPaciente.html',
+    templateUrl: 'components/vistaPaciente/vistaPaciente.html',
     controller: 'vistaPacienteCont'
   });
 }])

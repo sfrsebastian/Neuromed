@@ -4,7 +4,7 @@ angular.module('mLogin', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {
-    templateUrl: 'cLogin/login.html',
+    templateUrl: 'components/login/login.html',
     controller: 'loginCont'
   });
 }])
@@ -40,9 +40,12 @@ angular.module('mLogin', ['ngRoute'])
                         "password": contrasenia
                     }
                 ];
-            var hash=md5.createHash(JSON.stringify(json));
+            console.log("JSON en String: "+JSON.stringify(json));
+            //var hash=md5.createHash(JSON.stringify(json));
+            var hash=CryptoJS.MD5(JSON.stringify(json));
+            console.log("Este es el hash google: "+hash);
             var hash64=btoa(hash);
-            console.log("Este es el HASH: "+hash);
+            console.log("Este es el HASH64: "+hash64);
             console.log("1");
                 var pet={
                     method: 'POST',

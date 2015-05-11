@@ -4,7 +4,7 @@ angular.module('mActualizarDatos', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/actualizarDatos/:id', {
-    templateUrl: 'cActualizarDatos/actualizarDatos.html',
+    templateUrl: 'components/actualizarDatos/actualizarDatos.html',
     controller: 'actualizarCont'
   });
 }])

@@ -4,7 +4,7 @@ angular.module('mInicioDoctor', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/inicioDoctor/:id', {
-    templateUrl: 'cInicioDoctor/inicioDoctor.html',
+    templateUrl: 'components/inicioDoctor/inicioDoctor.html',
     controller: 'inicioDoctorCont'
   });
 }])
