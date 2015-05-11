@@ -1,6 +1,7 @@
 package actions;
 
 import excepciones.StatusMessages;
+import org.apache.commons.codec.binary.Hex;
 import play.libs.F;
 import play.mvc.*;
 import seguridad.SecurityController;
@@ -10,7 +11,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.security.MessageDigest;
-import java.util.Base64;
 
 public class IntegrityCheck  {
 
@@ -33,13 +33,12 @@ public class IntegrityCheck  {
                 if(body.asJson() != null) {
                     byte[] bytesOfMessage = body.asJson().toString().getBytes("UTF-8");
                     MessageDigest md = MessageDigest.getInstance("MD5");
-                    byte[] thedigest = md.digest(bytesOfMessage);
-                    String hashed = Base64.getEncoder().encodeToString(thedigest);
+                    byte[] theDigest = md.digest(bytesOfMessage);
+                    String hashed = Hex.encodeHexString(theDigest);
                     hashBien = hashed.equals(hash);
                     System.out.println("body " + context.request().body().asJson().toString());
                     System.out.println("Hash " + hashed);
                     System.out.println("Hash Recibido " + hash);
-                    System.out.println("Hash bien " + hashBien);
                 }
                 if (hashBien) {
                     return delegate.call(context);

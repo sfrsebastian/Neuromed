@@ -15,7 +15,7 @@ import excepciones.UsuarioException;
 import seguridad.SecurityController;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 @IntegrityCheck.Integrity
 public class DoctorApi extends Controller {
 

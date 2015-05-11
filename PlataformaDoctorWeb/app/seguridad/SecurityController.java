@@ -18,7 +18,7 @@ import java.util.Base64;
 import java.util.List;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 @IntegrityCheck.Integrity
 public class SecurityController extends Controller {
 
