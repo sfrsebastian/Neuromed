@@ -54,10 +54,6 @@ angular.module('mLogin', ['ngRoute'])
                         'X-Device': 'WEB'
                     },
                     data: json
-        //                {
-        //                    "email": mail,
-        //                    "password": contrasenia
-        //              }
 
 
                 };

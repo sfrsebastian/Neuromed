@@ -73,15 +73,6 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                         'X-Device': 'WEB'
                     },
                     data: json
-             //       {
-             //           "nombre": $scope.nombre,
-             //           "apellido": $scope.apellido,
-             //           "password": $scope.contrasenia,
-             //           "genero": 1,
-              //          "identificacion": $scope.ident,
-              //          "email": $scope.mail,
-              //          "fechaNacimiento": $scope.fechaNacimiento
-              //      }
 
 
                 };

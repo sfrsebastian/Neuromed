@@ -45,8 +45,6 @@ angular.module('mVistaPaciente', ['ngRoute'])
         $http(pet2).then(function(resp) {
             //console.log('Success', resp);
             $scope.paciente=resp.data;
-            //console.log("ESTA ES LA INFORMACION DEL PACIENTE: ");
-            //console.log($scope.paciente);
             $scope.episodios=$scope.paciente.episodios;
             $scope.info = {
                 labels: [],
@@ -138,8 +136,6 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 
             $scope.pedirSegundaOpinion=function(id,mId){
-                //console.log("Este es el id del episodio: "+id);
-                //console.log("Este es el id del medico: "+mId);
                 var json=[
                     {
                         "idDoctor":mId
@@ -150,13 +146,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     $scope.message = data;
                     //console.log(data);
                 });
-                //console.log($scope.message);
 
             };
 
             $scope.comentar = function(id,comentario){
-                //console.log("Este es el id: "+id);
-                //console.log("Este es el comentario: "+comentario);
 
                 json={
                     "idEpisodio":id,
@@ -205,7 +198,6 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 };
 
                 $http(pet5).then(function(resp) {
-                    //console.log('SuccessFecha', resp);
                     $scope.episodiosF=resp.data;
                     $scope.episodios=resp.data;
                 });

@@ -71,10 +71,6 @@ angular.module('mActualizarDatos', ['ngRoute'])
                     'X-Device': 'WEB'
                 },
                 data: json
-     //           {
-     //               "email": mail,
-     //               "password": contrasenia
-     //           }
 
 
             };

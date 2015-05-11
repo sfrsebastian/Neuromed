@@ -16,7 +16,8 @@ angular.module('mLogout', ['ngRoute'])
                     url: 'https://neuromed.herokuapp.com/api/usuario/logout',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-Auth-Token': $window.sessionStorage.token
+                        'X-Auth-Token': $window.sessionStorage.token,
+                        'X-Device': 'WEB'
                     }
 
 
