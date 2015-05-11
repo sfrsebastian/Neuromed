@@ -62,8 +62,7 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                     }
                 ];
                 console.log(json);
-                var hash=md5.createHash(JSON.stringify(json));
-                var hash64=btoa(hash);
+                var hash=CryptoJS.MD5(JSON.stringify(json));;
                 var pet={
                     method: 'POST',
                     url: 'http://neuromed.herokuapp.com/api/doctor',

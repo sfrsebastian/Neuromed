@@ -103,63 +103,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
         });
 
 
-        /*$http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente).then(function(resp) {
-            console.log('Success', resp);
-            $scope.paciente=resp.data;
-            $scope.episodios=$scope.paciente.episodios;
-            $scope.info = {
-                labels: [],
-                nivelDolor:[]
-            };
 
-                var datos=$scope.paciente.episodios;
-                for(var i in datos)
-                {
-                    $scope.info.labels.push(datos[i].fecha);
-                }
-
-
-                var datos1=$scope.paciente.episodios;
-                for(var i in datos1)
-                {
-                    $scope.info.nivelDolor.push(datos[i].nivelDolor);
-                }
-
-
-
-            // For JSON responses, resp.data contains the result
-
-            $(function () {
-                $('#grafico').highcharts({
-                    chart: {
-                        type: 'line'
-                    },
-                    title: {
-                        text: 'Episodios del paciente'
-                    },
-                    xAxis: {
-                        categories: $scope.info.labels
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Nivel de dolor'
-                        }
-                    },
-                    plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
-                        }
-                    },
-                    series: [{
-                        name: 'Nombre del paciente',
-                        data: $scope.info.nivelDolor
-                    }]
-                });
-            });
-        });*/
 
             $scope.config = {
                 title: 'Products',
@@ -219,15 +163,14 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     "contenido":comentario
                 };
 
-                var hash=md5.createHash(JSON.stringify(json));
-                var hash64=btoa(hash);
+                var hash=CryptoJS.MD5(JSON.stringify(json));;
                 var pet4={
                     method: 'POST',
                     url: 'https://neuroapi.herokuapp.com/api/doctor/1/comentario',
                     headers:{
                         'Content-Type': 'application/json',
                         'X-Auth-Token': $window.sessionStorage.token,
-                        'X-Hash': hash64,
+                        'X-Hash': hash,
                         'X-Device': 'WEB'
                     },
                     data: json
