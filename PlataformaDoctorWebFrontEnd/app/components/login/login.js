@@ -4,7 +4,7 @@ angular.module('mLogin', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/login', {
-    templateUrl: 'cLogin/login.html',
+    templateUrl: 'components/login/login.html',
     controller: 'loginCont'
   });
 }])
@@ -40,23 +40,20 @@ angular.module('mLogin', ['ngRoute'])
                         "password": contrasenia
                     }
                 ];
-            var hash=md5.createHash(JSON.stringify(json));
-            var hash64=btoa(hash);
-            console.log("Este es el HASH: "+hash);
-            console.log("1");
+            console.log("JSON en String: "+JSON.stringify(json));
+            //var hash=md5.createHash(JSON.stringify(json));
+            var hash=CryptoJS.MD5(JSON.stringify(json));
+            console.log("Hash: "+hash);
+            var hash_64=hash.toString(CryptoJS.enc.Base64);
                 var pet={
                     method: 'POST',
                     url: 'https://neuroapi.herokuapp.com/api/usuario/autenticar',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-Hash': hash64,
+                        'X-Hash': hash,
                         'X-Device': 'WEB'
                     },
                     data: json
-        //                {
-        //                    "email": mail,
-        //                    "password": contrasenia
-        //              }
 
 
                 };

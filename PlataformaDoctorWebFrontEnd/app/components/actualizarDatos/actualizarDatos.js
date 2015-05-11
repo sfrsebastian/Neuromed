@@ -4,7 +4,7 @@ angular.module('mActualizarDatos', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/actualizarDatos/:id', {
-    templateUrl: 'cActualizarDatos/actualizarDatos.html',
+    templateUrl: 'components/actualizarDatos/actualizarDatos.html',
     controller: 'actualizarCont'
   });
 }])
@@ -60,22 +60,17 @@ angular.module('mActualizarDatos', ['ngRoute'])
                 }
             ];
 
-            var hash=md5.createHash(JSON.stringify(json));
-            var hash64=btoa(hash);
+            var hash=CryptoJS.MD5(JSON.stringify(json));
             var pet={
                 method: 'POST',
                 url: 'http://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
                 headers:{
                     'Content-Type': 'application/json',
                     'X-Auth-Token': $window.sessionStorage.token,
-                    'X-Hash': hash64,
+                    'X-Hash': hash,
                     'X-Device': 'WEB'
                 },
                 data: json
-     //           {
-     //               "email": mail,
-     //               "password": contrasenia
-     //           }
 
 
             };

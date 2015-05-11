@@ -4,7 +4,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/vistaPaciente/:idPaciente/:idDoctor', {
-    templateUrl: 'cVistaPaciente/vistaPaciente.html',
+    templateUrl: 'components/vistaPaciente/vistaPaciente.html',
     controller: 'vistaPacienteCont'
   });
 }])
@@ -45,8 +45,6 @@ angular.module('mVistaPaciente', ['ngRoute'])
         $http(pet2).then(function(resp) {
             //console.log('Success', resp);
             $scope.paciente=resp.data;
-            //console.log("ESTA ES LA INFORMACION DEL PACIENTE: ");
-            //console.log($scope.paciente);
             $scope.episodios=$scope.paciente.episodios;
             $scope.info = {
                 labels: [],
@@ -103,63 +101,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
         });
 
 
-        /*$http.get('http://neuromed.herokuapp.com/api/paciente/'+$scope.idPaciente).then(function(resp) {
-            console.log('Success', resp);
-            $scope.paciente=resp.data;
-            $scope.episodios=$scope.paciente.episodios;
-            $scope.info = {
-                labels: [],
-                nivelDolor:[]
-            };
 
-                var datos=$scope.paciente.episodios;
-                for(var i in datos)
-                {
-                    $scope.info.labels.push(datos[i].fecha);
-                }
-
-
-                var datos1=$scope.paciente.episodios;
-                for(var i in datos1)
-                {
-                    $scope.info.nivelDolor.push(datos[i].nivelDolor);
-                }
-
-
-
-            // For JSON responses, resp.data contains the result
-
-            $(function () {
-                $('#grafico').highcharts({
-                    chart: {
-                        type: 'line'
-                    },
-                    title: {
-                        text: 'Episodios del paciente'
-                    },
-                    xAxis: {
-                        categories: $scope.info.labels
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Nivel de dolor'
-                        }
-                    },
-                    plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
-                        }
-                    },
-                    series: [{
-                        name: 'Nombre del paciente',
-                        data: $scope.info.nivelDolor
-                    }]
-                });
-            });
-        });*/
 
             $scope.config = {
                 title: 'Products',
@@ -194,8 +136,6 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 
             $scope.pedirSegundaOpinion=function(id,mId){
-                //console.log("Este es el id del episodio: "+id);
-                //console.log("Este es el id del medico: "+mId);
                 var json=[
                     {
                         "idDoctor":mId
@@ -206,28 +146,24 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     $scope.message = data;
                     //console.log(data);
                 });
-                //console.log($scope.message);
 
             };
 
             $scope.comentar = function(id,comentario){
-                //console.log("Este es el id: "+id);
-                //console.log("Este es el comentario: "+comentario);
 
                 json={
                     "idEpisodio":id,
                     "contenido":comentario
                 };
 
-                var hash=md5.createHash(JSON.stringify(json));
-                var hash64=btoa(hash);
+                var hash=CryptoJS.MD5(JSON.stringify(json));;
                 var pet4={
                     method: 'POST',
                     url: 'https://neuroapi.herokuapp.com/api/doctor/1/comentario',
                     headers:{
                         'Content-Type': 'application/json',
                         'X-Auth-Token': $window.sessionStorage.token,
-                        'X-Hash': hash64,
+                        'X-Hash': hash,
                         'X-Device': 'WEB'
                     },
                     data: json
@@ -262,7 +198,6 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 };
 
                 $http(pet5).then(function(resp) {
-                    //console.log('SuccessFecha', resp);
                     $scope.episodiosF=resp.data;
                     $scope.episodios=resp.data;
                 });

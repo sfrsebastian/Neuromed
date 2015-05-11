@@ -4,7 +4,7 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/registrarse', {
-    templateUrl: 'cRegistrarDoctor/registrarDoctor.html',
+    templateUrl: 'components/registrarDoctor/registrarDoctor.html',
     controller: 'registrarCont'
   });
 }])
@@ -62,8 +62,7 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                     }
                 ];
                 console.log(json);
-                var hash=md5.createHash(JSON.stringify(json));
-                var hash64=btoa(hash);
+                var hash=CryptoJS.MD5(JSON.stringify(json));;
                 var pet={
                     method: 'POST',
                     url: 'http://neuromed.herokuapp.com/api/doctor',
@@ -74,15 +73,6 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                         'X-Device': 'WEB'
                     },
                     data: json
-             //       {
-             //           "nombre": $scope.nombre,
-             //           "apellido": $scope.apellido,
-             //           "password": $scope.contrasenia,
-             //           "genero": 1,
-              //          "identificacion": $scope.ident,
-              //          "email": $scope.mail,
-              //          "fechaNacimiento": $scope.fechaNacimiento
-              //      }
 
 
                 };
