@@ -1,12 +1,12 @@
 package models;
 
-import seguridad.SecurityController;
+import security.SecurityController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import excepciones.TimeException;
-import excepciones.UsuarioException;
+import exceptions.TimeException;
+import exceptions.UsuarioException;
 import play.libs.Json;
 import javax.persistence.*;
 import java.text.DateFormat;

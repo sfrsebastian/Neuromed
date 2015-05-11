@@ -1,4 +1,4 @@
-package seguridad;
+package security;
 
 import models.Usuario;
 

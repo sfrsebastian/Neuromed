@@ -1,11 +1,11 @@
-package seguridad;
+package security;
 
 import actions.CorsComposition;
 import actions.ForceHttps;
 import actions.IntegrityCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import excepciones.StatusMessages;
+import exceptions.StatusMessages;
 import models.Usuario;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;

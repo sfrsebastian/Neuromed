@@ -1,4 +1,4 @@
-package excepciones;
+package exceptions;
 
 public class TimeException extends Exception {
     public TimeException(String message){

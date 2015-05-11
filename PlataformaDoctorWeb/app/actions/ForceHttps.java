@@ -1,6 +1,6 @@
 package actions;
 
-import excepciones.StatusMessages;
+import exceptions.StatusMessages;
 import play.Play;
 import play.libs.F;
 import play.mvc.*;

@@ -4,15 +4,15 @@ import java.util.List;
 import actions.CorsComposition;
 import actions.ForceHttps;
 import actions.IntegrityCheck;
-import seguridad.SecuredDoctor;
-import excepciones.StatusMessages;
+import security.SecuredDoctor;
+import exceptions.StatusMessages;
 import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import excepciones.UsuarioException;
-import seguridad.SecurityController;
+import exceptions.UsuarioException;
+import security.SecurityController;
 
 @CorsComposition.Cors
 @ForceHttps.Https

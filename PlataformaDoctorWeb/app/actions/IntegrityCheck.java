@@ -1,10 +1,10 @@
 package actions;
 
-import excepciones.StatusMessages;
+import exceptions.StatusMessages;
 import org.apache.commons.codec.binary.Hex;
 import play.libs.F;
 import play.mvc.*;
-import seguridad.SecurityController;
+import security.SecurityController;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

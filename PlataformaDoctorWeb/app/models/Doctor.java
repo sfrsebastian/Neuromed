@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import excepciones.UsuarioException;
+import exceptions.UsuarioException;
 
 @Entity
 @Table(name="Doctores")

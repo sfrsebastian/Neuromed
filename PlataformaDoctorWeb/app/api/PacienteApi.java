@@ -8,17 +8,17 @@ import java.util.List;
 
 import actions.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import excepciones.EpisodioException;
-import excepciones.StatusMessages;
-import excepciones.UsuarioException;
+import exceptions.EpisodioException;
+import exceptions.StatusMessages;
+import exceptions.UsuarioException;
 import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.*;
-import seguridad.SecuredDoctor;
-import seguridad.SecuredGlobal;
-import seguridad.SecuredPaciente;
-import seguridad.SecurityController;
+import security.SecuredDoctor;
+import security.SecuredGlobal;
+import security.SecuredPaciente;
+import security.SecurityController;
 
 @CorsComposition.Cors
 @ForceHttps.Https
