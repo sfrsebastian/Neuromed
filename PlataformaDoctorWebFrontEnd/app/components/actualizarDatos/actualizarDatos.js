@@ -16,7 +16,7 @@ angular.module('mActualizarDatos', ['ngRoute'])
 
         var pet={
             method: 'GET',
-            url: 'http://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
+            url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
             headers:{
                 'X-Auth-Token': $window.sessionStorage.token,
                 'X-Device': 'WEB'
@@ -60,10 +60,12 @@ angular.module('mActualizarDatos', ['ngRoute'])
                 }
             ];
 
+            var ruta='https://neuroapi.herokuapp.com/api/doctor/'+$scope.id;
+
             var hash=CryptoJS.MD5(JSON.stringify(json));
             var pet={
                 method: 'POST',
-                url: 'http://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
+                url: ruta,
                 headers:{
                     'Content-Type': 'application/json',
                     'X-Auth-Token': $window.sessionStorage.token,
