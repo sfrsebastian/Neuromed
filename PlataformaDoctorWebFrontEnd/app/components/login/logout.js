@@ -4,7 +4,7 @@ angular.module('mLogout', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/logout', {
-    templateUrl: '/logout.html',
+    templateUrl: 'components/login/logout.html',
     controller: 'logoutCont'
   });
 }])
@@ -13,7 +13,7 @@ angular.module('mLogout', ['ngRoute'])
 
                 var pet={
                     method: 'POST',
-                    url: 'https://neuromed.herokuapp.com/api/usuario/logout',
+                    url: 'https://neuroapi.herokuapp.com/api/usuario/logout',
                     headers:{
                         'Content-Type': 'application/json',
                         'X-Auth-Token': $window.sessionStorage.token,

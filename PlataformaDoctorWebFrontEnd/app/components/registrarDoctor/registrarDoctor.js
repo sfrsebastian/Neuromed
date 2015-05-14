@@ -65,11 +65,10 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                 var hash=CryptoJS.MD5(JSON.stringify(json));;
                 var pet={
                     method: 'POST',
-                    url: 'http://neuromed.herokuapp.com/api/doctor',
+                    url: 'https://neuroapi.herokuapp.com/api/doctor',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-Auth-Token': $window.sessionStorage.token,
-                        'X-Hash': hash64,
+                        'X-Hash': hash,
                         'X-Device': 'WEB'
                     },
                     data: json

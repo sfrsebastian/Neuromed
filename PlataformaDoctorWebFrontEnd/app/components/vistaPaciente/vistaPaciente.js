@@ -136,16 +136,31 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 
             $scope.pedirSegundaOpinion=function(id,mId){
+
                 var json=[
                     {
                         "idDoctor":mId
                     }
                 ];
-                var res =$http.put('https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+id+'/doctores',json);
+                var hash=CryptoJS.MD5(JSON.stringify(json));
+                var config={headers:{
+                    'Content-Type': 'application/json',
+                    'X-Auth-Token': $window.sessionStorage.token,
+                    'X-Hash': hash,
+                    'X-Device': 'WEB'},
+                data:json};
+                var res =$http.put('https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+id+'/doctores',config);
                 res.success(function(data, status, headers, config) {
                     $scope.message = data;
                     //console.log(data);
+                }).error(function (data, status, headers, config) {
+                    // Erase the token if the user fails to log in
+                    delete $window.sessionStorage.token;
+                    //console.log('ERROR');
                 });
+
+
+
 
             };
 
@@ -167,8 +182,6 @@ angular.module('mVistaPaciente', ['ngRoute'])
                         'X-Device': 'WEB'
                     },
                     data: json
-
-
 
                 };
                 $http(pet4).success(function(data, status, headers, config) {

@@ -18,4 +18,4 @@ db/
 test-result/
 lib/
 modules/
-data/
+/data
