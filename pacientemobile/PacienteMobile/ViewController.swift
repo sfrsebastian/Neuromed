@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     struct MyVariables {
         static var usuario : NSDictionary = ["":""]
         static var token : String = ""
+        static var medicamentos : NSMutableArray = NSMutableArray()
+        static var causas : NSMutableArray = NSMutableArray()
     }
     
     @IBOutlet weak var usuarioText: UITextField!
@@ -38,7 +40,7 @@ class ViewController: UIViewController {
         
         let result =  con.doPost("/usuario/autenticar", dict: ["email" : usuarioText.text , "password" : claveText.text]) as NSDictionary
         
-        sleep(2)
+
         
         return result
         

@@ -107,7 +107,8 @@ class Connector  {
         
         let urlData = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: err)
         
-        //WARNING! Check if json response is an ARRAY or a DICTIONARY, in that case, cast the method accordingly
+        //WARNING! Check if json response is an ARRAY or a DICTIONARY, in that case, cast the method accordin
+
         
         var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers, error:err) as! NSArray
         

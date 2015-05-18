@@ -28,24 +28,8 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
     
     var idEpisodio = 0
     
-    @IBOutlet weak var localizacionText: UITextField!
-    @IBOutlet weak var dolorText: UILabel!
-    
-    @IBOutlet weak var stepper: UIStepper!
-    
-    @IBAction func stepperAction(sender: UIStepper) {
-        
-        dolorText.text = Int(sender.value).description
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        stepper.wraps = true
-        stepper.autorepeat = true
-        stepper.maximumValue = 10
-        stepper.minimumValue = 1
         
         
     }
@@ -69,22 +53,16 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
         var dateInFormat: String = dateFormatter.stringFromDate(todaysDate)
 
         
-        var t1 = dolorText.text?.toInt()
         
-        var d : [String : AnyObject] =  [ "fecha" : dateInFormat , "localizacion" : localizacionText.text]
-        d["nivelDolor"] = t1
+//        let resss = con.doPost("/paciente/\(idx)/episodio", dict: d) as NSDictionary
+//        
+//        println("Se acaba de enviar el nuevo episodio")
+//        sleep(2)
         
-        let resss = con.doPost("/paciente/\(idx)/episodio", dict: d) as NSDictionary
-        
-        println("Se acaba de enviar el nuevo episodio")
-        sleep(2)
-        
-        stepper.value = 1
-        dolorText.text = "1"
-        localizacionText.text = ""
+
         
         
-        print (resss)
+//        print (resss)
         
         
      //   idEpisodio = con.result?["id"] as! NSInteger
@@ -381,6 +359,15 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
     
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
         responseData.appendData(data)
+    }
+    
+    
+    
+    @IBAction func popear(sender: AnyObject) {
+     //   self.presentingViewController?.dismissViewControllerAnimated(true, completion: {})
+     //   self.dismissViewControllerAnimated(true, completion: {})
+        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
     }
 
 
