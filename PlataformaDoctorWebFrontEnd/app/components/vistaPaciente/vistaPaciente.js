@@ -299,6 +299,8 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
             $scope.restaurarEpisodios=function(){
 
+                $scope.fechas.fechaPicker=""
+
                 var pet2={
                     method: 'GET',
                     url: 'https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente,

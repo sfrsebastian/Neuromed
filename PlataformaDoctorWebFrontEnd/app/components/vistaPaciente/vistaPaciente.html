@@ -135,19 +135,14 @@
 			<div ng-if="vistaActual==2" id="episodio">
 				<div class="col-sm-2 panel panel-default notebook">
                     <div>
-                        <form class="form-inline" role="search">
 
-                                <div class="form-group">
-                                    <label for="selectfecha">Fecha</label>
-                                    <input type="text" class="form-control" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
-                                </div>
-                                <div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
+                                <span class="input-group-btn">
                                     <button type="submit" class="btn btn-success" ng-click="buscarRangoFecha()"><li class="fa fa-search"></li></button>
                                     <button type="submit" class="btn btn-danger" ng-click="restaurarEpisodios()"><li class="fa fa-trash"></li></button>
-                                </div>
-
-                        </form>
-                    </div>
+                                </span>
+                            </div><!-- /input-group -->
 					<ul class="no-padding" >
 						<li class="col-xs-12 no-padding" ng-repeat="episodio in episodios | filter:query | orderBy: orderList" ng-click="cambiarEpisodioActual(episodio.id)">
 							<strong>Fecha:</strong> {{episodio.fecha}}
