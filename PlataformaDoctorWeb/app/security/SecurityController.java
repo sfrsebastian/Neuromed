@@ -2,7 +2,6 @@ package security;
 
 import actions.CorsComposition;
 import actions.ForceHttps;
-import actions.IntegrityCheck;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import exceptions.StatusMessages;

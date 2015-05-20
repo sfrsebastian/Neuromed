@@ -1,4 +1,4 @@
-package actions;
+package security;
 
 import exceptions.StatusMessages;
 import org.apache.commons.codec.binary.Hex;
@@ -25,7 +25,8 @@ public class IntegrityCheck  {
 
         @Override
         public F.Promise<Result> call(Http.Context context) throws Throwable {
-            if(context.request().method().equals("POST") || context.request().method().equals("PUT")|| context.request().method().equals("DELETE")) {
+            String device = context.request().getHeader(SecurityController.DEVICE_HEADER);
+            if(!device.equals("IOS") && (context.request().method().equals("POST") || context.request().method().equals("PUT")|| context.request().method().equals("DELETE"))) {
                 String hash = context.request().getHeader(SecurityController.HASH_HEADER);
                 Http.RequestBody body = context.request().body();
                 System.out.println(body.asText());

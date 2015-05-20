@@ -14,9 +14,6 @@ class EpisodioCell: UITableViewCell{
     
     @IBOutlet weak var fechaText: UILabel?
     
-    var nivelDolor : Int = 0
-    
-    var localizacion : String = ""
     
     
     

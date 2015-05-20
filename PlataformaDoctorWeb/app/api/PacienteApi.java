@@ -15,10 +15,7 @@ import models.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.*;
-import security.SecuredDoctor;
-import security.SecuredGlobal;
-import security.SecuredPaciente;
-import security.SecurityController;
+import security.*;
 
 @CorsComposition.Cors
 @ForceHttps.Https

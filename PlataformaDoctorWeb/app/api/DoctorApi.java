@@ -3,8 +3,7 @@ package api;
 import java.util.List;
 import actions.CorsComposition;
 import actions.ForceHttps;
-import actions.IntegrityCheck;
-import security.SecuredDoctor;
+import security.*;
 import exceptions.StatusMessages;
 import models.*;
 import play.db.jpa.JPA;
@@ -12,7 +11,6 @@ import play.db.jpa.Transactional;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.UsuarioException;
-import security.SecurityController;
 
 @CorsComposition.Cors
 @ForceHttps.Https

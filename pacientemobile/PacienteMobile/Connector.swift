@@ -14,7 +14,7 @@ import UIKit
 class Connector  {
     
     let method : String
-    let requestUrl = "https://neuromed.herokuapp.com/api"
+    let requestUrl = "https://neuroapi.herokuapp.com/api"
     
      var result : NSDictionary?
 
@@ -30,6 +30,8 @@ class Connector  {
         
         var request = NSMutableURLRequest(URL: NSURL(string : requestUrl+url)!)
         request.HTTPMethod = "PUT"
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
         
         request.setValue("Keep-Alive", forHTTPHeaderField: "Connection")
         
@@ -61,6 +63,8 @@ class Connector  {
         let request = NSMutableURLRequest(URL: url!)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.HTTPMethod = verb
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
         var err: NSError?
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(array, options: NSJSONWritingOptions.allZeros, error: &err)
         
@@ -94,6 +98,8 @@ class Connector  {
         request.HTTPMethod = "GET"
         println(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN"))
         request.addValue(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN") as? String, forHTTPHeaderField: "X-Auth-Token")
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
         
         var response: NSURLResponse?
         
@@ -101,7 +107,8 @@ class Connector  {
         
         let urlData = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: err)
         
-        //WARNING! Check if json response is an ARRAY or a DICTIONARY, in that case, cast the method accordingly
+        //WARNING! Check if json response is an ARRAY or a DICTIONARY, in that case, cast the method accordin
+
         
         var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers, error:err) as! NSArray
         
@@ -137,6 +144,8 @@ class Connector  {
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(dict, options: nil, error: &err)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
         
         var response: NSURLResponse?
         
@@ -166,6 +175,8 @@ class Connector  {
         var request : NSMutableURLRequest = NSMutableURLRequest()
         request.URL = NSURL(string: requestUrl)
         request.HTTPMethod = "GET"
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
         
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler:{ (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
             
@@ -196,6 +207,8 @@ class Connector  {
         let cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
         var request = NSMutableURLRequest(URL: url!, cachePolicy: cachePolicy, timeoutInterval: 2.0)
         request.HTTPMethod = "PUT"
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
         
         // set Content-Type in HTTP header
         let boundaryConstant = "----------V2ymHFg03esomerandomstuffhbqgZCaKO6jy";
