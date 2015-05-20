@@ -1,134 +1,134 @@
 'use strict';
 
-angular.module('mVistaPaciente', ['ngRoute'])
+angular.module('mSegundasOpiniones', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/vistapaciente/:idPaciente/doctor/:idDoctor/vista/:idVista', {
-    templateUrl: 'components/vistaPaciente/vistaPaciente.html',
-    controller: 'vistaPacienteCont'
-  });
-}])
+    .config(['$routeProvider', function($routeProvider) {
+        $routeProvider.when('/segundasopiniones/:idDoctor', {
+            templateUrl: 'components/segundasOpiniones/segundasOpiniones.html',
+            controller: 'segundasOpinionesCont'
+        });
+    }])
 
-.controller('vistaPacienteCont', ['$scope','$http','$routeParams','$window','md5',
+    .controller('segundasOpinionesCont', ['$scope','$http','$routeParams','$window','md5',
         function($scope,$http,$routeParams,$window,md5) {
 
             console.log("Entro a vista paciente");
 
-        /*
-        Se extraen los parametros de la ruta
-         */
-        $scope.idPaciente=$routeParams.idPaciente;
-        $scope.idDoctor=$routeParams.idDoctor;
-        $scope.vistaActual=$routeParams.idVista;
+            /*
+             Se extraen los parametros de la ruta
+             */
+            $scope.idPaciente=$routeParams.idPaciente;
+            $scope.idDoctor=$routeParams.idDoctor;
+            $scope.vistaActual=$routeParams.idVista;
 
-        $scope.fechas={};
+            $scope.fechas={};
 
-        /*
-        Para la busqueda dinamica
-         */
-        $scope.selectors = {};
-        $scope.selectors.selected=undefined;
-        $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+            /*
+             Para la busqueda dinamica
+             */
+            $scope.selectors = {};
+            $scope.selectors.selected=undefined;
+            $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
-        /*
-        Se piden los datos del doctor
-         */
-        var pet1={
-            method: 'GET',
-            url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.idDoctor,
-            headers:{
-                'X-Auth-Token': $window.sessionStorage.token,
-                'X-Device': 'WEB'
-            }
+            /*
+             Se piden los datos del doctor
+             */
+            var pet1={
+                method: 'GET',
+                url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.idDoctor,
+                headers:{
+                    'X-Auth-Token': $window.sessionStorage.token,
+                    'X-Device': 'WEB'
+                }
 
-        };
-
-        $http(pet1).then(function(resp) {
-            //console.log('Success', resp);
-            $scope.medico=resp.data;
-        });
-
-        /*
-        Se piden los datos del paciente
-         */
-        var pet2={
-            method: 'GET',
-            url: 'https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente,
-            headers:{
-                'X-Auth-Token': $window.sessionStorage.token,
-                'X-Device': 'WEB'
-            }
-
-        };
-
-        $scope.fecha='';
-        $scope.comentario='';
-
-        $http(pet2).then(function(resp) {
-            //console.log('Success', resp);
-            $scope.paciente=resp.data;
-            $scope.episodios=$scope.paciente.episodios;
-            console.log("Episodios",$scope.episodios);
-            $scope.episodioActual=$scope.episodios[0];
-            $scope.rutaImagenCerebro ="";
-            $scope.cssImagen="";
-            cambiarImagen();
-            $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
-            $scope.info = {
-                labels: [],
-                nivelDolor:[]
             };
 
-            var datos=$scope.paciente.episodios;
-            for(var i in datos)
-            {
-                $scope.info.labels.push(datos[i].fecha);
-            }
+            $http(pet1).then(function(resp) {
+                //console.log('Success', resp);
+                $scope.medico=resp.data;
+            });
+
+            /*
+             Se piden los datos del paciente
+             */
+            var pet2={
+                method: 'GET',
+                url: 'https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente,
+                headers:{
+                    'X-Auth-Token': $window.sessionStorage.token,
+                    'X-Device': 'WEB'
+                }
+
+            };
+
+            $scope.fecha='';
+            $scope.comentario='';
+
+            $http(pet2).then(function(resp) {
+                //console.log('Success', resp);
+                $scope.paciente=resp.data;
+                $scope.episodios=$scope.paciente.episodios;
+                console.log("Episodios",$scope.episodios);
+                $scope.episodioActual=$scope.episodios[0];
+                $scope.rutaImagenCerebro ="";
+                $scope.cssImagen="";
+                cambiarImagen();
+                $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
+                $scope.info = {
+                    labels: [],
+                    nivelDolor:[]
+                };
+
+                var datos=$scope.paciente.episodios;
+                for(var i in datos)
+                {
+                    $scope.info.labels.push(datos[i].fecha);
+                }
 
 
-            var datos1=$scope.paciente.episodios;
-            for(var i in datos1)
-            {
-                $scope.info.nivelDolor.push(datos[i].nivelDolor);
-            }
+                var datos1=$scope.paciente.episodios;
+                for(var i in datos1)
+                {
+                    $scope.info.nivelDolor.push(datos[i].nivelDolor);
+                }
 
 
 
-            // For JSON responses, resp.data contains the result
+                // For JSON responses, resp.data contains the result
 
-            $(function () {
-                $('#grafico').highcharts({
-                    chart: {
-                        type: 'line'
-                    },
-                    title: {
-                        text: 'Episodios del paciente'
-                    },
-                    xAxis: {
-                        categories: $scope.info.labels
-                    },
-                    yAxis: {
+                $(function () {
+                    $('#grafico').highcharts({
+                        chart: {
+                            type: 'line'
+                        },
                         title: {
-                            text: 'Nivel de dolor'
-                        }
-                    },
-                    plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
-                        }
-                    },
-                    series: [{
-                        name: 'Nombre del paciente',
-                        data: $scope.info.nivelDolor
-                    }]
+                            text: 'Episodios del paciente'
+                        },
+                        xAxis: {
+                            categories: $scope.info.labels
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Nivel de dolor'
+                            }
+                        },
+                        plotOptions: {
+                            line: {
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                enableMouseTracking: false
+                            }
+                        },
+                        series: [{
+                            name: 'Nombre del paciente',
+                            data: $scope.info.nivelDolor
+                        }]
+                    });
                 });
             });
-        });
 
-        //////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////
 
 
             $scope.config = {
@@ -147,7 +147,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 
             /*
-            Se piden los doctores para las segundas opiniones
+             Se piden los doctores para las segundas opiniones
              */
             var pet3={
                 method: 'GET',
@@ -167,7 +167,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 
             /*
-            Funcion para pedir segunda opinion
+             Funcion para pedir segunda opinion
              */
             $scope.pedirSegundaOpinion=function(id,mId){
 
@@ -182,7 +182,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     'X-Auth-Token': $window.sessionStorage.token,
                     'X-Hash': hash,
                     'X-Device': 'WEB'},
-                data:json};
+                    data:json};
                 var res =$http.put('https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente+'/episodio/'+id+'/doctores',config);
                 res.success(function(data, status, headers, config) {
                     $scope.message = data;
@@ -197,7 +197,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
 
             /*
-            Funcion para comentar un episodio
+             Funcion para comentar un episodio
              */
             $scope.comentar = function(id,comentario){
 
@@ -233,7 +233,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
             }
 
             /*
-            Funcion para buscar por fecha
+             Funcion para buscar por fecha
              */
             $scope.buscarRangoFecha=function(){
 
@@ -261,7 +261,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
             };
 
             /*
-            Metodo que cambia el paciente actual segun el id que cambia por parametro
+             Metodo que cambia el paciente actual segun el id que cambia por parametro
              */
             $scope.cambiarEpisodioActual=function(id){
                 for(var i = 0; i < $scope.episodios.length; i++)
@@ -277,7 +277,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
             }
 
             function cambiarImagen(){
-               $scope.rutaImagenCerebro = $scope.episodioActual.localizacion;
+                $scope.rutaImagenCerebro = $scope.episodioActual.localizacion;
 
                 if($scope.rutaImagenCerebro=="Frontal"){
                     $scope.cssImagen="brain-frontal";
@@ -382,5 +382,5 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 console.log($scope.selectors.selected);
             }
 
-}]);
+        }]);
 
