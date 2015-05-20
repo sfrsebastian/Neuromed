@@ -54,6 +54,16 @@ class NuevoEpisodio1ViewController : UIViewController {
     }
     
     
+    @IBAction func escogerPatrones() {
+        mostrarTableView("intervalo")
+    }
+    
+    
+    @IBAction func siguiente() {
+        
+        var d = dolorLabel.text?.toInt()
+        ViewController.MyVariables.nivelDolor = d!
+    }
 
     
     

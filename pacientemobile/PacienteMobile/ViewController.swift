@@ -15,12 +15,17 @@ class ViewController: UIViewController {
         static var token : String = ""
         static var medicamentos : NSMutableArray = NSMutableArray()
         static var causas : NSMutableArray = NSMutableArray()
+        static var patrones : NSMutableArray = NSMutableArray()
+        static var nivelDolor : Int = 0
+        static var idEpisodio : Int = 0
+        
+        static var creado = false
     }
     
     @IBOutlet weak var usuarioText: UITextField!
     
     @IBOutlet weak var claveText: UITextField!
-
+    
     @IBOutlet weak var errorText: UILabel!
     
     
@@ -28,55 +33,55 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-     func logear() -> NSDictionary{
+    func logear() -> NSDictionary{
         
-      var  con: Connector = Connector()
+        var  con: Connector = Connector()
         
         let result =  con.doPost("/usuario/autenticar", dict: ["email" : usuarioText.text , "password" : claveText.text]) as NSDictionary
         
-
+        
         
         return result
         
     }
     
-
+    
     
     override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
-
+        
         var data : NSDictionary? = logear()
         
         print(data)
-
         
         
-       if (data != nil && data?["rol"]! as! NSString == "Paciente"){
         
-        MyVariables.usuario = data!
-        
-        let global_settings = NSUserDefaults.standardUserDefaults()
-        let idd = data?["id"] as! Int
-        let tok = data?["token"] as! String
-        global_settings.setValue("\(idd)", forKey: "DOCTOR_ID")
-        global_settings.setValue(tok, forKey: "TOKEN")
-        
-        global_settings.synchronize()
-      
+        if (data != nil && data?["rol"]! as! NSString == "Paciente"){
+            
+            MyVariables.usuario = data!
+            
+            let global_settings = NSUserDefaults.standardUserDefaults()
+            let idd = data?["id"] as! Int
+            let tok = data?["token"] as! String
+            global_settings.setValue("\(idd)", forKey: "DOCTOR_ID")
+            global_settings.setValue(tok, forKey: "TOKEN")
+            
+            global_settings.synchronize()
+            
             return true
         }else{
-        
-         self.errorText.hidden = false
-           return false
-    }
+            
+            self.errorText.hidden = false
+            return false
+        }
     }
     
-  
+    
     
     
 }

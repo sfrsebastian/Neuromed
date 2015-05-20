@@ -12,11 +12,14 @@ import AVFoundation
 
 
 class NuevoEpisodioViewController: UIViewController,
-AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSessionTaskDelegate , NSURLSessionDataDelegate{
+    AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSessionTaskDelegate , NSURLSessionDataDelegate
+{
     
     @IBOutlet weak var btnGrabar: UIButton!
     
+    @IBOutlet weak var btnPlay: UIButton!
     
+    @IBOutlet weak var imageView: UIImageView!
     
     var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
@@ -24,7 +27,9 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
     
     var responseData = NSMutableData()
     
+    var recorded = false
     
+    var localizacion = "Occipital"
     
     var idEpisodio = 0
     
@@ -38,7 +43,7 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-}
+    }
     
     
     @IBAction func crearEpisodio(sender: UIButton) {
@@ -51,71 +56,84 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
         var dateFormatter:NSDateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         var dateInFormat: String = dateFormatter.stringFromDate(todaysDate)
+        
+        var json : NSDictionary = ["nivelDolor" : ViewController.MyVariables.nivelDolor , "fecha" : dateInFormat , "localizacion" : localizacion , "medicamentos" : ViewController.MyVariables.medicamentos , "causas" : ViewController.MyVariables.causas , "patronesSueno" : ViewController.MyVariables.patrones]
+        
+        
+        
+        
+        
+        
+        let resss = con.doPost("/paciente/\(idx)/episodio", dict: json) as NSDictionary
+        
+        //        print (resss)
+        
+        idEpisodio = resss["id"] as! Int
+        
+        if( recorded){
+            uploadSound()
+            println("Se subió el sonido")
+        }
+        
+        
+        ViewController.MyVariables.creado = true
+        
+        println("Se acaba de enviar el nuevo episodio y posee el id \(idEpisodio)")
+        //                sleep(2)
+        
+        // Mostrar alerta
+        var alert = UIAlertController(title: "Excelente !", message: "Se ha creado el nuevo episodio" , preferredStyle: UIAlertControllerStyle.Alert)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        // quitar alerta
+        let delay = 0.7 * Double(NSEC_PER_SEC)
+        var time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+        dispatch_after(time, dispatch_get_main_queue(), {
+            alert.dismissViewControllerAnimated(true, completion: {})
+            self.popear()
+        })
 
         
         
-//        let resss = con.doPost("/paciente/\(idx)/episodio", dict: d) as NSDictionary
-//        
-//        println("Se acaba de enviar el nuevo episodio")
-//        sleep(2)
-        
-
-        
-        
-//        print (resss)
-        
-        
-     //   idEpisodio = con.result?["id"] as! NSInteger
-        
-    //      var readingError:NSError?
-        
-    //      audioFile = NSData(contentsOfURL: audioRecordingPath(),
-    //        options: .MappedRead,
-    //        error: &readingError)
-        
-     //   con.doPutData("/paciente/\(idx)/episodio/\(idEpisodio)", data: audioFile!, params: ["":""], filename: "grabacion.m4a")
-  
-        
-        //println(audioFile)
-        
-      //  con.postData("/paciente/2/episodio/2", data: audioFile!, vista: self)
-      //  con.extraPost("/paciente/2/episodio/2", array: ["grabacion": audioFile] , verb: "PUT")
-        
-        
-        
-        // envio del sonido , pero hay que cambiarlo :/
-        
-        
-   //     var connector = Connector()
-        
-   //     var readingError:NSError?
-        
-    //    var audioFile = NSData(contentsOfURL: audioRecordingPath(),
-     //       options: .MappedRead,
-     //       error: &readingError)
-        
-      //  connector.postData("/url", data: audioFile!, vista: self)
     }
     
     @IBAction func subirSonido(sender: UIButton) {
         
         var idx = ViewController.MyVariables.usuario["id"] as! NSInteger
         
-             var con = Connector()
+        var con = Connector()
         
-             var readingError:NSError?
+        var readingError:NSError?
         
         var audioFile = NSData(contentsOfURL: audioRecordingPath(),
-               options: .MappedRead,
-               error: &readingError)
+            options: .MappedRead,
+            error: &readingError)
         
-
+        
         if(audioFile != nil){
-
-         con.doPutData("/paciente/\(idx)/episodio/\(idEpisodio)", data: audioFile!, params: ["":""], filename: "grabacion.m4a")
+            
+            con.doPutData("/paciente/\(idx)/episodio/\(idEpisodio)", data: audioFile!, params: ["":""], filename: "grabacion.m4a")
         }
     }
-
+    
+    func uploadSound(){
+        var idx = ViewController.MyVariables.usuario["id"] as! NSInteger
+        
+        var con = Connector()
+        
+        var readingError:NSError?
+        
+        var audioFile = NSData(contentsOfURL: audioRecordingPath(),
+            options: .MappedRead,
+            error: &readingError)
+        
+        
+        if(audioFile != nil){
+            
+            con.doPutData("/paciente/\(idx)/episodio/\(idEpisodio)", data: audioFile!, params: ["":""], filename: "grabacion.m4a")
+        }
+    }
+    
     
     
     
@@ -173,11 +191,11 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
         } else {
             println("Failed to create an audio player")
         }
-
+        
         
     }
     
-
+    
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!,
         successfully flag: Bool){
             
@@ -189,7 +207,7 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
                 
                 var readingError:NSError?
                 
-                    audioFile = NSData(contentsOfURL: audioRecordingPath(),
+                audioFile = NSData(contentsOfURL: audioRecordingPath(),
                     options: .MappedRead,
                     error: &readingError)
                 
@@ -201,26 +219,26 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
                 
                 
                 /* Could we instantiate the audio player? */
-               // if let player = audioPlayer{
-                 //   player.delegate = self
-                    
-                    /* Prepare to play and start playing */
-                   // if player.prepareToPlay() && player.play(){
-                  //      println("Started playing the recorded audio")
-                 //   } else {
+                // if let player = audioPlayer{
+                //   player.delegate = self
+                
+                /* Prepare to play and start playing */
+                // if player.prepareToPlay() && player.play(){
+                //      println("Started playing the recorded audio")
+                //   } else {
                 //        println("Could not play the audio")
-               //     }
-                    
-              //  } else {
-               //     println("Failed to create an audio player")
-              //  }
+                //     }
+                
+                //  } else {
+                //     println("Failed to create an audio player")
+                //  }
                 
             } else {
                 println("Stopping the audio recording failed")
             }
             
             /* Here we don't need the audio recorder anymore */
-           self.audioRecorder = nil;
+            self.audioRecorder = nil;
             
     }
     
@@ -273,6 +291,13 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
                 
                 println("Successfully started to record.")
                 
+                // registrar que hay grabación
+                
+                recorded = true
+                btnPlay.hidden = false
+                //
+                
+                
                 /* After 5 seconds, let's stop the recording process */
                 let delayInSeconds = 5.0
                 let delayInNanoSeconds =
@@ -282,7 +307,7 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
                 dispatch_after(delayInNanoSeconds, dispatch_get_main_queue(), {
                     [weak self] in
                     self!.audioRecorder!.stop()
-                })
+                    })
                 
             } else {
                 println("Failed to record.")
@@ -295,7 +320,7 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
         
     }
     
-
+    
     
     
     @IBAction func grabar(sender: UIButton) {
@@ -362,13 +387,46 @@ AVAudioPlayerDelegate, AVAudioRecorderDelegate ,  NSURLSessionDelegate , NSURLSe
     }
     
     
-    
-    @IBAction func popear(sender: AnyObject) {
-     //   self.presentingViewController?.dismissViewControllerAnimated(true, completion: {})
-     //   self.dismissViewControllerAnimated(true, completion: {})
-        self.navigationController?.popViewControllerAnimated(true)
-        self.navigationController?.popViewControllerAnimated(true)
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    {
+        let touch = touches.first as! UITouch
+        let location = touch.locationInView(self.view)
+        
+        let x = location.x
+        let y = location.y
+        
+        print("Se ha presionado la locación : \(location)")
+        
+        if(x >= 102.5 && x <= 261.5 && y <= 152 && y >= 112.5){
+            imageView.image = UIImage(named: "frontal")
+            localizacion = "Frontal"
+        }else if(x >= 88.5 && x <= 183 && y > 152 && y <= 196){
+            imageView.image = UIImage(named: "temporal-izquierdo")
+            localizacion = "Temporal Izquierdo"
+        }else if(x > 183 && x <= 278 && y > 152 && y <= 196){
+            imageView.image = UIImage(named: "temporal-derecho")
+            localizacion = "Temporal Derecho"
+        }else if(x >= 68.5 && x <= 183 && y > 196 && y <= 258.5){
+            imageView.image = UIImage(named: "parietal-izquierdo")
+            localizacion = "Parietal Izquierdo"
+        }else if(x > 183 && x <= 297 && y > 196 && y <= 258.5){
+            imageView.image = UIImage(named: "parietal-derecho")
+            localizacion = "Parietal Derecho"
+        }else if(x >= 85.5 && x <= 183 && y > 258.5 && y <= 307.5){
+            imageView.image = UIImage(named: "occipital-izquierdo")
+            localizacion = "Occipital Izquierdo"
+        }else if(x > 183 && x <= 278 && y > 258.5 && y <= 307.5){
+            imageView.image = UIImage(named: "occipital-derecho")
+            localizacion = "Occipital Derecho"
+        }
     }
-
-
+    
+    func popear (){
+//        self.navigationController?.popViewControllerAnimated(true)
+//        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        
+        
+    }
 }
+

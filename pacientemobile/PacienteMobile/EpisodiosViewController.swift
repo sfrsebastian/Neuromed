@@ -10,10 +10,14 @@ import UIKit
 
 class EpisodiosViewController: UIViewController , UITableViewDelegate,UITableViewDataSource {
     
- 
+    
     
     
     var items : NSArray = []
+    
+    var idx = ViewController.MyVariables.usuario["id"] as! NSInteger
+    
+
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -21,8 +25,8 @@ class EpisodiosViewController: UIViewController , UITableViewDelegate,UITableVie
     
     @IBAction func cerrarSesión(sender: UIBarButtonItem) {
         
-            self.dismissViewControllerAnimated(false, completion: nil)
-            println("se cerró sesión")
+        self.dismissViewControllerAnimated(false, completion: nil)
+        println("se cerró sesión")
         
     }
     
@@ -30,25 +34,22 @@ class EpisodiosViewController: UIViewController , UITableViewDelegate,UITableVie
         super.viewDidLoad()
         
         
-       // var x = ViewController.MyVariables.usuario["nombre"] as! NSString
-       
+        // var x = ViewController.MyVariables.usuario["nombre"] as! NSString
+        
         self.title = "Episodios"
         
         
-           var idx = ViewController.MyVariables.usuario["id"] as! NSInteger
+        //var idx = ViewController.MyVariables.usuario["id"] as! NSInteger
         
         
         
-       var con = Connector()
+        var con = Connector()
 
-        // sleep(5)
         
-        //println("El result es  \(con.result)")
+        items = con.doGet("/paciente/\(idx)/episodio")
         
-         items = con.doGet("/paciente/\(idx)/episodio")
+   //     print(items)
         
-        print(items)
-            
         // Do any additional setup after loading the view, typically from a nib.
         
         tableView.registerClass(EpisodioCell.self, forCellReuseIdentifier: "cella")
@@ -58,10 +59,16 @@ class EpisodiosViewController: UIViewController , UITableViewDelegate,UITableVie
         //println(items)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-}
+    override func viewWillAppear(animated: Bool) {
+        //println("Voy a aparecer ***********")
+        if(ViewController.MyVariables.creado){
+           ViewController.MyVariables.creado = false
+           
+            var con = Connector()
+            items = con.doGet("/paciente/\(idx)/episodio")
+            self.tableView.reloadData()
+        }
+    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count;
@@ -69,48 +76,43 @@ class EpisodiosViewController: UIViewController , UITableViewDelegate,UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell  = tableView.dequeueReusableCellWithIdentifier("superCell",forIndexPath: indexPath) as! EpisodioCell
-     
-
-       
+        
+        
+        
         
         var x : NSDictionary = items[indexPath.row] as! NSDictionary
         
         var c = x["fecha"] as! String
         
-         cell.fechaText?.text = c
+        cell.fechaText?.text = c
         
         let h = x["id"] as! Int
         cell.idText?.text = "\(h)"
-        
-        let j1 = x["nivelDolor"] as! Int
-        
-        
-        cell.nivelDolor = j1
-        
-        let j2 = x["localizacion"] as! String
-        
-        cell.localizacion = j2
         
         return cell
         
     }
     
- func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    
-                let cell =  tableView.cellForRowAtIndexPath(indexPath) as! EpisodioCell
-    
-                //Ver pacientes selected
-                let main : UIStoryboard = self.storyboard!
-                let controller : EpisodioDetail =  main.instantiateViewControllerWithIdentifier("episodioDetail") as! EpisodioDetail
-                controller.localizacion = cell.localizacion
-                controller.nivelDolor = cell.nivelDolor
-                self.navigationController?.pushViewController(controller, animated: true)
-    
-
-            
-    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        println("This is the row: \(indexPath.row) ")
-}
+        let cell =  tableView.cellForRowAtIndexPath(indexPath) as! EpisodioCell
+        
+        //Ver pacientes selected
+        let main : UIStoryboard = self.storyboard!
+        let controller : EpisodioDetail =  main.instantiateViewControllerWithIdentifier("episodioDetail") as! EpisodioDetail
+       // controller.localizacion = cell.localizacion
+       // controller.nivelDolor = cell.nivelDolor
+       // controller.fecha = items.objectAtIndex(indexPath.row)["fecha"] as! String
+        controller.episodio = items.objectAtIndex(indexPath.row) as! NSDictionary
+        self.navigationController?.pushViewController(controller, animated: true)
+        
+        
+        
+        
+        
+        //     println("This is the row: \(indexPath.row) ")
+    }
+    
 
+    
 }
