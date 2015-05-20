@@ -4,11 +4,12 @@
 angular.module('myApp', [
   'ngRoute',
   'mVistaPaciente',
-  'mInicioDoctor','mLogin','mLogout',
+  'mInicioDoctorPacientes','mInicioDoctorAgregar','mLogin','mLogout',
   'myApp.version',
     'mActualizarDatos',
     'angular-md5',
     'mRegistrarDoctor',
+    'mExtras','ui.bootstrap','mSegundasOpiniones'
 
 
 ]).
