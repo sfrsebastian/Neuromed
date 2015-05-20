@@ -53,7 +53,7 @@ public class PacienteApi extends Controller {
 	public static Result darTodos(){
         response().setHeader("Response-Syle", "Json-Array");
 		List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.doctor != ?1 OR u.doctor IS NULL", Paciente.class).setParameter(1, SecurityController.getUser()).getResultList();
-		return ok(Usuario.listToJson(pacientes, false));
+		return ok(Usuario.listToJson(pacientes));
 	}
 
 	@Transactional
@@ -247,16 +247,17 @@ public class PacienteApi extends Controller {
         }
 	}
 
-    @Security.Authenticated(SecuredPaciente.class)
+    @Security.Authenticated(SecuredGlobal.class)
 	@Transactional
 	public static Result darEpisodiosPorFecha(Long idPaciente, String inic, String fi){
-        if (SecurityController.validateOnlyMe(idPaciente)) {
+        Paciente paciente = JPA.em("default").find(Paciente.class,idPaciente);
+        Usuario user = SecurityController.getUser();
+        if (SecurityController.validateOnlyMeWithDoctor(user)) {
             response().setHeader("Response-Syle","Json-Array");
-            Paciente paciente = (Paciente)SecurityController.getUser();
             try {
                 Date inicio = stringToDate(inic);
                 Date fin = stringToDate(fi);
-                List<Episodio> episodios = JPA.em().createQuery("SELECT e FROM Episodio e WHERE e.paciente = ?1 AND e.fecha BETWEEN ?2 AND ?3", Episodio.class).setParameter(1, paciente).setParameter(2, inicio).setParameter(3, fin).getResultList();
+                List<Episodio> episodios = JPA.em().createQuery("SELECT e FROM Episodio e WHERE e.paciente = ?1 AND e.fecha BETWEEN ?2 AND ?3 AND (e.doctor = ?4 OR ?4 MEMBER OF e.doctores)", Episodio.class).setParameter(1, paciente).setParameter(2, inicio).setParameter(3, fin).setParameter(4,user).getResultList();
                 return ok(Episodio.listToJson(episodios));
             }
             catch(Exception e){

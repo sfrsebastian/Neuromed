@@ -19,7 +19,7 @@ import exceptions.EpisodioException;
 public class Episodio implements Comparable<Episodio>{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
 	private int nivelDolor;
@@ -35,6 +35,7 @@ public class Episodio implements Comparable<Episodio>{
 	private List<Medicamento> medicamentos;
 
 	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName="id")
 	private List<Intervalo> patronesSueno;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -51,24 +52,24 @@ public class Episodio implements Comparable<Episodio>{
 
     @OneToOne
     private S3File grabacion;
-
-	@PrePersist
-	private void prePersist() {
+	
+	public Episodio(){
         doctores = new ArrayList<Doctor>();
-		comentarios = new ArrayList<Comentario>();
+        comentarios = new ArrayList<Comentario>();
         causas = new ArrayList<Causa>();
         medicamentos = new ArrayList<Medicamento>();
         patronesSueno = new ArrayList<Intervalo>();
-	}
-	
-	public Episodio(){
-		
 	}
 	
 	public Episodio(JsonNode node) throws EpisodioException{
 		this.setNivelDolor(node.findPath("nivelDolor").asInt());
 		this.setFecha(stringToDate(node.findPath("fecha").asText()));
 		this.setLocalizacion(node.findPath("localizacion").asText());
+        this.setMedicamentos(Medicamento.jsonToList(node.findPath("medicamentos")));
+        this.patronesSueno = (Intervalo.jsonToList(node.findPath("patronesSueno")));
+        doctores = new ArrayList<Doctor>();
+        comentarios = new ArrayList<Comentario>();
+        this.setCausas(Causa.jsonToList(node.findPath("causas")));
 	}
 	
 	private static Date stringToDate(String date) throws EpisodioException{
@@ -206,7 +207,7 @@ public class Episodio implements Comparable<Episodio>{
 		node.put("comentarios", Comentario.listToJson(this.comentarios));
 		node.put("doctor", this.doctor.getId());
         node.put("paciente", this.paciente.getId());
-		node.put("doctores",Doctor.listToJson(this.doctores,true));
+		node.put("doctores",Doctor.listToJson(this.doctores));
 		node.put("causas", Causa.listToJson(this.causas));
 		node.put("medicamentos", Medicamento.listToJson(this.medicamentos));
 		node.put("patronesDeSueno", Intervalo.listToJson(this.patronesSueno));

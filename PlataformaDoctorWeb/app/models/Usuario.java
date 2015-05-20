@@ -26,7 +26,7 @@ public abstract class Usuario implements Comparable<Usuario>{
 
     @Id
     @Column(name="id_usuario")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
 
     protected String nombre;
@@ -194,16 +194,11 @@ public abstract class Usuario implements Comparable<Usuario>{
         return node;
     }
 
-    public static ArrayNode listToJson(List<? extends Usuario> usuarios,boolean simplified){
+    public static ArrayNode listToJson(List<? extends Usuario> usuarios){
         JsonNodeFactory factory = JsonNodeFactory.instance;
         ArrayNode array = new ArrayNode(factory);
         for (Usuario p : usuarios) {
-            if(simplified){
-                array.add(p.getId());
-            }
-            else{
-                array.add(p.toJson());
-            }
+            array.add(p.toJson());
         }
         return array;
     }

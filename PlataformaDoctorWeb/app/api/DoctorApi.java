@@ -34,7 +34,7 @@ public class DoctorApi extends Controller {
 	public static Result darTodos(){
         response().setHeader("Response-Syle", "Json-Array");
 		List<Doctor> doctores = JPA.em().createQuery("SELECT u FROM Doctor u WHERE u != ?1", Doctor.class).setParameter(1, SecurityController.getUser()).getResultList();
-		return ok(Usuario.listToJson(doctores,false));
+		return ok(Usuario.listToJson(doctores));
 	}
 
     @Transactional
@@ -121,7 +121,7 @@ public class DoctorApi extends Controller {
             response().setHeader("Response-Syle","Json-Array");
             Doctor doctor = (Doctor)SecurityController.getUser();
             List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.doctor = ?1", Paciente.class).setParameter(1, doctor).getResultList();
-            return ok(Usuario.listToJson(pacientes,false));
+            return ok(Usuario.listToJson(pacientes));
         }
         else {
             return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
@@ -130,12 +130,11 @@ public class DoctorApi extends Controller {
 
     @Security.Authenticated(SecuredDoctor.class)
 	@Transactional
-	public static Result crearComentario(Long idDoctor){
-        if (SecurityController.validateOnlyMe(idDoctor)) {
+	public static Result crearComentario(Long idEpisodio){
+        Doctor doctor = (Doctor)SecurityController.getUser();
+        if (SecurityController.validateOnlyMe(doctor.getId())) {
             response().setHeader("Response-Syle","Json-Object");
             JsonNode json = request().body().asJson();
-            Long idEpisodio = json.findPath("idEpisodio").asLong();
-            Doctor doctor = (Doctor)SecurityController.getUser();
             Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
             if(episodio == null){
                 return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);

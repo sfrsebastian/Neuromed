@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Comentario{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	private Date fecha;

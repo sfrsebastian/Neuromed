@@ -1,58 +1,40 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
-# Map static resources from the /public folder to the /assets URL path
-#GET           /assets/*file                                             api.Assets.at(path="/public", file)
-
 #DOCTOR
 #Crear doctor
 POST           /api/doctor                                                    api.DoctorApi.agregar()
-OPTIONS        /api/doctor                                                    security.SecurityController.cors2()
 
 #Dar doctor
 GET            /api/doctor/:idDoctor                                          api.DoctorApi.dar(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor                                          security.SecurityController.cors(idDoctor:String)
 
 #Dar doctores
 GET            /api/doctor                                                    api.DoctorApi.darTodos()
-OPTIONS        /api/doctor                                                    security.SecurityController.cors2()
 
 #Actualizar doctor
 PUT            /api/doctor/:idDoctor                                          api.DoctorApi.actualizar(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor                                          security.SecurityController.cors(idDoctor:String)
 
 #Eliminar doctor
 DELETE         /api/doctor/:idDoctor                                          api.DoctorApi.eliminar(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor                                          security.SecurityController.cors(idDoctor:String)
 
 #Agregar paciente a doctor
 PUT            /api/doctor/:idDoctor/pacientes                                api.DoctorApi.agregarPaciente(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor/pacientes                                security.SecurityController.cors(idDoctor:String)
 
 #Dar Pacientes de un doctor
 GET            /api/doctor/:idDoctor/pacientes                                api.DoctorApi.darPacientes(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor/pacientes                                security.SecurityController.cors(idDoctor:String)
 
 #Crear comentario en un episodio
-POST           /api/doctor/:idDoctor/comentario                               api.DoctorApi.crearComentario(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor/comentario                               security.SecurityController.cors(idDoctor:String)
+POST           /api/episodio/:idEpisodio/comentario                           api.DoctorApi.crearComentario(idEpisodio:Long)
 
 #Dar comentarios Doctor
 GET            /api/doctor/:idDoctor/comentario                               api.DoctorApi.darComentarios(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor/comentario                               security.SecurityController.cors(idDoctor:String)
 
 #Dar segundas opiniones doctor
 GET            /api/doctor/:idDoctor/segundaOpinion                           api.DoctorApi.darEpisodiosSegundaOpinion(idDoctor:Long)
-OPTIONS        /api/doctor/:idDoctor/segundaOpinion                           security.SecurityController.cors(idDoctor:String)
 
 #Agregar foto de perfil a Doctor
 PUT            /api/doctor/:idDoctor/profilePicture                           api.DoctorApi.agregarFotoADoctor(idDoctor:Long)
-#OPTIONS        /api/doctor/:idDoctor/profilePicture                           seguridad.SecurityController.cors(idDoctor:String)
 
 #PACIENTE
 #Crear paciente
 POST           /api/paciente                                                  api.PacienteApi.agregar()
-OPTIONS        /api/paciente                                                  security.SecurityController.cors2()
 
 #Dar paciente
 GET            /api/paciente/:idPaciente                                      api.PacienteApi.dar(idPaciente:Long)
@@ -60,67 +42,84 @@ GET            /api/paciente/:idPaciente                                      ap
 
 #Dar paciente por cedula
 GET            /api/paciente/cedula/:cedula                                   api.PacienteApi.darPorCedula(cedula:String)
-#OPTIONS        /api/paciente/cedula/:cedula                                   seguridad.SecurityController.cors(cedula:String)
 
 #Dar pacientes
 GET            /api/paciente                                                  api.PacienteApi.darTodos()
-OPTIONS        /api/paciente                                                  security.SecurityController.cors2()
 
 #Actualizar paciente
 PUT            /api/paciente/:idPaciente                                      api.PacienteApi.actualizar(idPaciente:Long)
-OPTIONS        /api/paciente/:idPaciente                                      security.SecurityController.cors(idPaciente:String)
 
 #Eliminar paciente
 DELETE         /api/paciente/:idPaciente                                      api.PacienteApi.eliminar(idPaciente:Long)
-OPTIONS        /api/paciente/:idPaciente                                      security.SecurityController.cors(idPaciente:String)
 
 #Agregar episodio
 POST           /api/paciente/:idPaciente/episodio                             api.PacienteApi.agregarEpisodio(idPaciente:Long)
-OPTIONS        /api/paciente/:idPaciente/episodio                             security.SecurityController.cors(idPaciente:String)
 
 #Agregar Grabacion a episodio
 PUT            /api/paciente/:idPaciente/episodio/:idEpisodio                 api.PacienteApi.agregarGrabacionAEpisodio(idPaciente:Long,idEpisodio:Long)
-OPTIONS        /api/paciente/:idPaciente/episodio/:idEpisodio                 security.SecurityController.cors3(idPaciente:String,idEpisodio:String)
 
 #Dar Episodio
 GET            /api/paciente/:idPaciente/episodio/:idEpisodio                 api.PacienteApi.darEpisodio(idPaciente:Long,idEpisodio:Long)
-OPTIONS        /api/paciente/:idPaciente/episodio/:idEpisodio                 security.SecurityController.cors3(idPaciente: String, idEpisodio:String)
 
 #Dar todos los episodios de paciente
 GET            /api/paciente/:idPaciente/episodio                             api.PacienteApi.darTodosLosEpisodios(idPaciente:Long)
-OPTIONS        /api/paciente/:idPaciente/episodio                             security.SecurityController.cors(idPaciente:String)
 
 #Dar episodios por fecha
 GET            /api/paciente/:idPaciente/episodio/:inicio/:fin                api.PacienteApi.darEpisodiosPorFecha(idPaciente:Long,inicio:String,fin:String)
-OPTIONS        /api/paciente/:idPaciente/episodio/:inicio/:fin                security.SecurityController.cors4(idPaciente:String,inicio:String, fin:String)
 
 #Eliminar un episodio
 DELETE         /api/paciente/:idPaciente/episodio/:idEpisodio                 api.PacienteApi.eliminarEpisodio(idPaciente:Long,idEpisodio:Long)
-OPTIONS        /api/paciente/:idPaciente/episodio/:idEpisodio                 security.SecurityController.cors3(idPaciente:String,idEpisodio:String)
 
 #Pedir segundaOpinion
 PUT            /api/paciente/:idPaciente/episodio/:idEpisodio/doctores        api.PacienteApi.agregarDoctorAEpisodio(idPaciente:Long,idEpisodio:Long)
-OPTIONS        /api/paciente/:idPaciente/episodio/:idEpisodio/doctores        security.SecurityController.cors3(idPaciente:String, idEpisodio:String)
 
 #Agregar foto de perfil a paciente
 PUT            /api/paciente/:idPaciente/profilePicture                       api.PacienteApi.agregarFotoAPaciente(idPaciente:Long)
-OPTIONS        /api/paciente/:idPaciente/profilePicture                       security.SecurityController.cors(idPaciente:String)
 
-#USUARIO
+#Login usuario
 POST           /api/usuario/autenticar                                        security.SecurityController.login()
-OPTIONS        /api/usuario/autenticar                                        security.SecurityController.cors2()
 
+#Logout usuario
 POST           /api/usuario/logout                                            security.SecurityController.logout()
-OPTIONS        /api/usuario/logout                                            security.SecurityController.cors2()
 
+#Crear medicamento
+POST           /api/medicamento                                               api.ServiciosApi.crearMedicamento()
+
+#Dar medicamentos
+GET            /api/medicamento                                               api.ServiciosApi.darMedicamentos()
+
+#Crear causa
+POST           /api/causa                                                     api.ServiciosApi.crearCausa()
+
+#Dar causa segun tipo
+GET            /api/causa                                                     api.ServiciosApi.darCausas()
+
+#Crear intervalo
+POST           /api/intervalo                                                 api.ServiciosApi.crearIntervalo()
+
+#Dar intervalo
+GET            /api/intervalo                                                 api.ServiciosApi.darIntervalos()
+
+POST           /api/usuario                                                   security.SecurityController.getUserByToken()
 
 #OPTIONS
-#Autorizar un doctor Pendiente
-#http://localhost:9000/doctor/:id {autorizado:true}
-#PUT /doctor/:id/autorizar api.DoctorApi.autorizarDoctor(id: String)
-
-
-# Crear medicamento 
-#http://localhost:9000/medicamento {"nombre":"c", "id":234}
-#POST          /medicamento                                              api.MedicamentoController.crearMedicamento()
-
+OPTIONS        /api/doctor                                                    security.SecurityController.cors2()
+OPTIONS        /api/doctor/:idDoctor                                          security.SecurityController.cors(idDoctor:String)
+OPTIONS        /api/doctor/:idDoctor/pacientes                                security.SecurityController.cors(idDoctor:String)
+OPTIONS        /api/paciente                                                  security.SecurityController.cors2()
+OPTIONS        /api/paciente/:idPaciente                                      security.SecurityController.cors(idPaciente:String)
+OPTIONS        /api/doctor/:idDoctor/comentario                               security.SecurityController.cors(idDoctor:String)
+OPTIONS        /api/episodio/:idEpisodio/comentario                           security.SecurityController.cors(idEpisodio:String)
+OPTIONS        /api/doctor/:idDoctor/segundaOpinion                           security.SecurityController.cors(idDoctor:String)
+OPTIONS        /api/doctor/:idDoctor/profilePicture                           security.SecurityController.cors(idDoctor:String)
+OPTIONS        /api/paciente/:idPaciente/episodio                             security.SecurityController.cors(idPaciente:String)
+OPTIONS        /api/paciente/:idPaciente/episodio/:idEpisodio                 security.SecurityController.cors3(idPaciente:String,idEpisodio:String)
+OPTIONS        /api/paciente/:idPaciente/episodio/:inicio/:fin                security.SecurityController.cors4(idPaciente:String,inicio:String, fin:String)
+OPTIONS        /api/paciente/:idPaciente/episodio/:idEpisodio/doctores        security.SecurityController.cors3(idPaciente:String, idEpisodio:String)
+OPTIONS        /api/usuario/autenticar                                        security.SecurityController.cors2()
+OPTIONS        /api/usuario/logout                                            security.SecurityController.cors2()
+OPTIONS        /api/medicamento                                               security.SecurityController.cors2()
+OPTIONS        /api/causa                                                     security.SecurityController.cors2()
+OPTIONS        /api/intervalo                                                 security.SecurityController.cors2()
+OPTIONS        /api/usuario                                                   security.SecurityController.cors2()
+OPTIONS        /api/paciente/cedula/:cedula                                   security.SecurityController.cors(cedula:String)
