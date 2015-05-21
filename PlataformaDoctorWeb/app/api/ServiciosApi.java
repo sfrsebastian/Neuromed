@@ -13,14 +13,14 @@ import security.*;
 
 @CorsComposition.Cors
 @ForceHttps.Https
-@IntegrityCheck.Integrity
+//@IntegrityCheck.Integrity
 @Security.Authenticated(SecuredGlobal.class)
 @Transactional
 public class ServiciosApi extends Controller {
 
     public static Result darMedicamentos(){
         response().setHeader("Response-Syle", "Json-Array");
-        List<Medicamento> medicamentos = JPA.em().createQuery("SELECT u FROM Medicamento u", Medicamento.class).getResultList();
+        List<Medicamento> medicamentos = JPA.em().createQuery("SELECT u FROM Medicamento u ORDER BY u.nombre", Medicamento.class).getResultList();
         return ok(Medicamento.listToJson(medicamentos));
     }
 
@@ -39,7 +39,7 @@ public class ServiciosApi extends Controller {
 
     public static Result darCausas(){
         response().setHeader("Response-Syle", "Json-Array");
-        List<Causa> causas = JPA.em().createQuery("SELECT u FROM Causa u", Causa.class).getResultList();
+        List<Causa> causas = JPA.em().createQuery("SELECT u FROM Causa u ORDER BY u.tipo asc, u.titulo asc", Causa.class).getResultList();
         return ok(Causa.listToJson(causas));
     }
 
@@ -58,7 +58,7 @@ public class ServiciosApi extends Controller {
 
     public static Result darIntervalos(){
         response().setHeader("Response-Syle", "Json-Array");
-        List<Intervalo> intervalos = JPA.em().createQuery("SELECT u FROM Intervalo u", Intervalo.class).getResultList();
+        List<Intervalo> intervalos = JPA.em().createQuery("SELECT u FROM Intervalo u ORDER BY u.id_intervalo", Intervalo.class).getResultList();
         return ok(Intervalo.listToJson(intervalos));
     }
 

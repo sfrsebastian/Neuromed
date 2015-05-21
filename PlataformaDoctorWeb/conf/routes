@@ -102,6 +102,8 @@ GET            /api/intervalo                                                 ap
 
 POST           /api/usuario                                                   security.SecurityController.getUserByToken()
 
+DELETE         /api/episodio/:idEpisodio/doctores                             api.DoctorApi.eliminarOpinion(idEpisodio:Long)
+
 #OPTIONS
 OPTIONS        /api/doctor                                                    security.SecurityController.cors2()
 OPTIONS        /api/doctor/:idDoctor                                          security.SecurityController.cors(idDoctor:String)
@@ -123,3 +125,4 @@ OPTIONS        /api/causa                                                     se
 OPTIONS        /api/intervalo                                                 security.SecurityController.cors2()
 OPTIONS        /api/usuario                                                   security.SecurityController.cors2()
 OPTIONS        /api/paciente/cedula/:cedula                                   security.SecurityController.cors(cedula:String)
+OPTIONS        /api/episodio/:idEpisodio/doctores                             security.SecurityController.cors(idEpisodio:String)

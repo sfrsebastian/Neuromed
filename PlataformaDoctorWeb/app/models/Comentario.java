@@ -103,7 +103,7 @@ public class Comentario{
 	}
 	
 	private String dateToString(Date date){
-		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy h:m a");
 		return formatter.format(date);
 	}
 

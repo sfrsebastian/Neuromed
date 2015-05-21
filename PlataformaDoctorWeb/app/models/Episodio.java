@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import exceptions.EpisodioException;
+import utilities.DateUtil;
 
 @Entity
 @Table(name="Episodios")
@@ -202,7 +203,7 @@ public class Episodio implements Comparable<Episodio>{
 		ObjectNode node = Json.newObject();
 		node.put("id", getId());
 		node.put("nivelDolor", getNivelDolor());
-		node.put("fecha", dateToString(getFecha()));
+		node.put("fecha", DateUtil.dateToString(getFecha()));
 		node.put("localizacion", getLocalizacion());
 		node.put("comentarios", Comentario.listToJson(this.comentarios));
 		node.put("doctor", this.doctor.getId());
@@ -223,11 +224,7 @@ public class Episodio implements Comparable<Episodio>{
         }
         return array;
     }
-	
-	private String dateToString(Date date){
-		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
-		return formatter.format(date);
-	}
+
 
 	public int compareTo(Episodio o) {
 		if(this.id == o.getId()){

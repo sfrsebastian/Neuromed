@@ -18,7 +18,7 @@ import java.util.List;
 
 @CorsComposition.Cors
 @ForceHttps.Https
-@IntegrityCheck.Integrity
+//@IntegrityCheck.Integrity
 public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-Auth-Token";
