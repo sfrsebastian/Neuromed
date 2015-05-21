@@ -14,6 +14,8 @@ li:active{
 
 a.navbar-brand{
   color:#3498db !important;
+    font-size: 180%;
+    font-weight: bold;
 }
 
 .navbar-nav>li>a{
@@ -39,6 +41,12 @@ a.navbar-brand{
   text-decoration:none;
   color:white;
   transition:1s ease;
+}
+
+.sidebar button{
+  background-color: transparent;
+  border-style: none;
+  color: white;
 }
 
 .sidebar li {
@@ -71,7 +79,8 @@ a.navbar-brand{
 .profile-img{
   margin-top: 40px;
   margin-bottom: 40px;
-  padding-left: 6%;
+  padding-left: 2%;
+  padding-right: 6%;
 }
 
 .profile-img img{
@@ -85,6 +94,8 @@ a.navbar-brand{
 
 .profile-img p{
   text-align: center;
+  padding-top: 10%;
+  font-size: 120%;
 }
 
 .profile-info{

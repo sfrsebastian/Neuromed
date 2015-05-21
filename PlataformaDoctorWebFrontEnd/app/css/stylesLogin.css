@@ -5,33 +5,37 @@
 /*
  * General styles
  */
+
+
+
+
 #intro {
     background: url(images/intro.png) 50% 0 fixed;
-    height: auto;
-    margin: 0 auto;
-    width: 100%;
     position: relative;
     box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    padding: 100px 0;
+    padding-top: 100px;
+    padding-bottom: 250px;
 }
 #home {
-    background: url(images/home.jpg) 50% 0 fixed;
-    height: auto;
-    margin: 0 auto;
-    width: 100%;
+    background: url(images/health2.jpg) 50% 0 fixed;
     position: relative;
     box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    padding: 200px 0;
+    padding: 50px 0;
 }
+
+
 #about {
     background: url(images/about.png) 50% 0 fixed;
-    height: auto;
-    margin: 0 auto;
-    width: 100%;
     position: relative;
     box-shadow: 0 0 50px rgba(0,0,0,0.8);
     padding: 100px 0;
     color: #fff;
+}
+
+ section{
+    height: 33%;
+     width: 100%;
+     margin: 0 auto;
 }
 
 

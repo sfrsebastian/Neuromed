@@ -20,8 +20,8 @@ angular.module('mLogout', ['ngRoute'])
                         'X-Device': 'WEB'
                     }
 
-
                 };
+
                 $http(pet).success(function(data, status, headers, config) {
                     console.log(status);
                 }).error(function (data, status, headers, config) {
@@ -33,7 +33,7 @@ angular.module('mLogout', ['ngRoute'])
                     $scope.message = 'Error: Invalid user or password';
                 });
 
-                window.setTimeout(function(){ window.top.location="#/login"},1000)
+                window.setTimeout(function(){ window.top.location="#/index"},1000)
 
 
 

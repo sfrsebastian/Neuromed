@@ -3,7 +3,7 @@
 angular.module('mLogin', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/login', {
+  $routeProvider.when('/index', {
     templateUrl: 'components/login/login.html',
     controller: 'loginCont'
   });
@@ -74,10 +74,10 @@ angular.module('mLogin', ['ngRoute'])
                             var id = $scope.message.id;
                             //Hago post
                             if (id != null) {
-                                window.top.location = "#/inicioDoctorPacientes/" + id;
+                                window.top.location = "#/doctor/" + id+"/pacientes";
                             }
                         }else{
-                            window.top.location = "#/login/";
+                            window.top.location = "#/index/";
                         }
 
                 }).error(function (data, status, headers, config) {
@@ -103,7 +103,7 @@ angular.module('mLogin', ['ngRoute'])
         $scope.ident='';
         $scope.mail='';
         $scope.fechaNacimiento='';
-        $scope.contrasenia='';
+        $scope.contraseniar='';
         $scope.reptContrasenia='';
 
         $scope.$watch('nombre',function() {$scope.test();});
@@ -111,12 +111,12 @@ angular.module('mLogin', ['ngRoute'])
         $scope.$watch('ident',function() {$scope.test();});
         $scope.$watch('mail',function() {$scope.test();});
         $scope.$watch('fechaNacimiento',function() {$scope.test();});
-        $scope.$watch('contrasenia',function() {$scope.test();});
+        $scope.$watch('contraseniar',function() {$scope.test();});
         $scope.$watch('reptContrasenia',function() {$scope.test();});
 
 
         $scope.test = function(){
-            if ($scope.contrasenia !== $scope.reptContrasenia) {
+            if ($scope.contraseniar !== $scope.reptContrasenia) {
                 $scope.error = true;
             } else {
                 $scope.error = false;
@@ -126,7 +126,7 @@ angular.module('mLogin', ['ngRoute'])
                 !$scope.apellido.length ||
                 !$scope.ident.length || !$scope.mail.length
                 || !$scope.fechaNacimiento.length
-                || !$scope.contrasenia.length || !$scope.reptContrasenia.length)) {
+                || !$scope.contraseniar.length || !$scope.reptContrasenia.length)) {
                 $scope.incomplete = true;
             }
         };
@@ -137,7 +137,7 @@ angular.module('mLogin', ['ngRoute'])
                 {
                     "nombre": $scope.nombre,
                     "apellido": $scope.apellido,
-                    "password": $scope.contrasenia,
+                    "password": $scope.contraseniar,
                     "genero": 1,
                     "identificacion": $scope.ident,
                     "email": $scope.mailr,

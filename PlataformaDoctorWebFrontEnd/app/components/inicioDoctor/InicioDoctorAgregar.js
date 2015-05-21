@@ -3,7 +3,7 @@
 angular.module('mInicioDoctorAgregar', ['ngRoute'])
 
     .config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/inicioDoctorAgregar/:id', {
+        $routeProvider.when('/pacientes/:id', {
             templateUrl: 'components/inicioDoctor/inicioDoctorAgregar.html',
             controller: 'inicioDoctorAgregarCont'
         });
@@ -12,6 +12,8 @@ angular.module('mInicioDoctorAgregar', ['ngRoute'])
     .controller('inicioDoctorAgregarCont', ['$scope','$window','$http','$routeParams',function($scope,$window,$http,$routeParams) {
 
         $scope.id=$routeParams.id;
+
+
         var pet1={
             method: 'GET',
             url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.id,
@@ -24,7 +26,7 @@ angular.module('mInicioDoctorAgregar', ['ngRoute'])
 
         var pet2={
             method: 'GET',
-            url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.id+'/pacientes',
+            url: 'https://neuroapi.herokuapp.com/api/paciente',
             headers:{
                 'X-Auth-Token': $window.sessionStorage.token,
                 'X-Device': 'WEB'
@@ -51,7 +53,25 @@ angular.module('mInicioDoctorAgregar', ['ngRoute'])
 
 
         $scope.imagenD='http://www.fancyicons.com/free-icons/101/diamond-medical/png/256/patient_256.png';
+
+
         $scope.agregarPaciente=function(id){
+
+            var pet3={
+                method: 'PUT',
+                url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.id+"/pacientes",
+                headers:{
+                    'X-Auth-Token': $window.sessionStorage.token,
+                    'X-Device': 'WEB'
+                },
+                data:{idPaciente:id}
+            };
+
+            $http(pet3).then(function(resp) {
+                //console.log('Success', resp);
+               console.log('Success',resp);
+                // For JSON responses, resp.data contains the result
+            });
 
             for(var i = 0; i < $scope.pacientes.length; i++)
             {

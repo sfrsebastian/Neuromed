@@ -3,7 +3,7 @@
 angular.module('mVistaPaciente', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/vistapaciente/:idPaciente/doctor/:idDoctor/vista/:idVista', {
+  $routeProvider.when('/paciente/:idPaciente/doctor/:idDoctor', {
     templateUrl: 'components/vistaPaciente/vistaPaciente.html',
     controller: 'vistaPacienteCont'
   });
@@ -19,7 +19,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
          */
         $scope.idPaciente=$routeParams.idPaciente;
         $scope.idDoctor=$routeParams.idDoctor;
-        $scope.vistaActual=$routeParams.idVista;
+        $scope.vistaActual=1;
 
         $scope.fechas={};
 
@@ -229,6 +229,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 });
 
                 //console.log($scope.message);
+                //TODO
                 $scope.comentario='';
             }
 
@@ -382,6 +383,10 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
             $scope.agregarSegundaOpinion=function(){
                 console.log($scope.selectors.selected);
+            }
+
+            $scope.cambiarVista=function(vista){
+                $scope.vistaActual=vista;
             }
 
 }]);
