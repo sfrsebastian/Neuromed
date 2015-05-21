@@ -13,7 +13,12 @@ angular.module('myApp', [
 
 
 ]).
-config(['$routeProvider', function($routeProvider) {
+config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
   $routeProvider
-      .otherwise({redirectTo: '/login'});
+      .otherwise({redirectTo: '/index'});
+
+    //  $locationProvider.html5Mode({
+    //    enabled:true,
+    //    requiredBase:false
+    //  });
 }]);

@@ -16,7 +16,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#/iniciodoctorpacientes/{{id}}" style="color:white;">Neuromed</a>
+					<a class="navbar-brand" href="#/doctor/{{id}}/pacientes" style="color:white;">Neuromed</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -43,47 +43,45 @@
 		<!-- /#sidebar -->
 		<ul class="col-sm-2 sidebar">
 			<li>
-				<a href="#/vistapaciente/{{idPaciente}}/doctor/{{idDoctor}}/vista/1">
+				<button type="submit" ng-click="cambiarVista(1)">
 					<i class="fa fa-user-md fa-2x"></i>
 					<span class="nav-text">
 						Informaci&oacute;n del paciente
 					</span>
-				</a>
+				</button>
 			</li>
-
 			<li>
-				<a href="#/vistapaciente/{{idPaciente}}/doctor/{{idDoctor}}/vista/2">
+				<button type="submit" ng-click="cambiarVista(2)">
 					<i class="fa fa-folder-o fa-2x"></i>
 					<span class="nav-text">
 						Episodios
 					</span>
-				</a>
+				</button>
 			</li>
-
 			<li>
-				<a href="#/vistapaciente/{{idPaciente}}/doctor/{{idDoctor}}/vista/3">
+				<button type="submit" ng-click="cambiarVista(3)">
 					<i class="fa fa-bar-chart-o fa-2x"></i>
 					<span class="nav-text">
 						Estad&iacute;sticas
 					</span>
-				</a>
+				</button>
 			</li>
+
 		</ul>
 
 		<div class="col-sm-10 col-sm-offset-2 no-padding wrapper">
 			<!--VISTA USUARIO -->
 			<div ng-if="vistaActual==1" id="usuario">
 				<div class="user-panel col-sm-12">
-					<div class="col-sm-3 profile-img">
-						<img src="http://lorempixel.com/300/300/people/9" class='img-responsive img-circle'>
-						<h1>{{paciente.nombre}} {{paciente.apellido}}</h1>
+                    <div class="col-sm-3 profile-img">
+                        <img src="http://lorempixel.com/output/abstract-q-c-300-300-7.jpg" class='img-responsive img-circle'>
 						<p><small><strong>Ultima actividad: </strong>{{paciente.fechaVinculacion}}</small></p>
 					</div>
 					<div class="col-sm-9 profile-info">
-
-						<p><strong>Identificacion: </strong>{{paciente.identificacion}}</p>
-						<p><strong>E-mail: </strong>{{paciente.email}}</p>
-						<p><strong>Fecha de Nacimiento: </strong>{{paciente.fechaNacimiento}}</p>
+                        <p><span style="font-size: 200%"><strong>Nombre: </strong>{{paciente.nombre}} {{paciente.apellido}}</span></p>
+                        <p><span style="font-size: 200%"><strong>Identificacion: </strong>{{paciente.identificacion}}</span></p>
+                        <p><span style="font-size: 200%"><strong>E-mail: </strong>{{paciente.email}}</span></p>
+                        <p><span style="font-size: 200%"><strong>Fecha de Nacimiento: </strong>{{paciente.fechaNacimiento}}</span></p>
 					</div>
 				</div>
 
@@ -117,7 +115,7 @@
 						</div>
 						<div class="col-sm-3">
 							<div class="thumbnail">
-								<div class='overlay'><p>{{paciente.altura}}m</p></div>
+								<div class='overlay'><p>{{paciente.altura}} m</p></div>
 								<div class='content'>
 									<h3><i class="fa fa-arrows-v" style="color:#ED6374"></i> Altura</h3>
 								</div>
@@ -137,7 +135,7 @@
                     <div>
 
                             <div class="input-group">
-                                <input type="text" class="form-control" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
+                                <input type="text" class="form-control pickerMultiple" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
                                 <span class="input-group-btn">
                                     <button type="submit" class="btn btn-success" ng-click="buscarRangoFecha()"><li class="fa fa-search"></li></button>
                                     <button type="submit" class="btn btn-danger" ng-click="restaurarEpisodios()"><li class="fa fa-trash"></li></button>
@@ -305,11 +303,7 @@
 
 </div>
 
-<script type="text/javascript" src="js/jquery.plugin.js"></script>
-<script type="text/javascript" src="js/jquery.datepick.js"></script>
-<script type="text/javascript" src="js/jquery.datepick-es.js"></script>
-<script type="text/javascript" src="js/jquery.datepick.ext.js"></script>
-<script type="text/javascript" src="js/meter.js"></script>
+
 
 <!-- Menu Toggle Script -->
 <script>

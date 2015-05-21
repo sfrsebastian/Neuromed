@@ -3,7 +3,7 @@
 angular.module('mInicioDoctorPacientes', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/inicioDoctorPacientes/:id', {
+  $routeProvider.when('/doctor/:id/pacientes', {
     templateUrl: 'components/inicioDoctor/inicioDoctorPacientes.html',
     controller: 'inicioDoctorPacientesCont'
   });
@@ -48,12 +48,10 @@ angular.module('mInicioDoctorPacientes', ['ngRoute'])
         });
 
 
-
-
         $scope.imagenD='http://www.fancyicons.com/free-icons/101/diamond-medical/png/256/patient_256.png';
 
         $scope.paciente=function(input){
-            window.top.location="#/vistapaciente/"+input+"/doctor/"+$scope.id+"/vista/"+1;
+            window.top.location="#/paciente/"+input+"/doctor/"+$scope.id;
             //console.log(input);
         };
 

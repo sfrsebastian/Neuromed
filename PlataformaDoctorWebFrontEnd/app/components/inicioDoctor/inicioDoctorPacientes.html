@@ -17,7 +17,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#/inicioDoctorPacientes/{{id}}" style="color:white;">Neuromed</a>
+				<a class="navbar-brand" href="#/doctor/{{id}}/pacientes" style="color:white;">Neuromed</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,14 +31,14 @@
 						<a class="dropdown-toggle" data-toggle="dropdown"  style="color:white;">Acciones <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">Mis pacientes</a></li>
-							<li><a href="#/inicioDoctorAgregar/{{id}}">Agregar Pacientes</a></li>
-                            <li><a href="#/segundasopiniones/{{id}}">Segundas Opiniones</a></li>
+							<li><a href="#/pacientes/{{id}}">Agregar Pacientes</a></li>
+                            <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
                             <li class="divider"></li>
 							<li><a href="#">Actualizar informacion</a></li>
 							<li><a href="#/logout">Cerrar Sesion</a></li>
 						</ul>
 					</li>
-					<li><p class="navbar-text" style="color:white;"> Dr. {{medico.nombre}}</p></li>
+					<li><p class="navbar-text" > Dr. {{medico.nombre}}</p></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
@@ -47,77 +47,84 @@
 
 
 	<div class="row-fluid">
-		<div class="col-xs-4">
-			<!--Sidebar content-->
-			<!--<div class="card card-container"></div>-->
+		<div class="col-sm-12">
 
-			<div class="card card-container" >
-				<img  class="profile-img-card" src="http://www.purview.net/wp-content/uploads/2013/08/PatientIcon.png">
-				<div class="profile-name-card">{{pacienteActual.nombre}} {{pacienteActual.apellido}}</div>
+
+		<div class="col-sm-4">
+			<div class="card card-container alto" >
+				<img ng-if="pacienteActual.picture==null"  class="profile-img-card" src="http://www.purview.net/wp-content/uploads/2013/08/PatientIcon.png">
+                <img  ng-if="pacienteActual.picture!=null" class="profile-img-card" src="http://www.purview.net/wp-content/uploads/2013/08/PatientIcon.png">
+                <div class="profile-name-card">{{pacienteActual.nombre}} {{pacienteActual.apellido}}</div>
 				<div><br></div>
+				<div class="table-responsive">
 				<table class="table table-striped">
 					<tbody>
                     <tr>
-                        <td>Identificacion</td>
+                        <td><Strong>Identificacion:</Strong></td>
                         <td>{{pacienteActual.identificacion}}</td>
                     </tr>
                     <tr>
-                        <td>Email</td>
+                        <td><Strong>Email:</Strong></td>
                         <td>{{pacienteActual.email}}</td>
                     </tr>
 					<tr>
-						<td>Edad</td>
+						<td><Strong>Edad:</Strong></td>
 						<td>{{pacienteActual.edad}}</td>
 					</tr>
                     <tr>
-                        <td>Altura</td>
+                        <td><Strong>Altura:</Strong></td>
                         <td>{{pacienteActual.altura}}</td>
                     </tr>
                     <tr>
-                        <td>Peso</td>
+                        <td><Strong>Peso:</Strong></td>
                         <td>{{pacienteActual.peso}}</td>
                     </tr>
                     <tr>
-                        <td>Tipo de Sangre</td>
+                        <td><Strong>Tipo de Sangre:</Strong></td>
                         <td>{{pacienteActual.tipoSangre}}</td>
                     </tr>
 					<tr>
-						<td>Fecha Vinculacion</td>
+						<td><Strong>Fecha Vinculacion:</Strong></td>
 						<td>{{pacienteActual.fechaVinculacion}}</td>
 					</tr>
                     <tr>
-                        <td>Fecha Nacimiento</td>
+                        <td><Strong>Fecha Nacimiento:</Strong></td>
                         <td>{{pacienteActual.fechaNacimiento}}</td>
                     </tr>
                     <tr>
-                        <td>Numero de episodios</td>
+                        <td><Strong>Numero de episodios:</Strong></td>
                         <td>{{pacienteActual.episodios.length}}</td>
                     </tr>
 					</tbody>
 				</table>
-				<div class="container"  style="padding-left:80px;">
-					<button type="submit" class="btn btn-success" ng-click="paciente(pacienteActual.id)">Ver Paciente</button>
+				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-success"  ng-click="paciente(pacienteActual.id)">Ver Paciente</button>
 				</div>
 			</div>
-
 		</div>
-		<div class="col-xs-8">
-			<!--Body content-->
-			<div class="col-xs-12 panel panel-default notebook">
-				<div class="form-group">
-					<input class="form-control" type="text" ng-model="query" />
-				</div>
-				<ul class="panel-body no-padding" >
-					<li class="col-xs-12 no-padding" ng-repeat="paciente in pacientes | filter:query | orderBy: orderList" ng-click="cambiarPacienteActual(paciente.id)">
-						<strong>Nombre:</strong> {{paciente.nombre}}
-						<br/> <strong>Identificacion:</strong> {{paciente.identificacion}}
-					</li>
-				</ul>
-				<div class="panel-footer">
-					<small><strong>N&uacute;mero de pacientes:</strong> {{pacientes.length}}</small>
-				</div>
 
+			<!--Panel derecho-->
+
+			<div class="col-sm-8">
+				<!--Body content-->
+				<div class="col-xs-12 panel panel-default notebook alto">
+					<div class="form-group">
+						<input class="form-control" type="text" ng-model="query" />
+					</div>
+					<ul class="panel-body no-padding" >
+						<li class="col-xs-12 no-padding" ng-repeat="paciente in pacientes | filter:query | orderBy: orderList" ng-click="cambiarPacienteActual(paciente.id)">
+							<strong>Nombre:</strong> {{paciente.nombre}} {{paciente.apellido}}
+							<br/> <strong>Identificacion:</strong> {{paciente.identificacion}}
+						</li>
+					</ul>
+					<div class="panel-footer" style="font-size: 120%;">
+						<small><strong>N&uacute;mero de pacientes:</strong> {{pacientes.length}}</small>
+					</div>
+
+				</div>
 			</div>
+
 		</div>
 	</div>
 </div>
