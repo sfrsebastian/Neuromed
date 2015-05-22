@@ -83,9 +83,12 @@ a.navbar-brand{
   padding-right: 6%;
 }
 
+
 .profile-img img{
   border:5px solid rgba(50,138,194,0.5);
 }
+
+
 
 .profile-img h1{
   font-size: 1.4em;
@@ -132,37 +135,37 @@ a.navbar-brand{
 /* ====== Episodios ========== */
 
 .notebook {
-  position: fixed;
-  background: whitesmoke;
-  padding: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: inset 1px 1px 0 white;
-  height: 100%;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
+    position: fixed;
+    background: whitesmoke;
+    padding: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: inset 1px 1px 0 white;
+    height: 100%;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 
 .notebook ul{
-  border-top:1px solid #DDD;
-  max-height: 78%;
-  overflow-y: auto;
+    border-top:1px solid #DDD;
+    max-height: 70%;
+    overflow-y: auto;
 }
 
 .notebook ul > li {
-  list-style: none;
-  background-color: transparent;
-  padding: 10px 15px 10px 25px;
-  border-bottom: 1px solid #CCC;
-  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.5);
-  box-sizing: border-box;
-  cursor: pointer;
-  border-radius: 3px;
-  font-size: 0.8em;
+    list-style: none;
+    background-color: transparent;
+    padding: 10px 15px 10px 25px;
+    border-bottom: 1px solid #CCC;
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 0.8em;
 }
 
 .notebook ul > li:hover {
-  background-color: #eee;
+    background-color: #eee;
 }
 
 .query {
@@ -299,7 +302,7 @@ meter {
 }
 
 .panel-comentarios{
-  margin-bottom: 350px;
+  margin-bottom: 10px;
   margin-right: 10px;
 }
 .comment-wrap {
@@ -420,9 +423,23 @@ meter {
 }
 .panel-asociados .panel-body{
   max-height: 200px;
-  padding: 0 0px 0 5px;
-  margin: 0 2px 0 2px;
+  padding: 10px;
+  margin: 10px 2px 0 2px;
   overflow: scroll;
+}
+
+.panel-asociados li{
+    margin-right: 1px;
+}
+
+.panel-asociados li span{
+    vertical-align: middle;
+}
+
+
+.panel-asociados li i{
+   width: 200%;
+    height: 200%;
 }
 
 .panel-asociados li:hover{
@@ -432,6 +449,7 @@ meter {
 .panel-asociados button{
   background-color: #DD0000;
   color:#FFFFFF;
+  margin-right: 0;
 }
 
 .panel-asociados .panel-footer{

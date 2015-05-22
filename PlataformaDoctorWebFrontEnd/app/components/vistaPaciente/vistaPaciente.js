@@ -9,8 +9,8 @@ angular.module('mVistaPaciente', ['ngRoute'])
   });
 }])
 
-.controller('vistaPacienteCont', ['$scope','$http','$routeParams','$window','md5',
-        function($scope,$http,$routeParams,$window,md5) {
+.controller('vistaPacienteCont', ['$scope','$http','$routeParams','$window','md5','$sce',
+        function($scope,$http,$routeParams,$window,md5,$sce,ngAudio) {
 
             console.log("Entro a vista paciente");
 
@@ -20,15 +20,13 @@ angular.module('mVistaPaciente', ['ngRoute'])
         $scope.idPaciente=$routeParams.idPaciente;
         $scope.idDoctor=$routeParams.idDoctor;
         $scope.vistaActual=1;
+        $scope.states=[];
 
-        $scope.fechas={};
+            $scope.dificultades=[1,2,3,4,5,6,7,8,9,10];
+            $scope.localizaciones=["Frontal", "Temporal Izquierdo", "Temporal Derecho" , "Parietal Izquierdo" , "Parietal Derecho" , "Occipital Izquierdo" , "Occipital Derecho"];
 
-        /*
-        Para la busqueda dinamica
-         */
-        $scope.selectors = {};
-        $scope.selectors.selected=undefined;
-        $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+            $scope.fechas={};
+
 
         /*
         Se piden los datos del doctor
@@ -70,9 +68,11 @@ angular.module('mVistaPaciente', ['ngRoute'])
             $scope.episodios=$scope.paciente.episodios;
             console.log("Episodios",$scope.episodios);
             $scope.episodioActual=$scope.episodios[0];
+            $scope.recording = $sce.trustAsResourceUrl($scope.episodioActual.grabacion);
             $scope.rutaImagenCerebro ="";
             $scope.cssImagen="";
             cambiarImagen();
+            if($scope.episodioActual.grabacion!=null) $scope.audio=ngAudio.load($scope.episodioActual.grabacion);
             $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
             $scope.info = {
                 labels: [],
@@ -162,7 +162,23 @@ angular.module('mVistaPaciente', ['ngRoute'])
             $http(pet3).then(function(resp) {
                 //console.log('Success', resp);
                 $scope.medicos=resp.data;
+                console.log('Success doctores',resp.data);
+                crearArreglo($scope.medicos);
             });
+
+            function crearArreglo(arreglo){
+                for(var i in arreglo){
+                    $scope.states.push({nombre:  arreglo[i].id+'-'+arreglo[i].nombre+' '+arreglo[i].apellido, id: arreglo[i].id});
+                }
+                console.log('Nuevo arreglo',$scope.states)
+            }
+
+            /*
+             Para la busqueda dinamica
+             */
+            $scope.selectors = {};
+            $scope.selectors.selected=undefined;
+            //$scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
 
 
 
@@ -272,6 +288,8 @@ angular.module('mVistaPaciente', ['ngRoute'])
                         $scope.episodioActual=$scope.episodios[i];
                         $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
                         cambiarImagen();
+                        $scope.recording = $sce.trustAsResourceUrl($scope.episodioActual.grabacion);
+
                     }
                 }
                 console.log($scope.episodioActual);
@@ -324,6 +342,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     $scope.rutaImagenCerebro ="";
                     $scope.cssImagen="";
                     cambiarImagen();
+                    if($scope.episodioActual.grabacion!=null) $scope.audio=ngAudio.load($scope.episodioActual.grabacion);
                     $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
                     $scope.info = {
                         labels: [],
@@ -381,13 +400,39 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
             }
 
+
+            function buscarMedico(){
+
+            }
+
+
             $scope.agregarSegundaOpinion=function(){
                 console.log($scope.selectors.selected);
+
+
+                var pet3={
+                    method: 'PUT',
+                    url: 'https://neuroapi.herokuapp.com/api/paciente/'+$scope.idPaciente+"/episodio/"+$scope.episodioActual.id+"/doctores",
+                    headers:{
+                        'X-Auth-Token': $window.sessionStorage.token,
+                        'X-Device': 'WEB'
+                    },
+                    data:{idDoctor:$scope.selectors.selected.split('-')[0]}
+                };
+
+                $http(pet3).then(function(resp) {
+                    //console.log('Success', resp);
+                    console.log('Success Segunda',resp);
+                    // For JSON responses, resp.data contains the result
+                });
+
             }
 
             $scope.cambiarVista=function(vista){
                 $scope.vistaActual=vista;
             }
+
+
 
 }]);
 

@@ -1,5 +1,6 @@
 <link href="css/stylesVistaPaciente.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/jquery.datepick.css">
+<link rel="stylesheet" type="text/css" href="bower_components/chosen/chosen.min.css">
 
 
 <div ng-controller="vistaPacienteCont">
@@ -74,7 +75,7 @@
 			<div ng-if="vistaActual==1" id="usuario">
 				<div class="user-panel col-sm-12">
                     <div class="col-sm-3 profile-img">
-                        <img src="http://lorempixel.com/output/abstract-q-c-300-300-7.jpg" class='img-responsive img-circle'>
+                        <img src="components/resources/usuario.jpg" class='img-responsive img-circle'>
 						<p><small><strong>Ultima actividad: </strong>{{paciente.fechaVinculacion}}</small></p>
 					</div>
 					<div class="col-sm-9 profile-info">
@@ -132,26 +133,41 @@
 			<!--VISTA EPISODIOS -->
 			<div ng-if="vistaActual==2" id="episodio">
 				<div class="col-sm-2 panel panel-default notebook">
-                    <div>
 
-                            <div class="input-group">
-                                <input type="text" class="form-control pickerMultiple" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
-                                <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-success" ng-click="buscarRangoFecha()"><li class="fa fa-search"></li></button>
-                                    <button type="submit" class="btn btn-danger" ng-click="restaurarEpisodios()"><li class="fa fa-trash"></li></button>
-                                </span>
-                            </div><!-- /input-group -->
-					<ul class="no-padding" >
-						<li class="col-xs-12 no-padding" ng-repeat="episodio in episodios | filter:query | orderBy: orderList" ng-click="cambiarEpisodioActual(episodio.id)">
-							<strong>Fecha:</strong> {{episodio.fecha}}
-							<br/> <strong>Intensidad:</strong> {{episodio.nivelDolor}}
-						</li>
-					</ul>
-					<div class="panel-footer">
-						<small><strong> # de episodios:</strong> {{episodios.length}}</small>
-					</div>
+                    <div class="input-group" style="margin-bottom: 3px">
+                        <input type="text" class="form-control pickerMultiple" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-success" ng-click="buscarRangoFecha()"><li class="fa fa-search"></li></button>
+                            <button type="submit" class="btn btn-danger" ng-click="restaurarEpisodios()"><li class="fa fa-trash"></li></button>
+                        </span>
+                    </div><!-- /input-group -->
 
-				</div> </div>
+                        <select class="form-control" ng-model="query.nivelDolor">
+                            <option value="" selected disabled>Intensidad</option>
+                            <option value="">Todas</option>
+                            <option ng-repeat="dificultad in dificultades" value="{{dificultad}}">{{dificultad}}</option>
+                        </select>
+
+                        <select class="form-control" ng-model="query.localizacion" style="margin-bottom: 3px">
+                            <option value="" selected disabled>Localizacion</option>
+                            <option value="">Todas</option>
+                            <option ng-repeat="localizacion in localizaciones" value="{{localizacion}}">{{localizacion}}</option>
+                        </select>
+
+
+                    <ul class="no-padding" >
+                        <li class="col-xs-12 no-padding" ng-repeat="episodio in episodios | filter:query | orderBy: orderList" ng-click="cambiarEpisodioActual(episodio.id)">
+                            <strong>Fecha:</strong> {{episodio.fecha}}
+                            <br/> <strong>Intensidad:</strong> {{episodio.nivelDolor}}
+                        </li>
+                    </ul>
+
+                    <div class="panel-footer">
+                        <small><strong> # de episodios:</strong> {{episodios.length}}</small>
+                    </div>
+
+                </div>
+
 				<div class="col-sm-10 col-sm-offset-2 info-episodio">
 					<div class='panel-informacion'>
 						<div class="panel-body no-padding">
@@ -186,12 +202,12 @@
                                         </div>
                                         <div class="panel-body no-padding">
                                             <ul class="unstyled no-padding col-xs-12">
-                                                <li class="col-xs-12 no-padding">
+                                                <li ng-repeat="asociados in episodioActual.doctores" class="col-xs-12 no-padding">
                                                     <div class="col-xs-2 no-padding">
                                                         <i class="fa fa-user-md"></i>
                                                     </div>
-                                                    <div class="col-xs-7 no-padding">
-                                                        <span>{{doctor}}</span>
+                                                    <div class="col-xs-8 no-padding">
+                                                        <span>Dr. {{asociados.nombre}} {{asociados.apellido}}</span>
                                                     </div>
                                                     <div class="col-xs-2 no-padding">
                                                         <button class="btn btn-block"> <li class="fa fa-trash"></li> </button>
@@ -202,7 +218,7 @@
                                         <div class="panel-footer no-padding">
 
                                             <div class="input-group">
-                                                <input type="text" ng-model="selectors.selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
+                                                <input type="text" ng-model="selectors.selected" typeahead="state.nombre for state in states | filter:$viewValue | limitTo:8" class="form-control">
                                                 <span class="input-group-btn">
                                                  <button class="btn btn-success" ng-click="agregarSegundaOpinion()" style="background-color: forestgreen" type="submit">Go!</button>
                                                 </span>
@@ -245,10 +261,11 @@
 							</div>
 						</div>
 						<audio controls preload="none" style="width:100%">
-							<source ng-src="{{ep.grabacion}}" type="audio/mp4" />
+							<!--<source ng-src="{{recording}}" type="audio/mp4" />-->
 							<p>Your browser does not support HTML5 audio.</p>
 						</audio>
-					</div>
+                        <button ng-click='audio.paused ? audio.play() : audio.play()'>Pause</button>
+                    </div>
                     <h2 class="col-sm-5 episodio-title">Comentarios</h2>
                     <div class='panel-comentarios'>
                         <div class="comment-wrap col-sm-12">
@@ -307,6 +324,11 @@
 
 <!-- Menu Toggle Script -->
 <script>
+
+    $(".chosen-select").chosen();
+
+
+
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -333,3 +355,5 @@
         }
     });
 </script>
+
+<script type="text/javascript" src="js/meter.js"></script>
