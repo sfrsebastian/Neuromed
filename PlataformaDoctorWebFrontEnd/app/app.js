@@ -9,7 +9,7 @@ angular.module('myApp', [
     'mActualizarDatos',
     'angular-md5',
     'mRegistrarDoctor',
-    'mExtras','ui.bootstrap','mSegundasOpiniones','ngAudio'
+    'mExtras','ui.bootstrap','mSegundasOpiniones'
 
 
 ]).
