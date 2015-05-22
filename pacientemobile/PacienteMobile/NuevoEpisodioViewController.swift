@@ -73,6 +73,8 @@ class NuevoEpisodioViewController: UIViewController,
         if( recorded){
             uploadSound()
             println("Se subió el sonido")
+            
+            sleep(2)
         }
         
         

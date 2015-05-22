@@ -306,7 +306,11 @@ class Net : NSObject, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate, NS
         NSLog(urlString)
         
         let request = requestSerializer.requestWithMethod(method, urlString: urlString, params: params, error: nil)
+        request.addValue(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN") as? String, forHTTPHeaderField: "X-Auth-Token")
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
         let task = createSessionTaskWithRequest(request, successHandler: successHandler, failureHandler: failureHandler)
+        
         task.resume()
         
         return task

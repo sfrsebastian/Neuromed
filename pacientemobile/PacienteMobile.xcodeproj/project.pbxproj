@@ -27,6 +27,8 @@
 		E16E62D11AB530B9005768EF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E16E62CF1AB530B9005768EF /* LaunchScreen.xib */; };
 		E16E62DD1AB530B9005768EF /* PacienteMobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E62DC1AB530B9005768EF /* PacienteMobileTests.swift */; };
 		E16E62E71AB5CFF5005768EF /* Paciente.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16E62E61AB5CFF5005768EF /* Paciente.swift */; };
+		E1B496CF1B081609004B8BC3 /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B496CE1B081609004B8BC3 /* ItemsTableViewController.swift */; };
+		E1B496D11B083E57004B8BC3 /* NuevoEpisodio1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B496D01B083E57004B8BC3 /* NuevoEpisodio1ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,8 @@
 		E16E62DB1AB530B9005768EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E16E62DC1AB530B9005768EF /* PacienteMobileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacienteMobileTests.swift; sourceTree = "<group>"; };
 		E16E62E61AB5CFF5005768EF /* Paciente.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paciente.swift; sourceTree = "<group>"; };
+		E1B496CE1B081609004B8BC3 /* ItemsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsTableViewController.swift; sourceTree = "<group>"; };
+		E1B496D01B083E57004B8BC3 /* NuevoEpisodio1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NuevoEpisodio1ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,8 @@
 				E11F1F7C1AB69F0200BA5113 /* EpisodiosViewController.swift */,
 				E150C06D1AC3AF84008AAC01 /* EpisodioCell.swift */,
 				E10AC0241AD4F5ED00256670 /* EpisodioDetail.swift */,
+				E1B496CE1B081609004B8BC3 /* ItemsTableViewController.swift */,
+				E1B496D01B083E57004B8BC3 /* NuevoEpisodio1ViewController.swift */,
 			);
 			path = PacienteMobile;
 			sourceTree = "<group>";
@@ -277,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E16E62E71AB5CFF5005768EF /* Paciente.swift in Sources */,
+				E1B496CF1B081609004B8BC3 /* ItemsTableViewController.swift in Sources */,
 				E16E62C91AB530B9005768EF /* ViewController.swift in Sources */,
 				E150C0621AC3A55D008AAC01 /* GCD.swift in Sources */,
 				E16E62C71AB530B9005768EF /* AppDelegate.swift in Sources */,
@@ -291,6 +298,7 @@
 				E150C0691AC3A55D008AAC01 /* NetUploadTask.swift in Sources */,
 				E150C0641AC3A55D008AAC01 /* NetData.swift in Sources */,
 				E150C0631AC3A55D008AAC01 /* Net.swift in Sources */,
+				E1B496D11B083E57004B8BC3 /* NuevoEpisodio1ViewController.swift in Sources */,
 				E150C0681AC3A55D008AAC01 /* NetResponseData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

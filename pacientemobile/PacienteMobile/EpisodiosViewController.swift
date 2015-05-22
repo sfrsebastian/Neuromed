@@ -105,12 +105,23 @@ class EpisodiosViewController: UIViewController , UITableViewDelegate,UITableVie
        // controller.fecha = items.objectAtIndex(indexPath.row)["fecha"] as! String
         controller.episodio = items.objectAtIndex(indexPath.row) as! NSDictionary
         self.navigationController?.pushViewController(controller, animated: true)
+
+    }
+    
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+      //  println("HOlaaa")
         
+        let con = Connector()
+        var epi = items[indexPath.row]["id"] as! Int
+        con.doDelete("/paciente/\(idx)/episodio/\(epi)")
+
+        sleep(1)
+        items = con.doGet("/paciente/\(idx)/episodio")
         
+        tableView.reloadData()
         
-        
-        
-        //     println("This is the row: \(indexPath.row) ")
+     //   tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
     }
     
 
