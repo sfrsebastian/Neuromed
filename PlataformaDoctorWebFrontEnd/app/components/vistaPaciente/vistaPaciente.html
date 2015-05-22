@@ -1,6 +1,5 @@
 <link href="css/stylesVistaPaciente.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/jquery.datepick.css">
-<link rel="stylesheet" type="text/css" href="bower_components/chosen/chosen.min.css">
 
 
 <div ng-controller="vistaPacienteCont">
@@ -23,9 +22,9 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li><a href="#/doctor/{{id}}/pacientes">Mis pacientes</a></li>
-                        <li><a href="#/pacientes/{{id}}">Agregar pacientes</a></li>
-                        <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
+                        <li><a href="#/doctor/{{idDoctor}}/pacientes">Mis pacientes</a></li>
+                        <li><a href="#/pacientes/{{idDoctor}}">Agregar pacientes</a></li>
+                        <li><a href="#/doctor/{{idDoctor}}/opiniones">Segundas Opiniones</a></li>
                     </ul>
 
 					<ul class="nav navbar-nav navbar-right">
@@ -74,7 +73,7 @@
 			<div ng-if="vistaActual==1" id="usuario">
 				<div class="user-panel col-sm-12">
                     <div class="col-sm-3 profile-img">
-                        <img src="components/resources/usuario.jpg" class='img-responsive img-circle'>
+                        <img src="components/resources/steve.jpeg" class='img-responsive img-circle'>
 						<p><small><strong>Ultima actividad: </strong>{{paciente.fechaVinculacion}}</small></p>
 					</div>
 					<div class="col-sm-9 profile-info">
@@ -324,11 +323,6 @@
 
 <!-- Menu Toggle Script -->
 <script>
-
-    $(".chosen-select").chosen();
-
-
-
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
@@ -342,7 +336,7 @@
             onShow: $.datepick.selectWeek,
             onDate: $.datepick.noWeekends,
             dateFormat: 'mm-dd-yyyy',
-            rangeSeparator: ' : ',
+            rangeSeparator: ' / ',
             onClose: function(){
                 alert("mensaje sirvio");
             }
