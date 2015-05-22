@@ -57,8 +57,6 @@ class EpisodioDetail : UIViewController , UITableViewDelegate,UITableViewDataSou
         }
         
         
-        
-        
         if(lblLocalizacion.text == "Frontal"){
             imageView.image = UIImage(named: "frontal")
         }else if(lblLocalizacion.text == "Temporal Izquierdo"){

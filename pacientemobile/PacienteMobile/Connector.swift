@@ -116,19 +116,33 @@ class Connector  {
     }
     
     func doDelete(target : String){
-        var request : NSMutableURLRequest = NSMutableURLRequest()
-        request.URL = NSURL(string: requestUrl + target)
-        request.HTTPMethod = "DELETE"
-        println(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN"))
-        request.addValue(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN") as? String, forHTTPHeaderField: "X-Auth-Token")
-        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
-        request.addValue("IOS", forHTTPHeaderField: "X-Device")
+//        var request : NSMutableURLRequest = NSMutableURLRequest()
+//        request.URL = NSURL(string: requestUrl + target)
+//        request.HTTPMethod = "DELETE"
+//        println(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN"))
+//        request.addValue(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN") as? String, forHTTPHeaderField: "X-Auth-Token")
+//        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+//        request.addValue("IOS", forHTTPHeaderField: "X-Device")
+//        
+//        var response: NSURLResponse?
+//        
+//        var err: AutoreleasingUnsafeMutablePointer<NSError?> = nil
+//        
+//        let urlData = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: err)
         
-        var response: NSURLResponse?
+        let net = Net()
         
-        var err: AutoreleasingUnsafeMutablePointer<NSError?> = nil
+        let params = [:]
+        //append params to params
         
-        let urlData = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: err)
+        
+        net.DELETE(requestUrl + target , params: params, successHandler: { responseData in
+            //            let result = responseData.json(error: nil)
+            let response : NSData = responseData.data
+            NSLog("result: \(response.description)")
+            }, failureHandler: { error in
+                NSLog("Error while tryinng to call PUT method on \(self.requestUrl + target) sending NSData")
+        })
         
         
     }
@@ -262,10 +276,10 @@ class Connector  {
     //        var response: NSURLResponse? = nil
     //        var error: NSError? = nil
     //        let reply = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&error)
-    //        
+    //
     //        let results = NSString(data:reply!, encoding:NSUTF8StringEncoding)
     //        println("API Response: \(results)")
-    //        
+    //
     //    }
     
     
