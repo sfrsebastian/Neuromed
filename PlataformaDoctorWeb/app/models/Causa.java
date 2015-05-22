@@ -8,24 +8,30 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import play.db.jpa.JPA;
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
 @Table(name="Causas")
-public class Causa {
+public class Causa implements Serializable {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	private String descripcion;
 	
 	private String titulo;
+
+	private String tipo;
 	
 	public Causa(){
 		
@@ -34,6 +40,7 @@ public class Causa {
     public Causa(JsonNode node){
         this.setTitulo(node.findPath("titulo").asText());
         this.setDescripcion(node.findPath("descripcion").asText());
+        this.setTipo(node.findPath("tipo").asText());
     }
 	
 	public Long getId() {
@@ -60,10 +67,20 @@ public class Causa {
 		this.titulo = titulo;
 	}
 
-	public JsonNode toJson() {
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public JsonNode toJson() {
 		ObjectNode node = Json.newObject();
+        node.put("id", getId());
         node.put("titulo", getTitulo());
         node.put("descripcion", getDescripcion());
+        node.put("tipo", getTipo());
 		return node;
 	}
 
@@ -74,5 +91,17 @@ public class Causa {
             array.add(p.toJson());
         }
         return array;
+    }
+
+    public static List<Causa> jsonToList(JsonNode causas) {
+        List<Causa> ans = new ArrayList<Causa>();
+        Iterator<JsonNode> it = causas.elements();
+        while(it.hasNext()){
+            JsonNode node = it.next();
+            Causa causa = JPA.em("default").find(Causa.class, node.asLong());
+            if(causa != null)
+                ans.add(causa);
+        }
+        return ans;
     }
 }

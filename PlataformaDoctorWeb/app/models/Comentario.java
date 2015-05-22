@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class Comentario{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	private Date fecha;
@@ -103,7 +103,7 @@ public class Comentario{
 	}
 	
 	private String dateToString(Date date){
-		DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy"); 
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy h:m a");
 		return formatter.format(date);
 	}
 

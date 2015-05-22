@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import exceptions.TimeException;
 import exceptions.UsuarioException;
 import play.libs.Json;
+import utilities.DateUtil;
+
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -26,7 +28,7 @@ public abstract class Usuario implements Comparable<Usuario>{
 
     @Id
     @Column(name="id_usuario")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
 
     protected String nombre;
@@ -66,7 +68,7 @@ public abstract class Usuario implements Comparable<Usuario>{
         this.setEmail(node.findPath("email").asText().toLowerCase());
         this.setIdentificacion(node.findPath("identificacion").asText());
         try {
-            this.setFechaNacimiento(stringToDate(node.findPath("fechaNacimiento").asText()));
+            this.setFechaNacimiento(DateUtil.stringToDate(node.findPath("fechaNacimiento").asText()));
         }
         catch (TimeException e){
             throw new UsuarioException(e.getMessage());
@@ -164,21 +166,6 @@ public abstract class Usuario implements Comparable<Usuario>{
         this.rol = rol;
     }
 
-    private static Date stringToDate(String date) throws TimeException {
-        try {
-            DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-            return formatter.parse(date);
-        }
-        catch (ParseException e) {
-            throw new TimeException("Error interpretando la fecha");
-        }
-    }
-
-    private String dateToString(Date date){
-        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        return formatter.format(date);
-    }
-
     public ObjectNode toJson(){
         ObjectNode node = Json.newObject();
         node.put("id", getId());
@@ -187,23 +174,18 @@ public abstract class Usuario implements Comparable<Usuario>{
         node.put("genero", getGenero());
         node.put("identificacion", getIdentificacion());
         node.put("email", getEmail());
-        node.put("fechaNacimiento", dateToString(getFechaNacimiento()));
-        node.put("fechaVinculacion", dateToString(getFechaVinculacion()));
+        node.put("fechaNacimiento", DateUtil.dateToString(getFechaNacimiento()));
+        node.put("fechaVinculacion", DateUtil.dateToString(getFechaVinculacion()));
         node.put("picture", profilePicture!=null?profilePicture.getUrl().toString():null);
         node.put("rol", this.rol);
         return node;
     }
 
-    public static ArrayNode listToJson(List<? extends Usuario> usuarios,boolean simplified){
+    public static ArrayNode listToJson(List<? extends Usuario> usuarios){
         JsonNodeFactory factory = JsonNodeFactory.instance;
         ArrayNode array = new ArrayNode(factory);
         for (Usuario p : usuarios) {
-            if(simplified){
-                array.add(p.getId());
-            }
-            else{
-                array.add(p.toJson());
-            }
+            array.add(p.toJson());
         }
         return array;
     }

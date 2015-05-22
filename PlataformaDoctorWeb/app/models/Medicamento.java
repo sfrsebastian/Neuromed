@@ -1,30 +1,30 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import play.db.jpa.JPA;
 import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
 @Table(name="Medicamentos")
-public class Medicamento{
+public class Medicamento implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String nombre;
-	
+
 	private String marca;
 	
 	private String tipo;
@@ -85,7 +85,7 @@ public class Medicamento{
 	public JsonNode toJson() {
 		ObjectNode node = Json.newObject();
         node.put("id", getId());
-        node.put("nombre", getNombre());
+        node.put("titulo", getNombre());
         node.put("marca", getMarca());
         node.put("advertencias", getAdvertencias());
 		return node;
@@ -98,5 +98,17 @@ public class Medicamento{
             array.add(p.toJson());
         }
         return array;
+    }
+
+    public static List<Medicamento> jsonToList(JsonNode medicamentos) {
+        List<Medicamento> ans = new ArrayList<Medicamento>();
+        Iterator<JsonNode> it = medicamentos.elements();
+        while(it.hasNext()){
+            JsonNode node = it.next();
+            Medicamento med = JPA.em("default").find(Medicamento.class, node.asLong());
+            if(med != null)
+                ans.add(med);
+        }
+        return ans;
     }
 }

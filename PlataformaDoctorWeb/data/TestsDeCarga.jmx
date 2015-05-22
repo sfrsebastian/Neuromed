@@ -19,7 +19,15 @@
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">X-Auth-Token</stringProp>
-            <stringProp name="Header.value">77677c3f-68f9-4dba-b696-e77118c4bdd2</stringProp>
+            <stringProp name="Header.value">mHWZsKsWZ4DLkSW/79R3o1FafOjrG6aE8PjNv8LyDH4GDBjU2inCMJerr1+D2/YENa+qRdgqjEEpVzcbh+X4Hg==</stringProp>
+          </elementProp>
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">X-Hash</stringProp>
+            <stringProp name="Header.value">a4a0d269bd63adbdd7c8206f7f365477</stringProp>
+          </elementProp>
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">X-Device</stringProp>
+            <stringProp name="Header.value">WEB</stringProp>
           </elementProp>
         </collectionProp>
       </HeaderManager>
@@ -91,7 +99,7 @@
         <boolProp name="ResultCollector.success_only_logging">true</boolProp>
       </ResultCollector>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="INIT" enabled="false">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="INIT" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -111,7 +119,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;nombre&quot;: &quot;Juan&quot;,&quot;apellido&quot;: &quot;Perez&quot;, &quot;password&quot;:&quot;1234&quot;,&quot;genero&quot;:1,&quot;identificacion&quot;:&quot;1&quot;,&quot;email&quot;:&quot;juanPerez@correo.com&quot;,&quot;fechaNacimiento&quot;:&quot;02/14/1995&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;nombre&quot;: &quot;Juan&quot;,&quot;apellido&quot;: &quot;Perez&quot;, &quot;password&quot;:&quot;1234&quot;,&quot;genero&quot;:1,&quot;identificacion&quot;:&quot;1&quot;,&quot;email&quot;:&quot;juanperez@correo.com&quot;,&quot;fechaNacimiento&quot;:&quot;02/14/1995&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -139,7 +147,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;email&quot;:&quot;juanPerez@correo.com&quot;,&quot;password&quot;:&quot;1234&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;email&quot;:&quot;juanperez@correo.com&quot;,&quot;password&quot;:&quot;1234&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -308,7 +316,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">api/doctor/1/comentario</stringProp>
+          <stringProp name="HTTPSampler.path">api/doctor/3/comentario</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -324,7 +332,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;password&quot;:&quot;1234&quot;,&quot;email&quot;:&quot;juanPerez@correo.com&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;email&quot;:&quot;juanperez@correo.com&quot;,&quot;password&quot;:&quot;1234&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -336,7 +344,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">api/doctor/1</stringProp>
+          <stringProp name="HTTPSampler.path">api/doctor/3</stringProp>
           <stringProp name="HTTPSampler.method">PUT</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -404,7 +412,7 @@
         </HTTPSamplerProxy>
         <hashTree/>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="GET" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="GET" enabled="false">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -429,7 +437,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">api/doctor/1</stringProp>
+          <stringProp name="HTTPSampler.path">api/doctor/3</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -513,7 +521,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">api/doctor/1/pacientes</stringProp>
+          <stringProp name="HTTPSampler.path">api/doctor/3/pacientes</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -597,7 +605,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">api/doctor/1/comentario</stringProp>
+          <stringProp name="HTTPSampler.path">api/doctor/3/comentario</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -618,7 +626,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">api/doctor/2/segundaOpinion</stringProp>
+          <stringProp name="HTTPSampler.path">api/doctor/3/segundaOpinion</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

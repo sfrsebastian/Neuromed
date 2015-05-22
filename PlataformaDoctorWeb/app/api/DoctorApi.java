@@ -14,7 +14,7 @@ import exceptions.UsuarioException;
 
 @CorsComposition.Cors
 @ForceHttps.Https
-@IntegrityCheck.Integrity
+//@IntegrityCheck.Integrity
 public class DoctorApi extends Controller {
 
     @Security.Authenticated(SecuredDoctor.class)
@@ -33,8 +33,8 @@ public class DoctorApi extends Controller {
     @Transactional
 	public static Result darTodos(){
         response().setHeader("Response-Syle", "Json-Array");
-		List<Doctor> doctores = JPA.em().createQuery("SELECT u FROM Doctor u WHERE u != ?1", Doctor.class).setParameter(1, SecurityController.getUser()).getResultList();
-		return ok(Usuario.listToJson(doctores,false));
+		List<Doctor> doctores = JPA.em().createQuery("SELECT u FROM Doctor u WHERE u != ?1 ORDER BY u.nombre asc", Doctor.class).setParameter(1, SecurityController.getUser()).getResultList();
+		return ok(Usuario.listToJson(doctores));
 	}
 
     @Transactional
@@ -120,8 +120,8 @@ public class DoctorApi extends Controller {
         if (SecurityController.validateOnlyMe(idDoctor)) {
             response().setHeader("Response-Syle","Json-Array");
             Doctor doctor = (Doctor)SecurityController.getUser();
-            List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.doctor = ?1", Paciente.class).setParameter(1, doctor).getResultList();
-            return ok(Usuario.listToJson(pacientes,false));
+            List<Paciente> pacientes = JPA.em().createQuery("SELECT u FROM Paciente u WHERE u.doctor = ?1 ORDER BY u.nombre asc", Paciente.class).setParameter(1, doctor).getResultList();
+            return ok(Usuario.listToJson(pacientes));
         }
         else {
             return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
@@ -130,12 +130,11 @@ public class DoctorApi extends Controller {
 
     @Security.Authenticated(SecuredDoctor.class)
 	@Transactional
-	public static Result crearComentario(Long idDoctor){
-        if (SecurityController.validateOnlyMe(idDoctor)) {
+	public static Result crearComentario(Long idEpisodio){
+        Doctor doctor = (Doctor)SecurityController.getUser();
+        if (SecurityController.validateOnlyMe(doctor.getId())) {
             response().setHeader("Response-Syle","Json-Object");
             JsonNode json = request().body().asJson();
-            Long idEpisodio = json.findPath("idEpisodio").asLong();
-            Doctor doctor = (Doctor)SecurityController.getUser();
             Episodio episodio = JPA.em().find(Episodio.class, idEpisodio);
             if(episodio == null){
                 return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
@@ -164,7 +163,7 @@ public class DoctorApi extends Controller {
         if (SecurityController.validateOnlyMe(idDoctor)) {
             response().setHeader("Response-Syle","Json-Array");
             Doctor doctor = (Doctor)SecurityController.getUser();
-            List<Comentario> comentarios = JPA.em().createQuery("SELECT u FROM Comentario u WHERE u.doctor=?1",Comentario.class).setParameter(1, doctor).getResultList();
+            List<Comentario> comentarios = JPA.em().createQuery("SELECT u FROM Comentario u WHERE u.doctor=?1 ORDER BY u.fecha asc",Comentario.class).setParameter(1, doctor).getResultList();
             return ok(Comentario.listToJson(comentarios));
         }
         else {
@@ -178,7 +177,7 @@ public class DoctorApi extends Controller {
         if (SecurityController.validateOnlyMe(idDoctor)) {
             response().setHeader("Response-Syle", "Json-Array");
             Doctor doctor = (Doctor)SecurityController.getUser();
-            List<Episodio> episodios = JPA.em().createQuery("SELECT u FROM Episodio u WHERE (?1 MEMBER OF u.doctores)", Episodio.class).setParameter(1, doctor).getResultList();
+            List<Episodio> episodios = JPA.em().createQuery("SELECT u FROM Episodio u WHERE (?1 MEMBER OF u.doctores) ORDER BY u.fecha asc", Episodio.class).setParameter(1, doctor).getResultList();
             return ok(Episodio.listToJson(episodios));
         }
         else {
@@ -209,6 +208,23 @@ public class DoctorApi extends Controller {
         }
         else {
             return status(StatusMessages.C_UNAUTHORIZED, StatusMessages.M_UNAUTHORIZED);
+        }
+    }
+
+    @Security.Authenticated(SecuredDoctor.class)
+    @Transactional
+    public static Result eliminarOpinion(Long idEpisodio){
+        JsonNode json = request().body().asJson();
+        Long idDoctor = json.get("idDoctor").asLong();
+        Doctor doctor = JPA.em("default").find(Doctor.class,idDoctor);
+        Episodio episodio = JPA.em("default").find(Episodio.class, idEpisodio);
+        if((doctor != null || episodio != null) && episodio.getDoctor().equals(SecurityController.getUser())){
+            episodio.getDoctores().remove(doctor);
+            JPA.em("default").merge(episodio);
+            return ok(StatusMessages.M_SUCCESS);
+        }
+        else{
+            return status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
         }
     }
 }
