@@ -29,7 +29,7 @@ public class Episodio implements Comparable<Episodio>{
 
 	private String localizacion;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(orphanRemoval=true, fetch = FetchType.EAGER)
 	private List<Comentario> comentarios;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -51,7 +51,7 @@ public class Episodio implements Comparable<Episodio>{
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Doctor> doctores;
 
-    @OneToOne
+    @OneToOne(orphanRemoval=true)
     private S3File grabacion;
 	
 	public Episodio(){

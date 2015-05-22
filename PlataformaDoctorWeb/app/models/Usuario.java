@@ -139,6 +139,15 @@ public abstract class Usuario implements Comparable<Usuario>{
         return genero;
     }
 
+    public int getAge() {
+        Calendar bir = Calendar.getInstance();
+        bir.setTime(fechaNacimiento);
+        int birthYear = bir.get(Calendar.YEAR);
+        Calendar eff = Calendar.getInstance();
+        int actual = eff.get(Calendar.YEAR);
+        return actual-birthYear;
+    }
+
     public void setGenero(int genero) throws UsuarioException{
         if(genero==1){
             this.genero=MASCULINO;
@@ -178,6 +187,7 @@ public abstract class Usuario implements Comparable<Usuario>{
         node.put("fechaVinculacion", DateUtil.dateToString(getFechaVinculacion()));
         node.put("picture", profilePicture!=null?profilePicture.getUrl().toString():null);
         node.put("rol", this.rol);
+        node.put("edad", this.getAge());
         return node;
     }
 
