@@ -21,22 +21,20 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
+                        <li><a href="#/doctor/{{id}}/pacientes">Mis pacientes</a></li>
+                        <li class="active"><a href="#">Agregar pacientes <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
 
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown"  style="color:white;">Acciones <span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown"  style="color:white;"> Dr. {{medico.nombre}} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#/doctor/{{id}}/pacientes">Mis pacientes</a></li>
-                            <li><a href="#">Agregar Pacientes</a></li>
-                            <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Actualizar informacion</a></li>
                             <li><a href="#/logout">Cerrar Sesion</a></li>
                         </ul>
                     </li>
-                    <li><p class="navbar-text" style="color:white;"> Dr. {{medico.nombre}}</p></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -49,7 +47,7 @@
             <!--Sidebar content-->
             <!--<div class="card card-container"></div>-->
 
-            <div class="card card-container" >
+            <div class="card card-container alto" >
                 <img  class="profile-img-card" src="http://www.purview.net/wp-content/uploads/2013/08/PatientIcon.png">
                 <div class="profile-name-card">{{pacienteActual.nombre}} {{pacienteActual.apellido}}</div>
                 <div><br></div>
@@ -101,7 +99,7 @@
         </div>
         <div class="col-xs-8">
             <!--Body content-->
-            <div class="col-xs-12 panel panel-default notebook">
+            <div class="col-xs-12 panel panel-default notebook alto">
                 <div class="form-group">
                     <input class="form-control" type="text" ng-model="query" />
                 </div>

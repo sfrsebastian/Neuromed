@@ -23,22 +23,20 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-
+                    <li class="active"><a href="#">Mis pacientes <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#/pacientes/{{id}}">Agregar pacientes</a></li>
+                    <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown"  style="color:white;">Acciones <span class="caret"></span></a>
+						<a class="dropdown-toggle" data-toggle="dropdown"  style="color:white;">Dr. {{medico.nombre}} <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">Mis pacientes</a></li>
-							<li><a href="#/pacientes/{{id}}">Agregar Pacientes</a></li>
                             <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
                             <li class="divider"></li>
-							<li><a href="#">Actualizar informacion</a></li>
 							<li><a href="#/logout">Cerrar Sesion</a></li>
 						</ul>
 					</li>
-					<li><p class="navbar-text" > Dr. {{medico.nombre}}</p></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
@@ -112,6 +110,12 @@
 					<div class="form-group">
 						<input class="form-control" type="text" ng-model="query" />
 					</div>
+                    <!--<select class="form-control" ng-model="query.nivelDolor">
+                        <option value="" selected disabled>Intensidad</option>
+                        <option value="">Todas</option>
+                        <option ng-repeat="edad in edades" value="{{edad}}">{{edad}}</option>
+                    </select>-->
+
 					<ul class="panel-body no-padding" >
 						<li class="col-xs-12 no-padding" ng-repeat="paciente in pacientes | filter:query | orderBy: orderList" ng-click="cambiarPacienteActual(paciente.id)">
 							<strong>Nombre:</strong> {{paciente.nombre}} {{paciente.apellido}}

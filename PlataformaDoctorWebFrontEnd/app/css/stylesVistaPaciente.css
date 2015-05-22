@@ -3,7 +3,7 @@
 }
 
 li:active{
-  background-color: #FF0000;;
+    background-color: #FF0000;
 }
 
 .navbar {
@@ -19,7 +19,7 @@ a.navbar-brand{
 }
 
 .navbar-nav>li>a{
-  color: #333 !important;
+    color: #333 !important;
 }
 
 .sidebar {

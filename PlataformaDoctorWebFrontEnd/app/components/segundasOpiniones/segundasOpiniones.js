@@ -64,6 +64,7 @@ angular.module('mSegundasOpiniones', ['ngRoute'])
                 $scope.rutaImagenCerebro ="";
                 $scope.cssImagen="";
                 cambiarImagen();
+                cambiarMedidor(parseInt($scope.episodioActual.nivelDolor));
                 $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
 
             });
@@ -148,6 +149,7 @@ angular.module('mSegundasOpiniones', ['ngRoute'])
                         $scope.episodioActual=$scope.episodios[i];
                         $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
                         cambiarImagen();
+                        cambiarMedidor(parseInt($scope.episodioActual.nivelDolor));
                     }
                 }
                 console.log($scope.episodioActual);
@@ -176,6 +178,7 @@ angular.module('mSegundasOpiniones', ['ngRoute'])
 
             $scope.restaurarEpisodios=function(){
 
+
                 var pet2={
                     method: 'GET',
                     url: 'https://neuroapi.herokuapp.com/api/doctor/'+$scope.idDoctor+'/segundaOpinion',
@@ -197,6 +200,7 @@ angular.module('mSegundasOpiniones', ['ngRoute'])
                     $scope.rutaImagenCerebro ="";
                     $scope.cssImagen="";
                     cambiarImagen();
+                    cambiarMedidor(parseInt($scope.episodioActual.nivelDolor));
                     $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
 
                 });
@@ -206,6 +210,54 @@ angular.module('mSegundasOpiniones', ['ngRoute'])
             $scope.agregarSegundaOpinion=function(){
                 console.log($scope.selectors.selected);
             }
+
+            function cambiarMedidor(nivel) {
+                console.log('Nivel',nivel);
+                var leaseMeter, meterBar, meterBarWidth, meterValue, progressNumber;
+
+                /*Get value of value attribute*/
+                var valueGetter = function() {
+                    return (nivel/10)*100;
+                }
+
+                /*Convert value of value attribute to percentage*/
+                var getPercent = function() {
+                    meterBarWidth = parseInt(valueGetter());
+                    meterBarWidth.toString;
+                    meterBarWidth = meterBarWidth + "%";
+                    return meterBarWidth;
+                }
+
+                /*Apply percentage to width of .meterBar*/
+                var adjustWidth = function() {
+                    meterBar = document.getElementsByClassName('meterBar');
+                    for (var i=0; i<meterBar.length; i++) {
+                        var valor = valueGetter();
+                        meterBar[i].style['height'] = getPercent();
+                        if(valor >= 80){
+                            meterBar[i].style['background-color'] = '#DB1212';
+                        }
+                        else if(valor >= 40){
+                            meterBar[i].style['background-color'] = '#FFFF33';
+                        }
+                        else{
+                            meterBar[i].style['background-color'] = '#46DF2E';
+                        }
+                    }
+                }
+
+                /*Update value indicator*/
+                var indicUpdate = function() {
+                    progressNumber = document.getElementsByClassName('progressNumber');
+                    for (var i=0; i<progressNumber.length; i++) {
+                        progressNumber[i].innerHTML = valueGetter()/10;
+                    }
+                }
+
+                adjustWidth();
+                indicUpdate();
+            };
+
 
         }]);
 

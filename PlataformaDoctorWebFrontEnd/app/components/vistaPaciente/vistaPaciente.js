@@ -72,6 +72,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
             $scope.rutaImagenCerebro ="";
             $scope.cssImagen="";
             cambiarImagen();
+            cambiarMedidor(parseInt($scope.episodioActual.nivelDolor));
             if($scope.episodioActual.grabacion!=null) $scope.audio=ngAudio.load($scope.episodioActual.grabacion);
             $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
             $scope.info = {
@@ -254,8 +255,9 @@ angular.module('mVistaPaciente', ['ngRoute'])
              */
             $scope.buscarRangoFecha=function(){
 
-                console.log("Fecha",$scope.fechas.fechaPicker);
                 var fecha=$scope.fechas.fechaPicker;
+
+                $scope.fechas.fechaPicker="";
 
                 var fechaI=fecha.split("/")[0];
                 var fechaF=fecha.split("/")[1];
@@ -288,6 +290,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
                         $scope.episodioActual=$scope.episodios[i];
                         $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
                         cambiarImagen();
+                        cambiarMedidor($scope.nivelDolorNum);
                         $scope.recording = $sce.trustAsResourceUrl($scope.episodioActual.grabacion);
 
                     }
@@ -318,7 +321,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
             $scope.restaurarEpisodios=function(){
 
-                $scope.fechas.fechaPicker=""
+                $scope.fechas.fechaPicker="";
 
                 var pet2={
                     method: 'GET',
@@ -342,6 +345,7 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     $scope.rutaImagenCerebro ="";
                     $scope.cssImagen="";
                     cambiarImagen();
+                    cambiarMedidor(parseInt($scope.episodioActual.nivelDolor));
                     if($scope.episodioActual.grabacion!=null) $scope.audio=ngAudio.load($scope.episodioActual.grabacion);
                     $scope.nivelDolorNum=parseInt($scope.episodioActual.nivelDolor);
                     $scope.info = {
@@ -426,13 +430,62 @@ angular.module('mVistaPaciente', ['ngRoute'])
                     // For JSON responses, resp.data contains the result
                 });
 
-            }
+            };
 
             $scope.cambiarVista=function(vista){
                 $scope.vistaActual=vista;
-            }
+            };
+
+
+            function cambiarMedidor(nivel) {
+                console.log('Nivel',nivel);
+                var leaseMeter, meterBar, meterBarWidth, meterValue, progressNumber;
+
+                /*Get value of value attribute*/
+                var valueGetter = function() {
+                    return (nivel/10)*100;
+                }
+
+                /*Convert value of value attribute to percentage*/
+                var getPercent = function() {
+                    meterBarWidth = parseInt(valueGetter());
+                    meterBarWidth.toString;
+                    meterBarWidth = meterBarWidth + "%";
+                    return meterBarWidth;
+                }
+
+                /*Apply percentage to width of .meterBar*/
+                var adjustWidth = function() {
+                    meterBar = document.getElementsByClassName('meterBar');
+                    for (var i=0; i<meterBar.length; i++) {
+                        var valor = valueGetter();
+                        meterBar[i].style['height'] = getPercent();
+                        if(valor >= 80){
+                            meterBar[i].style['background-color'] = '#DB1212';
+                        }
+                        else if(valor >= 40){
+                            meterBar[i].style['background-color'] = '#FFFF33';
+                        }
+                        else{
+                            meterBar[i].style['background-color'] = '#46DF2E';
+                        }
+                    }
+                }
+
+                /*Update value indicator*/
+                var indicUpdate = function() {
+                    progressNumber = document.getElementsByClassName('progressNumber');
+                    for (var i=0; i<progressNumber.length; i++) {
+                        progressNumber[i].innerHTML = valueGetter()/10;
+                    }
+                }
+
+                adjustWidth();
+                indicUpdate();
+            };
 
 
 
-}]);
+
+        }]);
 

@@ -7,9 +7,24 @@ angular.module('mInicioDoctorPacientes', ['ngRoute'])
     templateUrl: 'components/inicioDoctor/inicioDoctorPacientes.html',
     controller: 'inicioDoctorPacientesCont'
   });
-}])
+}]).filter('reverse', function() {
+        return function(input, uppercase) {
+            input = input || '';
+            var out = "";
+            for (var i = 0; i < input.length; i++) {
+                out = input.charAt(i) + out;
+            }
+            // conditional based on optional argument
+            if (uppercase) {
+                out = out.toUpperCase();
+            }
+            return out;
+        };
+    })
 
 .controller('inicioDoctorPacientesCont', ['$scope','$window','$http','$routeParams',function($scope,$window,$http,$routeParams) {
+
+        $scope.edades=["0-9","10-19","20-29","30-39","40-49","50-59","60-69","70-79","80-89"]
 
         $scope.id=$routeParams.id;
         var pet1={

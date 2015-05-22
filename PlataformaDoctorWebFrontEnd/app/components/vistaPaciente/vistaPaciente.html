@@ -22,18 +22,17 @@
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-
-					</ul>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#/doctor/{{id}}/pacientes">Mis pacientes</a></li>
+                        <li><a href="#/pacientes/{{id}}">Agregar pacientes</a></li>
+                        <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
+                    </ul>
 
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white;">Dr. {{medico.nombre}} {{medico.apellido}} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Segundas Opiniones</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Actualizar informacion</a></li>
-								<li><a href="#">Cerrar Sesion</a></li>
+								<li><a href="#/logout">Cerrar Sesion</a></li>
 							</ul>
 						</li>
 
@@ -135,14 +134,16 @@
 				<div class="col-sm-2 panel panel-default notebook">
 
                     <div class="input-group" style="margin-bottom: 3px">
+                         <span class="input-group-btn">
+                            <button type="submit" class="btn btn-success" ng-click="buscarRangoFecha()"><li class="fa fa-search"></li></button>
+                        </span>
                         <input type="text" class="form-control pickerMultiple" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-success" ng-click="buscarRangoFecha()"><li class="fa fa-search"></li></button>
                             <button type="submit" class="btn btn-danger" ng-click="restaurarEpisodios()"><li class="fa fa-trash"></li></button>
                         </span>
                     </div><!-- /input-group -->
 
-                        <select class="form-control" ng-model="query.nivelDolor">
+                        <select class="form-control" ng-model="query.nivelDolor" style="margin-bottom: 3px">
                             <option value="" selected disabled>Intensidad</option>
                             <option value="">Todas</option>
                             <option ng-repeat="dificultad in dificultades" value="{{dificultad}}">{{dificultad}}</option>
@@ -261,10 +262,9 @@
 							</div>
 						</div>
 						<audio controls preload="none" style="width:100%">
-							<!--<source ng-src="{{recording}}" type="audio/mp4" />-->
+							<source ng-src="components/resources/grabacion.m4a" type="audio/mp4" />
 							<p>Your browser does not support HTML5 audio.</p>
 						</audio>
-                        <button ng-click='audio.paused ? audio.play() : audio.play()'>Pause</button>
                     </div>
                     <h2 class="col-sm-5 episodio-title">Comentarios</h2>
                     <div class='panel-comentarios'>
@@ -356,4 +356,3 @@
     });
 </script>
 
-<script type="text/javascript" src="js/meter.js"></script>
