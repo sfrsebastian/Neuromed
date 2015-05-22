@@ -49,7 +49,7 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
             };
 
             $scope.registrar=function(){
-
+                console.log("Entre a registrar")
                 var json=[
                     {
                         "nombre": $scope.nombre,
@@ -62,7 +62,7 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                     }
                 ];
                 console.log(json);
-                var hash=CryptoJS.MD5(JSON.stringify(json));;
+                var hash=CryptoJS.MD5(JSON.stringify(json));
                 var pet={
                     method: 'POST',
                     url: 'https://neuroapi.herokuapp.com/api/doctor',
@@ -94,6 +94,10 @@ angular.module('mRegistrarDoctor', ['ngRoute'])
                 if(usuario!=null){
                     window.top.location="#/inicioDoctor";
                 }
-            }
+            };
+
+        volverlogin = function(){
+            wintow.top.location = "#/login"
+        }
 
 }]);

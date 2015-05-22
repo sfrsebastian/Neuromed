@@ -18,7 +18,7 @@ import java.util.List;
 
 @CorsComposition.Cors
 @ForceHttps.Https
-@IntegrityCheck.Integrity
+//@IntegrityCheck.Integrity
 public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-Auth-Token";
@@ -158,6 +158,27 @@ public class SecurityController extends Controller {
                 }
             });
             return token;
+        }
+        catch(Throwable e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Transactional
+    public static Result getUserByToken(){
+        try {
+            String token = request().body().asJson().get("token").asText();
+            Usuario user =  JPA.withTransaction("default", false, new play.libs.F.Function0<Usuario>() {
+                public Usuario apply() throws Throwable{
+                    List<Usuario> usuarios = JPA.em().createQuery("SELECT u.usuario FROM Token u WHERE u.token = ?1", Usuario.class).setParameter(1, token).getResultList();
+                    if(usuarios.size() == 1){
+                        return usuarios.get(0);
+                    }
+                    return null;
+                }
+            });
+            return user!=null?ok(user.toJson()):status(StatusMessages.C_BAD_REQUEST, StatusMessages.M_INCORRECT_PARAMS);
         }
         catch(Throwable e){
             e.printStackTrace();

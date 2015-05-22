@@ -16,7 +16,7 @@ import java.net.URL;
 public class S3File {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     private String bucket;

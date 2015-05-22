@@ -1,197 +1,350 @@
+<link href="css/stylesVistaPaciente.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/jquery.datepick.css">
 
 
-		<div class="container">
+<div ng-controller="vistaPacienteCont">
 
-			<!-- Static navbar -->
-			<nav class="navbar navbar-default" style="margin-top: 20px;">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="#">Neuromed</a>
+
+<!-- navbar -->
+		<nav class="navbar navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#/doctor/{{id}}/pacientes" style="color:white;">Neuromed</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#/doctor/{{idDoctor}}/pacientes">Mis pacientes</a></li>
+                        <li><a href="#/pacientes/{{idDoctor}}">Agregar pacientes</a></li>
+                        <li><a href="#/doctor/{{idDoctor}}/opiniones">Segundas Opiniones</a></li>
+                    </ul>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color:white;">Dr. {{medico.nombre}} {{medico.apellido}} <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#/logout">Cerrar Sesion</a></li>
+							</ul>
+						</li>
+
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+		<!-- /#sidebar -->
+		<ul class="col-sm-2 sidebar">
+			<li>
+				<button type="submit" ng-click="cambiarVista(1)">
+					<i class="fa fa-user-md fa-2x"></i>
+					<span class="nav-text">
+						Informaci&oacute;n del paciente
+					</span>
+				</button>
+			</li>
+			<li>
+				<button type="submit" ng-click="cambiarVista(2)">
+					<i class="fa fa-folder-o fa-2x"></i>
+					<span class="nav-text">
+						Episodios
+					</span>
+				</button>
+			</li>
+			<li>
+				<button type="submit" ng-click="cambiarVista(3)">
+					<i class="fa fa-bar-chart-o fa-2x"></i>
+					<span class="nav-text">
+						Estad&iacute;sticas
+					</span>
+				</button>
+			</li>
+
+		</ul>
+
+		<div class="col-sm-10 col-sm-offset-2 no-padding wrapper">
+			<!--VISTA USUARIO -->
+			<div ng-if="vistaActual==1" id="usuario">
+				<div class="user-panel col-sm-12">
+                    <div class="col-sm-3 profile-img">
+                        <img src="components/resources/steve.jpeg" class='img-responsive img-circle'>
+						<p><small><strong>Ultima actividad: </strong>{{paciente.fechaVinculacion}}</small></p>
 					</div>
-					<div id="navbar" class="navbar-collapse collapse">
-						<ul class="nav navbar-nav">
-							<li ><a href="#/inicioDoctor/{{idDoctor}}">Pacientes</a></li> <!--class="active"-->
-							<li class="dropdown">
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li class="divider"></li>
-									<li class="dropdown-header">Nav header</li>
-									<li><a href="#">Separated link</a></li>
-									<li><a href="#">One more separated link</a></li>
-								</ul>
-							</li>
-						</ul>
-						<ul class="nav navbar-nav navbar-right">
-                            <li><a href="#/actualizarDatos/{{idDoctor}}">Dr. {{medico.nombre}} <span class="sr-only">(current)</span></a></li>
-							<li><a href="../navbar-fixed-top/">Cerrar Sesion</a></li>
-						</ul>
-					</div><!--/.nav-collapse -->
-				</div><!--/.container-fluid -->
-			</nav>
+					<div class="col-sm-9 profile-info">
+                        <p><span style="font-size: 200%"><strong>Nombre: </strong>{{paciente.nombre}} {{paciente.apellido}}</span></p>
+                        <p><span style="font-size: 200%"><strong>Identificacion: </strong>{{paciente.identificacion}}</span></p>
+                        <p><span style="font-size: 200%"><strong>E-mail: </strong>{{paciente.email}}</span></p>
+                        <p><span style="font-size: 200%"><strong>Fecha de Nacimiento: </strong>{{paciente.fechaNacimiento}}</span></p>
+					</div>
+				</div>
 
-			<!-- Main component for a primary marketing message or call to action -->
-
-			<h1>{{paciente.nombre}} {{paciente.apellido}}</h1>
-			<hr>
-
-			<div class="row">
-				<div class="col-md-4">
-					<div class="panel panel-primary">
-						<div class="panel-heading">
-							<h3 class="panel-title">Informaci&oacute;n del paciente</h3>
+				<div class="user-info col-sm-12">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="thumbnail">
+								<div class='overlay'><p>{{paciente.tipoSangre}}</p></div>
+								<div class='content'>
+									<h3><i class="fa fa-heart-o" style="color:#F55"></i> RH</h3>
+								</div>
+							</div>
 						</div>
-						<div class="panel-body">
-							<img src="http://placehold.it/500x500" class="img-responsive">
+						<div class="col-sm-3">
+							<div class="thumbnail">
+								<div class='overlay'><p>{{paciente.genero}}</p></div>
+								<div class='content'>
+									<h3><i class="fa fa-mars" style="color:#ED6374"></i>
+										<i class="fa fa-venus" style="color:#55AADE"></i>
+										Sexo</h3>
+								</div>
+							</div>
 						</div>
-						<div class="panel-footer">
-							<p>Nombre: {{paciente.nombre}}</p>
-							<p>G&eacute;nero: {{paciente.genero}}</p>
-							<p>&Uacute;ltimo registro: {{paciente.fechaVinculacion}}</p>
-							<p>RH: A+</p>
-							<p>Peso: 120 kg</p>
-							<p>Altura: 1.73 m</p>
+						<div class="col-sm-3">
+							<div class="thumbnail">
+								<div class='overlay'><p>{{paciente.peso}} kg</p></div>
+								<div class='content'>
+									<h3><i class="fa fa-arrows-h" style="color:#F55"></i> Peso</h3>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="thumbnail">
+								<div class='overlay'><p>{{paciente.altura}} m</p></div>
+								<div class='content'>
+									<h3><i class="fa fa-arrows-v" style="color:#ED6374"></i> Altura</h3>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-8">
-					<div class="panel panel-success">
-						<div class="panel-heading">
-							<h3 class="panel-title">Resumen del paciente</h3>
-						</div>
-						<div class="panel-body">
-							<br>
-							<br>
-							<br>
-                            <div id="grafico" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-							<br>
-							<br>
-							<br>
-						</div>
-						<div class="panel-footer">
-							Informaci&oacute;n del cuadro
-						</div>
-					</div>
-				</div>
-			</div>
+            </div>
 
 
+			<!--FIN VISTA USUARIO -->
 
 
-            <!--<div
-                     data-ac-chart="line"
-                     data-ac-data="data"
-                     data-ac-config="config"
-                     class="chart"
-                     >
-             </div>-->
+			<!--VISTA EPISODIOS -->
+			<div ng-if="vistaActual==2" id="episodio">
+				<div class="col-sm-2 panel panel-default notebook">
+
+                    <div class="input-group" style="margin-bottom: 3px">
+                         <span class="input-group-btn">
+                            <button type="submit" class="btn btn-success" ng-click="buscarRangoFecha()"><li class="fa fa-search"></li></button>
+                        </span>
+                        <input type="text" class="form-control pickerMultiple" id="selectfecha" placeholder="Fecha" ng-model="fechas.fechaPicker">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-danger" ng-click="restaurarEpisodios()"><li class="fa fa-trash"></li></button>
+                        </span>
+                    </div><!-- /input-group -->
+
+                        <select class="form-control" ng-model="query.nivelDolor" style="margin-bottom: 3px">
+                            <option value="" selected disabled>Intensidad</option>
+                            <option value="">Todas</option>
+                            <option ng-repeat="dificultad in dificultades" value="{{dificultad}}">{{dificultad}}</option>
+                        </select>
+
+                        <select class="form-control" ng-model="query.localizacion" style="margin-bottom: 3px">
+                            <option value="" selected disabled>Localizacion</option>
+                            <option value="">Todas</option>
+                            <option ng-repeat="localizacion in localizaciones" value="{{localizacion}}">{{localizacion}}</option>
+                        </select>
 
 
+                    <ul class="no-padding" >
+                        <li class="col-xs-12 no-padding" ng-repeat="episodio in episodios | filter:query | orderBy: orderList" ng-click="cambiarEpisodioActual(episodio.id)">
+                            <strong>Fecha:</strong> {{episodio.fecha}}
+                            <br/> <strong>Intensidad:</strong> {{episodio.nivelDolor}}
+                        </li>
+                    </ul>
 
-
-			<div class="row">
-				<div class="col-md-12">
-					<p>
-                    <div class="row">
-                         <h1 class="col-md-4">Cuadros Registrados</h1>
+                    <div class="panel-footer">
+                        <small><strong> # de episodios:</strong> {{episodios.length}}</small>
+                    </div>
 
                 </div>
-                        </br>
-                    <div class="row">
-                        <h1 class="col-md-2">Filtrar: </h1>
-                        <div class="col-md-4">
-                            <div class="input-group row">
-                                <input type="text" class="form-control" placeholder="Filtrar" ng-model="busqueda">
-                            </div>
 
-                        </div>
-                        <div class="input-group col-md-6">
-                            <input type="text" class="form-control" id="datepicker1" placeholder="Fecha Inicial"  ng-model="fechaI">
-                            <input type="text" class="form-control" id="datepicker2" placeholder="Fecha Final"  ng-model="fechaF">
-							    <span class="input-group-btn">
-								    <button class="btn btn-default" ng-click="buscarRangoFecha()" type="button">Buscar</button>
-							    </span>
-                        </div>
-                    </div>
-					</p>
-					<div class="bs-example" data-example-id="collapse-accordion">
-
-							<div class="panel panel-default" ng-repeat="ep in episodios | filter:busqueda">
-								<div class="panel-heading" role="tab" id="headingThree">
-									<h4 class="panel-title">
-										<a class="" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-											{{ep.fecha}}
-										</a>
-									</h4>
+				<div class="col-sm-10 col-sm-offset-2 info-episodio">
+					<div class='panel-informacion'>
+						<div class="panel-body no-padding">
+							<div class="col-sm-12">
+								<div class="row">
+									<h2 class="col-sm-5 episodio-title">Fecha: {{episodioActual.fecha}}</h2>
 								</div>
-								<div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree" aria-expanded="true" style="" >
-									<div class="panel-body">
-                                        <p> Nivel de dolor: {{ep.nivelDolor}}</p>
-                                        <p> Ubicacion: Lobulo {{ep.localizacion}}</p>
-                                        <p> Doctor: {{ep.doctor}}</p>
-                                        <p> Causas:</p>
-                                            <p ng-repeat="causas in ep.causas">- {{causas}}</p>
-                                        <p> Medicamentos:</p>
-                                            <p ng-repeat="medicamentos in ep.medicamentos">- {{medicamentos}}</p>
-                                        <p> Patrones de sueño: </p>
-                                            <p ng-repeat="patrones in ep.patronesDeSueno">- {{patrones}}</p>
-                                        <p>Comentarios del doctor:  </p>
-                                           <p ng-repeat="comentario in ep.comentarios">&nbsp;&nbsp;&nbsp;&nbsp;- {{comentario.contenido}}</p>
+							</div>
+							<div class="col-sm-12 basic-info">
+                                <div class="col-sm-4 brain-container">
+                                    <img src="components/resources/brain/brain.svg" class="img-responsive brain-base">
+                                    <img  ng-src="components/resources/brain/{{rutaImagenCerebro}}.png" ng-class="cssImagen" class="img-responsive brain">
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="meter-container">
+                                        <h4>Dolor</h4>
+                                        <div aria-hidden="true" class="meterBackground row">
+                                            <div aria-hidden="true" class="meterBar">
+                                                <label class="progressValue">
+                                                    <span class="progressNumber"></span>
+                                                    <meter max="10" value="{{episodioActual.nivelDolor}}" class="leaseMeter"></meter>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                        <!--<audio controls preload="none" style="width:480px;">
-                                            <source ng-src="{{ep.grabacion}}" type="audio/mp4" />
-                                            <p>Your browser does not support HTML5 audio.</p>
-                                        </audio>-->
+                                <div class="col-sm-4 panel-asociados">
+                                    <div class="panel panel-default">
+                                        <div class="panel panel-heading no-padding">
+                                            <h4><i class="fa fa-stethoscope"></i> Doctores asociados</h4>
+                                        </div>
+                                        <div class="panel-body no-padding">
+                                            <ul class="unstyled no-padding col-xs-12">
+                                                <li ng-repeat="asociados in episodioActual.doctores" class="col-xs-12 no-padding">
+                                                    <div class="col-xs-2 no-padding">
+                                                        <i class="fa fa-user-md"></i>
+                                                    </div>
+                                                    <div class="col-xs-8 no-padding">
+                                                        <span>Dr. {{asociados.nombre}} {{asociados.apellido}}</span>
+                                                    </div>
+                                                    <div class="col-xs-2 no-padding">
+                                                        <button class="btn btn-block"> <li class="fa fa-trash"></li> </button>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="panel-footer no-padding">
+
+                                            <div class="input-group">
+                                                <input type="text" ng-model="selectors.selected" typeahead="state.nombre for state in states | filter:$viewValue | limitTo:8" class="form-control">
+                                                <span class="input-group-btn">
+                                                 <button class="btn btn-success" ng-click="agregarSegundaOpinion()" style="background-color: forestgreen" type="submit">Go!</button>
+                                                </span>
+                                            </div><!-- /input-group -->
+
+
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+							<div class="col-sm-4">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+                                        <h4> <i class="fa fa-medkit"></i> Causas</h4>
+									</div>
+									<div class="panel-body">
+										<p ng-repeat="causa in episodioActual.causas">- {{causa.tipo}}: {{causa.titulo}}</p>
 									</div>
 								</div>
-                                <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Comentar"  ng-model="comentario">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" ng-click="comentar(ep.id,comentario)" type="button">Comentar</button>
-                                        </span>
-                                        <select class="form-control" ng-model="medico" ng-options="medico.nombre for medico in medicos">
-                                            <option value="">Seleccione un medico</option>
-                                        </select>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" ng-click="pedirSegundaOpinion(ep.id,medico.id)" type="button">Segunda Opinion</button>
-                                        </span>
-                                </div>
-                                <!--<div class="input-group">
-                                    <select class="form-control" ng-model="medico" ng-options="medico.nombre for medico in medicos">
-                                        <option value="">Seleccione un medico</option>
-                                    </select>
-							    <span class="input-group-btn">
-								    <button class="btn btn-default" ng-click="pedirSegundaOpinion(ep.id,medico.id)" type="button">Segunda Opinion</button>
-							    </span>
-                                </div>-->
 							</div>
-					</div>
+							<div class="col-sm-4">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+                                        <h4> <i class="fa fa-medkit"></i> Medicamentos</h4>
+									</div>
+									<div class="panel-body">
+										<p ng-repeat="medicamento in episodioActual.medicamentos">- {{medicamento.marca}}: {{medicamento.titulo}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+                                        <h4> <i class="fa fa-medkit"></i> Patrones de sueño</h4>
+									</div>
+									<div class="panel-body">
+										<p ng-repeat="patronDeSueno in episodioActual.patronesDeSueno">- {{patronDeSueno.inicio}} a {{patronDeSueno.fin}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<audio controls preload="none" style="width:100%">
+							<source ng-src="components/resources/grabacion.m4a" type="audio/mp4" />
+							<p>Your browser does not support HTML5 audio.</p>
+						</audio>
+                    </div>
+                    <h2 class="col-sm-5 episodio-title">Comentarios</h2>
+                    <div class='panel-comentarios'>
+                        <div class="comment-wrap col-sm-12">
+                            <div class="photo col-sm-1">
+                                <img src="http://lorempixel.com/60/60/people/9" class='avatar'>
+                            </div>
+                            <div class="comment-block col-sm-11">
+                                <form id="comment-form">
+                                    <textarea placeholder="Agregar comentario" ng-model="comentarioIngresado"></textarea>
+                                    <button type="submit" class="btn" style="background-color:#2EB8E6;" ng-click="comentar(episodioActual.id,comentarioIngresado)">Comentar</button>
+                                </form>
+                            </div>
+                        </div>
 
+                        <div class="comment-wrap col-sm-12" ng-repeat="comentario in episodioActual.comentarios">
+                            <div class="photo col-sm-1">
+                                <img src="http://lorempixel.com/60/60/people/9" class='avatar'>
+                            </div>
+                            <div class="comment-block col-sm-10">
+                                <p class="comment-text">{{comentario.contenido}}</p>
+                                <div class="bottom-comment">
+                                    <div class="comment-date"><strong> {{comentario.doctorNombre}}</strong> - {{comentario.fecha}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    <!---->
+		<!--FIN VISTA EPISODIOS -->
 
-                    <!---->
+		<!-- VISTA GRAFICO -->
+        <div ng-if="vistaActual==3" >
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <h1 style="margin-top: 2%;margin-bottom: 2%;margin-left: 20%;">Graficas</h1>
+                    <linechart data="data" options="options"  width="500" height="500" style="margin-left: 20%;"></linechart>
+                    <div class="row">
+                        <div class="col-lg-12">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-
-					</div>
-				</div>
-			</div>
+		<!--FIN VISTA GRAFICO -->
 		</div>
 
 
-       <script>
-            $(function() {
-                $( "#datepicker1" ).datepicker({ dateFormat: 'mm-dd-yy'});
-            });
-            $(function() {
-                $( "#datepicker2" ).datepicker({ dateFormat: 'mm-dd-yy'});
-            });
+</div>
 
-        </script>
+
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    $(document).ready(function() {
+        $('.pickerMultiple').datepick({
+            renderer: $.datepick.weekOfYearRenderer,
+            firstDay: 1,
+            showOtherMonths: true,
+            rangeSelect: true,
+            onShow: $.datepick.selectWeek,
+            onDate: $.datepick.noWeekends,
+            dateFormat: 'mm-dd-yyyy',
+            rangeSeparator: ' / ',
+            onClose: function(){
+                alert("mensaje sirvio");
+            }
+        });
+    });
+    $('#comment-text').keypress(function(e){
+        if(e.keyCode == 13 && !e.shiftKey) {
+            e.preventDefault();
+            alert("ejecutar accion de enter de comentario");
+        }
+    });
+</script>
+

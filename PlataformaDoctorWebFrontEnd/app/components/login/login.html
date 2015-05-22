@@ -1,21 +1,150 @@
-<div class="container" ng-controller="loginCont">
 
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Ingresar a Neuromed</h2>
-          </br>
-        <label for="inputEmail" class="sr-only">Usuario</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" ng-required="" ng-model="mail" autofocus="">
+<link href="css/stylesLogin.css" rel="stylesheet">
 
-        <label for="inputPassword" class="sr-only">Constraseña</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Palabra clave" required="" ng-model="contrasenia">
-        <!--<div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Recordarme
-          </label>
-        </div>--></br>
-        <button class="btn btn-lg btn-primary btn-block" ng-disabled="error || incomplete" type="submit" ng-click="update()">Ingresar</button>
-          </br>
-          <a href="#/registrarse" class="btn btn-lg btn-primary btn-block">Registrese!</a>
-      </form>
 
-</div>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="" style="font-size: 180%;font-weight: bold; color:white;">Neuromed</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+            </ul>
+
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Username" ng-required="" ng-model="mail"  placeholder="Email address" required autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Password" required="" ng-model="contrasenia">
+                </div>
+                <button type="submit" class="btn" style="background-color:#2EB8E6;" ng-click="login()">Sign In</button>
+                <!--<button type="registrarse" class="btn" style="background-color:#4791FF;">Registrarse</button>-->
+                <!--<a href="#/registrarse" class="btn" style="background-color:#4791FF;">Registrarse</a>-->
+            </form>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<!-- Section 1 -->
+<section id="intro" data-speed="6" data-type="background">
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span4 text-center">
+                <img height="320" width="320" src="components/resources/desktop.png">
+            </div>
+            <div class="span8 text-center">
+                <img src="components/resources/title.png">
+            </div>
+            <div class="row">
+                <div class="col-lg-1 col-centered"><a href="#registro"><h3>Registrate!</h3></a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Section 2 -->
+<section id="home" data-speed="4" data-type="background">
+    <div class="container">
+        <div class="row-fluid">
+            <div class="span4 well">
+                <h2>Nuestro Producto</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque cursus nisl consectetur et.</p>
+                <p><a class="btn btn-success" href="#">View details &raquo;</a></p>
+            </div><!-- /.span4 -->
+            <div class="span4 well">
+                <h2>Nuestro Equipo</h2>
+                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <p><a class="btn btn-success" href="#">View details &raquo;</a></p>
+            </div><!-- /.span4 -->
+            <div class="span4 well">
+                <h2>Nuestra Arquitectura</h2>
+                <p>A lo largo del curso se desarrolaron cada uno de los experimentos con el fin de tener una aproximaciona cada uno de los requerimientos de calidad: usabilidad, rendimiento, disponibilidad e interoperabilidad entre otros. A continuacion se encuentra el documento final que evidencia toda la evolucion de Neuromed a lo largo del curso.</p>
+                <p><a class="btn btn-success" href="#">View details &raquo;</a></p>
+            </div><!-- /.span4 -->
+        </div>
+    </div>
+</section>
+<!-- Section 3 -->
+<a name="registro"></a>
+<section id="about" data-speed="2" data-type="background">
+    <div class="container">
+        <div class="page-header">
+            <h1>Registrate <small>Haz parte de la comunidad de doctores...</small></h1>
+        </div>
+        <div class="row-fluid">
+            <div class="span4">
+                <p>Completa los datos a continuacion y quedaras registrado:</p>
+            </div><!-- /.span4 -->
+            <div class="span4">
+                <form>
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="" ng-required="" ng-model="nombre" autofocus="">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" placeholder="" ng-required="" ng-model="apellido" autofocus="">
+                    </div>
+                    <div class="form-group">
+                        <label for="identificacion">Identificacion</label>
+                        <input type="text" class="form-control" id="identificacion" placeholder="" ng-required="" ng-model="ident" autofocus="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" class="form-control" id="email" placeholder="" ng-required="" ng-model="mailr" autofocus="">
+                    </div>
+                    <div class="form-group">
+                        <label for="datepicker1">Fecha de Nacimiento</label>
+                        <input type="text" class="form-control" id="datepicker1" placeholder="" ng-required="" ng-model="fechaNacimiento" autofocus="">
+                    </div>
+                    <div class="form-group">
+                        <label for="pass1">Password</label>
+                        <input type="password" class="form-control" id="pass1" placeholder="" required="" ng-model="contraseniar">
+                    </div>
+                    <div class="form-group">
+                        <label for="pass2">Password</label>
+                        <input type="password" class="form-control" id="pass2" placeholder="" required="" ng-model="reptContrasenia">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success" ng-click="registrar()">Registrar</button>
+                </form>
+            </div><!-- /.span4 -->
+        </div>
+    </div>
+</section>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        // cache the window object
+        $window = $(window);
+
+        $('section[data-type="background"]').each(function(){
+            // declare the variable to affect the defined data-type
+            var $scroll = $(this);
+
+            $(window).scroll(function() {
+                // HTML5 proves useful for helping with creating JS functions!
+                // also, negative value because we're scrolling upwards
+                var yPos = -($window.scrollTop() / $scroll.data('speed'));
+
+                // background position
+                var coords = '50% '+ yPos + 'px';
+
+                // move the background
+                $scroll.css({ backgroundPosition: coords });
+            }); // end window scroll
+        });  // end section function
+    });
+
+
+
+</script>

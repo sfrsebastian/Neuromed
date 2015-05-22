@@ -4,15 +4,21 @@
 angular.module('myApp', [
   'ngRoute',
   'mVistaPaciente',
-  'mInicioDoctor','mLogin','mLogout',
+  'mInicioDoctorPacientes','mInicioDoctorAgregar','mLogin','mLogout',
   'myApp.version',
     'mActualizarDatos',
     'angular-md5',
     'mRegistrarDoctor',
+    'mExtras','ui.bootstrap','mSegundasOpiniones','n3-line-chart'
 
 
 ]).
-config(['$routeProvider', function($routeProvider) {
+config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
   $routeProvider
-      .otherwise({redirectTo: '/login'});
+      .otherwise({redirectTo: '/index'});
+
+    //  $locationProvider.html5Mode({
+    //    enabled:true,
+    //    requiredBase:false
+    //  });
 }]);

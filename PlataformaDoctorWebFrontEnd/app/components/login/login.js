@@ -3,7 +3,7 @@
 angular.module('mLogin', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/login', {
+  $routeProvider.when('/index', {
     templateUrl: 'components/login/login.html',
     controller: 'loginCont'
   });
@@ -11,6 +11,8 @@ angular.module('mLogin', ['ngRoute'])
 
 .controller('loginCont', ['$scope','$window','$http','md5' ,function($scope,$window,$http,md5) {
 
+
+        //LOGIN
 
         $scope.edit = true;
         $scope.error = false;
@@ -31,7 +33,7 @@ angular.module('mLogin', ['ngRoute'])
             }
         };
 
-        $scope.update=function(){
+        $scope.login=function(){
                 var mail=$scope.mail;
                 var contrasenia=$scope.contrasenia;
                 var json=[
@@ -72,21 +74,108 @@ angular.module('mLogin', ['ngRoute'])
                             var id = $scope.message.id;
                             //Hago post
                             if (id != null) {
-                                window.top.location = "#/inicioDoctor/" + id;
+                                window.top.location = "#/doctor/" + id+"/pacientes";
                             }
                         }else{
-                            window.top.location = "#/login/";
+                            window.top.location = "#/index/";
                         }
 
                 }).error(function (data, status, headers, config) {
                     // Erase the token if the user fails to log in
                     delete $window.sessionStorage.token;
-
+                    window.top.location = "#/error";
                     // Handle login errors here
-                    console.log('ERROR');
+                    console.log('ERROR LOGIN');
                     $scope.message = 'Error: Invalid user or password';
                 });
 
 
         };
+
+        //REGISTRAR
+
+        $scope.edit = true;
+        $scope.error = false;
+        $scope.incomplete = true;
+
+        $scope.nombre='';
+        $scope.apellido='';
+        $scope.ident='';
+        $scope.mail='';
+        $scope.fechaNacimiento='';
+        $scope.contraseniar='';
+        $scope.reptContrasenia='';
+
+        $scope.$watch('nombre',function() {$scope.test();});
+        $scope.$watch('apellido',function() {$scope.test();});
+        $scope.$watch('ident',function() {$scope.test();});
+        $scope.$watch('mail',function() {$scope.test();});
+        $scope.$watch('fechaNacimiento',function() {$scope.test();});
+        $scope.$watch('contraseniar',function() {$scope.test();});
+        $scope.$watch('reptContrasenia',function() {$scope.test();});
+
+
+        $scope.test = function(){
+            if ($scope.contraseniar !== $scope.reptContrasenia) {
+                $scope.error = true;
+            } else {
+                $scope.error = false;
+            }
+            $scope.incomplete = false;
+            if ($scope.edit && (!$scope.nombre.length ||
+                !$scope.apellido.length ||
+                !$scope.ident.length || !$scope.mail.length
+                || !$scope.fechaNacimiento.length
+                || !$scope.contraseniar.length || !$scope.reptContrasenia.length)) {
+                $scope.incomplete = true;
+            }
+        };
+
+        $scope.registrar=function(){
+            console.log("Entre a registrar")
+            var json=[
+                {
+                    "nombre": $scope.nombre,
+                    "apellido": $scope.apellido,
+                    "password": $scope.contraseniar,
+                    "genero": 1,
+                    "identificacion": $scope.ident,
+                    "email": $scope.mailr,
+                    "fechaNacimiento": $scope.fechaNacimiento
+                }
+            ];
+            console.log(json);
+            var hash=CryptoJS.MD5(JSON.stringify(json));
+            var pet={
+                method: 'POST',
+                url: 'https://neuroapi.herokuapp.com/api/doctor',
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-Hash': hash,
+                    'X-Device': 'WEB'
+                },
+                data: json
+
+
+            };
+            console.log("2");
+            $http(pet).success(function(data, status, headers, config) {
+                $scope.message = data;
+
+            }).error(function (data, status, headers, config) {
+                // Erase the token if the user fails to log in
+                delete $window.sessionStorage.token;
+
+                // Handle login errors here
+                console.log('ERROR');
+                $scope.message = 'Error: Invalid user or password';
+            });
+
+            console.log($scope.message);
+            //Hago post
+                window.top.location="#/";
+
+        };
+
+
 }]);

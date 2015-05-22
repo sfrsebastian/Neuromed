@@ -1,0 +1,120 @@
+<link href="css/stylesInicioDoctor.css" rel="stylesheet">
+<!-- NUEVO -->
+
+<div class="container-fluid" ng-controller="inicioDoctorAgregarCont">
+
+    <!--Navbar-->
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/doctor/{{id}}/pacientes" style="color:white;">Neuromed</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                        <li><a href="#/doctor/{{id}}/pacientes">Mis pacientes</a></li>
+                        <li class="active"><a href="#">Agregar pacientes <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#/doctor/{{id}}/opiniones">Segundas Opiniones</a></li>
+
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown"  style="color:white;"> Dr. {{medico.nombre}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="divider"></li>
+                            <li><a href="#/logout">Cerrar Sesion</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+
+
+    <div class="row-fluid">
+        <div class="col-xs-4">
+            <!--Sidebar content-->
+            <!--<div class="card card-container"></div>-->
+
+            <div class="card card-container alto" >
+                <img  class="profile-img-card" src="http://www.purview.net/wp-content/uploads/2013/08/PatientIcon.png">
+                <div class="profile-name-card">{{pacienteActual.nombre}} {{pacienteActual.apellido}}</div>
+                <div><br></div>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr>
+                        <td>Identificacion</td>
+                        <td>{{pacienteActual.identificacion}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{pacienteActual.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Edad</td>
+                        <td>{{pacienteActual.edad}}</td>
+                    </tr>
+                    <tr>
+                        <td>Altura</td>
+                        <td>{{pacienteActual.altura}}</td>
+                    </tr>
+                    <tr>
+                        <td>Peso</td>
+                        <td>{{pacienteActual.peso}}</td>
+                    </tr>
+                    <tr>
+                        <td>Tipo de Sangre</td>
+                        <td>{{pacienteActual.tipoSangre}}</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha Vinculacion</td>
+                        <td>{{pacienteActual.fechaVinculacion}}</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha Nacimiento</td>
+                        <td>{{pacienteActual.fechaNacimiento}}</td>
+                    </tr>
+                    <tr>
+                        <td>Numero de episodios</td>
+                        <td>{{pacienteActual.episodios.length}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="container"  style="padding-left:80px;">
+                    <button type="submit" class="btn btn-primary" ng-click="agregarPaciente(pacienteActual.id)">Agregar Paciente</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-8">
+            <!--Body content-->
+            <div class="col-xs-12 panel panel-default notebook alto">
+                <div class="form-group">
+                    <input class="form-control" type="text" ng-model="query" />
+                </div>
+                <ul class="panel-body no-padding" >
+                    <li class="col-xs-12 no-padding" ng-repeat="paciente in pacientes | filter:query | orderBy: orderList" ng-click="cambiarPacienteActual(paciente.id)">
+                        <strong>Nombre:</strong> {{paciente.nombre}}
+                        <br/> <strong>Identificacion:</strong> {{paciente.identificacion}}
+                    </li>
+                </ul>
+                <div class="panel-footer">
+                    <small><strong>N&uacute;mero de pacientes:</strong> {{pacientes.length}}</small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
