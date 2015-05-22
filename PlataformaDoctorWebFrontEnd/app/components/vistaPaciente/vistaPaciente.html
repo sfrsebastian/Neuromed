@@ -299,13 +299,13 @@
 
 		<!-- VISTA GRAFICO -->
         <div ng-if="vistaActual==3" >
-            <div id="page-content-wrapper">
+            <div id="page-content-wrapper" class="col-sm-10 col-sm-offset-2 no-padding wrapper">
                 <div class="container-fluid">
-                    <h1 style="margin-top: 2%;margin-bottom: 2%;margin-left: 20%;">Gráficas</h1>
-                    <h3 style="margin-top: 2%;margin-bottom: 2%;margin-left: 20%;">Nivel de dolor vs episodios</h3>
-                    <linechart data="data" options="options"  width="500" height="500" style="margin-left: 20%;"></linechart>
                     <div class="row">
                         <div class="col-lg-12">
+                            <h1 style="margin-bottom: 2%;">Gráficas</h1>
+                            <h3 style="margin-bottom: 2%;">Nivel de dolor vs episodios</h3>
+                            <linechart data="data" options="options"  width="500" height="500" style="margin-left: 20%;"></linechart>
                         </div>
                     </div>
                 </div>
