@@ -571,15 +571,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWd-Ps-Nh0">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="Reproducir sonido">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="5" y="351" width="127" height="30"/>
-                                </variation>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nivel de dolor :" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bc4-cY-ec9">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -637,7 +628,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brain" translatesAutoresizingMaskIntoConstraints="NO" id="0py-tH-Q9Z">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="109" y="183" width="183" height="170"/>
+                                    <rect key="frame" x="22" y="183" width="183" height="170"/>
                                 </variation>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="DV6-vx-gPs">
@@ -661,11 +652,22 @@
                                     <action selector="seleccionar:" destination="uxR-Yj-ufy" eventType="valueChanged" id="kTu-GN-S5C"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWd-Ps-Nh0">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Reproducir sonido">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="230" y="243" width="127" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="reproducirSonido" destination="uxR-Yj-ufy" eventType="touchUpInside" id="iJ0-N2-nMU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
-                                <exclude reference="jWd-Ps-Nh0"/>
                                 <exclude reference="bc4-cY-ec9"/>
                                 <exclude reference="8fA-lD-yPd"/>
                                 <exclude reference="fgR-RB-FNm"/>
@@ -675,11 +677,11 @@
                                 <exclude reference="0py-tH-Q9Z"/>
                                 <exclude reference="DV6-vx-gPs"/>
                                 <exclude reference="bM6-AV-0U9"/>
+                                <exclude reference="jWd-Ps-Nh0"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
-                                <include reference="jWd-Ps-Nh0"/>
                                 <include reference="bc4-cY-ec9"/>
                                 <include reference="8fA-lD-yPd"/>
                                 <include reference="fgR-RB-FNm"/>
@@ -689,6 +691,7 @@
                                 <include reference="0py-tH-Q9Z"/>
                                 <include reference="DV6-vx-gPs"/>
                                 <include reference="bM6-AV-0U9"/>
+                                <include reference="jWd-Ps-Nh0"/>
                             </mask>
                         </variation>
                     </view>

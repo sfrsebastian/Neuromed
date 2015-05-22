@@ -16,37 +16,37 @@ class Connector  {
     let method : String
     let requestUrl = "https://neuroapi.herokuapp.com/api"
     
-     var result : NSDictionary?
-
+    var result : NSDictionary?
     
-     init(){
-       // super.viewDidLoad()
+    
+    init(){
+        // super.viewDidLoad()
         self.method = ""
         
         
     }
     
-    func postData(url: String , data: NSData , vista : NuevoEpisodioViewController){
-        
-        var request = NSMutableURLRequest(URL: NSURL(string : requestUrl+url)!)
-        request.HTTPMethod = "PUT"
-        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
-        request.addValue("IOS", forHTTPHeaderField: "X-Device")
-        
-        request.setValue("Keep-Alive", forHTTPHeaderField: "Connection")
-        
-        var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        var session = NSURLSession(configuration: configuration, delegate: vista , delegateQueue : NSOperationQueue.mainQueue())
-        
-        var task = session.uploadTaskWithRequest(request, fromData: data)
-        
-        task.resume()
-        
-        
-    }
+    //    func postData(url: String , data: NSData , vista : NuevoEpisodioViewController){
+    //
+    //        var request = NSMutableURLRequest(URL: NSURL(string : requestUrl+url)!)
+    //        request.HTTPMethod = "PUT"
+    //        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+    //        request.addValue("IOS", forHTTPHeaderField: "X-Device")
+    //
+    //        request.setValue("Keep-Alive", forHTTPHeaderField: "Connection")
+    //
+    //        var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+    //        var session = NSURLSession(configuration: configuration, delegate: vista , delegateQueue : NSOperationQueue.mainQueue())
+    //
+    //        var task = session.uploadTaskWithRequest(request, fromData: data)
+    //
+    //        task.resume()
+    //
+    //
+    //    }
     
     func extraPost( urlll : String ,  array : [String: AnyObject] , verb : String ) {
-    
+        
         var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         var session = NSURLSession(configuration: configuration)
         var usr = "dsdd"
@@ -55,7 +55,7 @@ class Connector  {
             "email" : usr,
             "userPwd" : pwdCode ]
         
-       
+        
         
         
         
@@ -108,11 +108,29 @@ class Connector  {
         let urlData = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: err)
         
         //WARNING! Check if json response is an ARRAY or a DICTIONARY, in that case, cast the method accordin
-
+        
         
         var jsonResult: NSArray = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers, error:err) as! NSArray
         
         return jsonResult
+    }
+    
+    func doDelete(target : String){
+        var request : NSMutableURLRequest = NSMutableURLRequest()
+        request.URL = NSURL(string: requestUrl + target)
+        request.HTTPMethod = "DELETE"
+        println(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN"))
+        request.addValue(NSUserDefaults.standardUserDefaults().valueForKey("TOKEN") as? String, forHTTPHeaderField: "X-Auth-Token")
+        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+        request.addValue("IOS", forHTTPHeaderField: "X-Device")
+        
+        var response: NSURLResponse?
+        
+        var err: AutoreleasingUnsafeMutablePointer<NSError?> = nil
+        
+        let urlData = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: err)
+        
+        
     }
     
     func doPutData(url : String, data: NSData, params : NSDictionary, filename : String) -> Void{
@@ -128,6 +146,24 @@ class Connector  {
             }, failureHandler: { error in
                 NSLog("Error while tryinng to call PUT method on \(self.requestUrl + url) sending NSData")
         })
+        
+        //        task.setValue("NULL", forKey: "X_Hash")
+        //        task.setValue("IOS", forKey: "X_Device")
+        //        task.resume()
+        
+        
+        //      let task =  net.upload(absoluteUrl: requestUrl + url , params: params, progressHandler: { progress in
+        //            NSLog("progress: \(progress)")
+        //            }, completionHandler: { error in
+        //                NSLog("Upload completed")
+        //        })
+        
+        //        task!.setHttpMethod(.PUT)
+        //
+        //        task!.setValue("NULL", forHttpHeaderField: "X_Hash")
+        //        task!.setValue("IOS", forHttpHeaderField: "X_Device")
+        //
+        //        task!.resume()
     }
     
     func doPostFile(url : String, dict : NSDictionary, file : NSData) -> NSArray{
@@ -199,40 +235,40 @@ class Connector  {
         return NSArray(object: "null")
     }
     
-    func fileUpload( urll : String , dat : NSData){
-        
-        let file = NSString(data: dat, encoding: NSUTF8StringEncoding)
-        
-        let url = NSURL(string: requestUrl + urll)
-        let cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
-        var request = NSMutableURLRequest(URL: url!, cachePolicy: cachePolicy, timeoutInterval: 2.0)
-        request.HTTPMethod = "PUT"
-        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
-        request.addValue("IOS", forHTTPHeaderField: "X-Device")
-        
-        // set Content-Type in HTTP header
-        let boundaryConstant = "----------V2ymHFg03esomerandomstuffhbqgZCaKO6jy";
-        let contentType = "multipart/form-data; boundary=" + boundaryConstant
-        NSURLProtocol.setProperty(contentType, forKey: "Content-Type", inRequest: request)
-        
-        // set data
-        
-        let requestBodyData = file?.dataUsingEncoding(NSUTF8StringEncoding)
-        request.HTTPBody = requestBodyData
-        
-        // set content length
-        //NSURLProtocol.setProperty(requestBodyData.length, forKey: "Content-Length", inRequest: request)
-        
-        var response: NSURLResponse? = nil
-        var error: NSError? = nil
-        let reply = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&error)
-        
-        let results = NSString(data:reply!, encoding:NSUTF8StringEncoding)
-        println("API Response: \(results)")
-        
-    }
-
+    //    func fileUpload( urll : String , dat : NSData){
+    //
+    //        let file = NSString(data: dat, encoding: NSUTF8StringEncoding)
+    //
+    //        let url = NSURL(string: requestUrl + urll)
+    //        let cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
+    //        var request = NSMutableURLRequest(URL: url!, cachePolicy: cachePolicy, timeoutInterval: 2.0)
+    //        request.HTTPMethod = "PUT"
+    //        request.addValue("NULL", forHTTPHeaderField: "X-Hash")
+    //        request.addValue("IOS", forHTTPHeaderField: "X-Device")
+    //
+    //        // set Content-Type in HTTP header
+    //        let boundaryConstant = "----------V2ymHFg03esomerandomstuffhbqgZCaKO6jy";
+    //        let contentType = "multipart/form-data; boundary=" + boundaryConstant
+    //        NSURLProtocol.setProperty(contentType, forKey: "Content-Type", inRequest: request)
+    //
+    //        // set data
+    //
+    //        let requestBodyData = file?.dataUsingEncoding(NSUTF8StringEncoding)
+    //        request.HTTPBody = requestBodyData
+    //
+    //        // set content length
+    //        //NSURLProtocol.setProperty(requestBodyData.length, forKey: "Content-Length", inRequest: request)
+    //
+    //        var response: NSURLResponse? = nil
+    //        var error: NSError? = nil
+    //        let reply = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&error)
+    //        
+    //        let results = NSString(data:reply!, encoding:NSUTF8StringEncoding)
+    //        println("API Response: \(results)")
+    //        
+    //    }
     
     
     
-    }
+    
+}

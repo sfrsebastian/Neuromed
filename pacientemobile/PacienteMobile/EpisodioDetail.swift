@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class EpisodioDetail : UIViewController , UITableViewDelegate,UITableViewDataSource {
     
@@ -34,6 +35,8 @@ class EpisodioDetail : UIViewController , UITableViewDelegate,UITableViewDataSou
     
     var episodio = NSDictionary()
     
+    var player = AVPlayer()
+    
 //    var tableData = NSArray()
   
     override func viewDidLoad() {
@@ -47,6 +50,12 @@ class EpisodioDetail : UIViewController , UITableViewDelegate,UITableViewDataSou
         tableView.delegate = self
         
         print (episodio)
+        
+        
+        if(episodio["grabacion"]!.isKindOfClass(NSNull)){
+            btnSonido.hidden = true
+        }
+        
         
         
         
@@ -109,6 +118,15 @@ class EpisodioDetail : UIViewController , UITableViewDelegate,UITableViewDataSou
     }
     
     
+    @IBAction func reproducirSonido() {
+        
+        let url = episodio["grabacion"] as! String
+        let playerItem = AVPlayerItem( URL:NSURL( string:url ) )
+        player = AVPlayer(playerItem:playerItem)
+        player.rate = 1.0;
+        player.play()
+        
+    }
     
     
 }
