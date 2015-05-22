@@ -150,20 +150,20 @@ angular.module('mVistaPaciente', ['ngRoute'])
 
                 $scope.options = {
                     axes: {
-                        x: {key: 'x', ticksFormat: '.2f', type: 'linear', min: 0, max: 20, ticks: numeroTicks},
+                        x: {key: 'x', ticksFormat: '.2f', type: 'linear', min: 0, max: numeroTicks, ticks: numeroTicks},
                         y: {type: 'linear', min: 0, max: 10, ticks: 10}
                     },
                     margin: {
                         left: 100
                     },
                     series: [
-                        {y: 'value', color: 'steelblue', thickness: '2px', type: 'line', striped: true, label: 'Pouet'},
+                        {y: 'value', color: 'steelblue', thickness: '2px', type: 'linear', striped: true, label: 'Pouet'},
                     ],
                     lineMode: 'linear',
                     tension: 0.7,
                     tooltip: {
                         mode: 'scrubber', formatter: function (x, y, series) {
-                            return 'pouet';
+                            return 'Nivel de dolor: '+ y;
                         }
                     },
                     drawLegend: true,
