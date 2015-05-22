@@ -10,31 +10,31 @@
 	<string>PacienteMobile</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>4D01CE53656CF3AB985F82FD281CEDCE8B3CB85E</key>
-		<string>https://github.com/mehernandez/pacientemobile.git</string>
+		<key>A1825A328576DDE8FD3C1CEB6ADEA8984211FAEE</key>
+		<string>https://github.com/ISIS2503-2015-01/Grupo-11.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>PacienteMobile.xcodeproj</string>
+	<string>pacientemobile/PacienteMobile.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>4D01CE53656CF3AB985F82FD281CEDCE8B3CB85E</key>
-		<string>../..</string>
+		<key>A1825A328576DDE8FD3C1CEB6ADEA8984211FAEE</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/mehernandez/pacientemobile.git</string>
+	<string>https://github.com/ISIS2503-2015-01/Grupo-11.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>4D01CE53656CF3AB985F82FD281CEDCE8B3CB85E</string>
+	<string>A1825A328576DDE8FD3C1CEB6ADEA8984211FAEE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>4D01CE53656CF3AB985F82FD281CEDCE8B3CB85E</string>
+			<string>A1825A328576DDE8FD3C1CEB6ADEA8984211FAEE</string>
 			<key>IDESourceControlWCCName</key>
-			<string>pacientemobile</string>
+			<string>Grupo-11</string>
 		</dict>
 	</array>
 </dict>
