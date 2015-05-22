@@ -66,9 +66,9 @@ angular.module('mVistaPaciente', ['ngRoute'])
             //console.log('Success', resp);
             $scope.paciente=resp.data;
             $scope.episodios=$scope.paciente.episodios;
+            cargarGrafico();
             console.log("Episodios",$scope.episodios);
             $scope.episodioActual=$scope.episodios[0];
-            $scope.recording = $sce.trustAsResourceUrl($scope.episodioActual.grabacion);
             $scope.rutaImagenCerebro ="";
             $scope.cssImagen="";
             cambiarImagen();
@@ -128,6 +128,81 @@ angular.module('mVistaPaciente', ['ngRoute'])
                 });
             });
         });
+
+        //////////////////////////////////////////////////////////
+
+            function cargarGrafico() {
+
+                $scope.data = [];
+
+                function cargarData() {
+                    var cont = 0;
+                    for (var i in $scope.episodios) {
+                        $scope.data.push({x: i, value: $scope.episodios[i].nivelDolor});
+                        cont++;
+                    }
+                    return cont;
+                };
+
+                var numeroTicks = cargarData();
+
+                console.log('Datos de la grafica', $scope.data);
+
+                $scope.options = {
+                    axes: {
+                        x: {key: 'x', ticksFormat: '.2f', type: 'linear', min: 0, max: 20, ticks: numeroTicks},
+                        y: {type: 'linear', min: 0, max: 10, ticks: 10}
+                    },
+                    margin: {
+                        left: 100
+                    },
+                    series: [
+                        {y: 'value', color: 'steelblue', thickness: '2px', type: 'line', striped: true, label: 'Pouet'},
+                    ],
+                    lineMode: 'linear',
+                    tension: 0.7,
+                    tooltip: {
+                        mode: 'scrubber', formatter: function (x, y, series) {
+                            return 'pouet';
+                        }
+                    },
+                    drawLegend: true,
+                    drawDots: true,
+                    columnsHGap: 5
+                };
+
+
+                $scope.optionsb = {
+                    axes: {x: {type: "date", key: "x"}, y: {type: "linear"}},
+                    series: [
+                        {
+                            y: "val_0",
+                            label: "A time series",
+                            color: "#9467bd",
+                            axis: "y",
+                            type: "line",
+                            thickness: "1px",
+                            dotSize: 2,
+                            id: "series_0"
+                        }
+                    ],
+                    tooltip: {
+                        mode: "scrubber",
+                        formatter: function (x, y, series) {
+                            return moment(x).fromNow() + ' : ' + y;
+                        }
+                    },
+                    stacks: [],
+                    lineMode: "linear",
+                    tension: 0.7,
+                    drawLegend: true,
+                    drawDots: true,
+                    columnsHGap: 5
+                };
+
+            }
+
+
 
         //////////////////////////////////////////////////////////
 
@@ -299,7 +374,11 @@ angular.module('mVistaPaciente', ['ngRoute'])
             }
 
             function cambiarImagen(){
+                if($scope.episodioActual.localizacion!=undefined){
                $scope.rutaImagenCerebro = $scope.episodioActual.localizacion;
+                }else{
+                    $scope.rutaImagenCerebro =="";
+                }
 
                 if($scope.rutaImagenCerebro=="Frontal"){
                     $scope.cssImagen="brain-frontal";
