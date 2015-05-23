@@ -87,8 +87,10 @@ class EpisodioDetail : UIViewController , UITableViewDelegate,UITableViewDataSou
             num = episodio["medicamentos"]!.count
         }else if(segmentedControl.selectedSegmentIndex == 1){
             num = episodio["causas"]!.count
-        }else{
+        }else if(segmentedControl.selectedSegmentIndex == 2){
             num = episodio["patronesDeSueno"]!.count
+        }else if(segmentedControl.selectedSegmentIndex == 3){
+            num = episodio["comentarios"]!.count
         }
         
         return num;
@@ -103,10 +105,11 @@ class EpisodioDetail : UIViewController , UITableViewDelegate,UITableViewDataSou
             x = (episodio["medicamentos"] as! NSArray)[indexPath.row]["titulo"] as! String
         }else if(segmentedControl.selectedSegmentIndex == 1){
             x = (episodio["causas"] as! NSArray)[indexPath.row]["titulo"] as! String
-        }else{
+        }else if(segmentedControl.selectedSegmentIndex == 2){
             x = (episodio["patronesDeSueno"] as! NSArray)[indexPath.row]["titulo"] as! String
+        } else if(segmentedControl.selectedSegmentIndex == 3){
+            x = (episodio["comentarios"] as! NSArray)[indexPath.row]["contenido"] as! String
         }
-        
         
    
         cell.textLabel?.text = x

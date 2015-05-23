@@ -27,7 +27,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1234" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jcL-T8-fa5">
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <variation key="widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="52" y="475" width="310" height="30"/>
                                 </variation>
@@ -65,32 +65,6 @@
                                     <rect key="frame" x="52" y="446" width="60" height="21"/>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Neuromed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iay-Xu-1V7">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <color key="tintColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
-                                <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="88" y="241" width="225" height="44"/>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paciente" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdn-rN-e4T">
-                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                <color key="tintColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="24"/>
-                                <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="88" y="266" width="225" height="44"/>
-                                </variation>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="desktop" translatesAutoresizingMaskIntoConstraints="NO" id="s5F-jp-aoC">
-                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="80" y="20" width="240" height="225"/>
-                                </variation>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Usuario" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDB-od-3hj">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
@@ -100,6 +74,32 @@
                                     <rect key="frame" x="52" y="378" width="77" height="22"/>
                                 </variation>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Neuromed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iay-Xu-1V7">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <color key="tintColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="24"/>
+                                <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="88" y="268" width="225" height="44"/>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Paciente" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zdn-rN-e4T">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <color key="tintColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Light" family="Helvetica" pointSize="24"/>
+                                <color key="textColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="88" y="293" width="225" height="44"/>
+                                </variation>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="desktop" translatesAutoresizingMaskIntoConstraints="NO" id="s5F-jp-aoC">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="80" y="47" width="240" height="225"/>
+                                </variation>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
@@ -109,10 +109,10 @@
                                 <exclude reference="eWd-si-JQJ"/>
                                 <exclude reference="vXz-I1-Tyu"/>
                                 <exclude reference="Khc-ak-SdQ"/>
+                                <exclude reference="nDB-od-3hj"/>
                                 <exclude reference="iay-Xu-1V7"/>
                                 <exclude reference="zdn-rN-e4T"/>
                                 <exclude reference="s5F-jp-aoC"/>
-                                <exclude reference="nDB-od-3hj"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -122,10 +122,10 @@
                                 <include reference="eWd-si-JQJ"/>
                                 <include reference="vXz-I1-Tyu"/>
                                 <include reference="Khc-ak-SdQ"/>
+                                <include reference="nDB-od-3hj"/>
                                 <include reference="iay-Xu-1V7"/>
                                 <include reference="zdn-rN-e4T"/>
                                 <include reference="s5F-jp-aoC"/>
-                                <include reference="nDB-od-3hj"/>
                             </mask>
                         </variation>
                     </view>
@@ -659,20 +659,6 @@
                                     <rect key="frame" x="0.0" y="389" width="400" height="211"/>
                                 </variation>
                             </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bM6-AV-0U9">
-                                <rect key="frame" x="-61" y="-14" width="123" height="29"/>
-                                <segments>
-                                    <segment title="Medicamentos"/>
-                                    <segment title="Causas"/>
-                                    <segment title="Patrones de sueño"/>
-                                </segments>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="361" width="400" height="29"/>
-                                </variation>
-                                <connections>
-                                    <action selector="seleccionar:" destination="uxR-Yj-ufy" eventType="valueChanged" id="kTu-GN-S5C"/>
-                                </connections>
-                            </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jWd-Ps-Nh0">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <state key="normal" title="Reproducir sonido" image="play">
@@ -685,6 +671,21 @@
                                     <action selector="reproducirSonido" destination="uxR-Yj-ufy" eventType="touchUpInside" id="iJ0-N2-nMU"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="bM6-AV-0U9">
+                                <rect key="frame" x="-61" y="-14" width="123" height="29"/>
+                                <segments>
+                                    <segment title="Medicamentos"/>
+                                    <segment title="Causas"/>
+                                    <segment title="Patrones"/>
+                                    <segment title="Comentarios"/>
+                                </segments>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="361" width="400" height="29"/>
+                                </variation>
+                                <connections>
+                                    <action selector="seleccionar:" destination="uxR-Yj-ufy" eventType="valueChanged" id="kTu-GN-S5C"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
@@ -697,8 +698,8 @@
                                 <exclude reference="dc5-g5-uPE"/>
                                 <exclude reference="0py-tH-Q9Z"/>
                                 <exclude reference="DV6-vx-gPs"/>
-                                <exclude reference="bM6-AV-0U9"/>
                                 <exclude reference="jWd-Ps-Nh0"/>
+                                <exclude reference="bM6-AV-0U9"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -711,8 +712,8 @@
                                 <include reference="dc5-g5-uPE"/>
                                 <include reference="0py-tH-Q9Z"/>
                                 <include reference="DV6-vx-gPs"/>
-                                <include reference="bM6-AV-0U9"/>
                                 <include reference="jWd-Ps-Nh0"/>
+                                <include reference="bM6-AV-0U9"/>
                             </mask>
                         </variation>
                     </view>
